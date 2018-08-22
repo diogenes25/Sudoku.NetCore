@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sudoku.Extensions\Sudoku.Extensions.csproj" />
+    <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
+    <ProjectReference Include="..\Sudoku.NetCore\Sudoku.NetCore.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueDTQ\Sudoku.SolveTechniqueDTQ.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueHiddenDTQ\Sudoku.SolveTechniqueHiddenDTQ.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueLockedCandidates\Sudoku.SolveTechniqueLockedCandidates.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TestRessources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestRessources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="TestRessources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestRessources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

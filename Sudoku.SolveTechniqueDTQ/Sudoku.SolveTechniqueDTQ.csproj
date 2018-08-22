@@ -1,18 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <ApplicationIcon />
-    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SolveTechniques\" />
   </ItemGroup>
 
 </Project>
