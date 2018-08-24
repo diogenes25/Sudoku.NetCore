@@ -1,15 +1,11 @@
 ﻿using DE.Onnen.Sudoku;
-using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace Sudoku.SolveTechniques
 {
 	[TestClass]
 	public class LockedCandidatesTest
 	{
-
-
 		/// <summary>
 		///A test for Backtracking
 		///</summary>

@@ -2,52 +2,64 @@
 using Sudoku.Test;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DE.Onnen.Sudoku
 {
 	[TestClass()]
 	public class SolveSomeExamplesTest
 	{
-
 		[TestMethod()]
 		public void TestHardestData()
 		{
-
-			IList<string> boards = TestRessources.HardestDatabase110626.Split(Environment.NewLine);
 			IBoard board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad());
-
-			int[] emh = new int[3];
-			foreach (string line in boards)
+			string source = TestRessources.top95; // TestRessources.ElevensHardestSudoku_Small;
+			int i = 0;
+			for (i = 0; i < 2; i++)
 			{
-				board.SetCellsFromString(line);
-				DateTime start = DateTime.Now;
-				if (board.IsComplete)
+				IList<string> boards = source.Split('\n');
+
+				int[] emh = new int[3];
+				int total = 0;
+				foreach (string line in boards)
 				{
-					emh[0] += 1;
-				}
-				else
-				{
-					SudokuLog result = new SudokuLog();
-					board.Solve(result);
+					if (line.Length < 80)
+						continue;
+					total++;
+					board.SetCellsFromString(line.Substring(0, 81).Replace('.', '0'));
+					DateTime start = DateTime.Now;
 					if (board.IsComplete)
 					{
-						emh[1] += 1;
+						emh[0] += 1;
 					}
 					else
 					{
-						board.Backtracking(result);
-						if (!board.IsComplete)
+						SudokuLog result = new SudokuLog();
+						board.Solve(result);
+						if (board.IsComplete)
 						{
-							Assert.Fail("Board is not solved");
+							emh[1] += 1;
 						}
 						else
 						{
-							emh[2] += 1;
+							board.Backtracking(result);
+							if (!board.IsComplete)
+							{
+								Assert.Fail("Board is not solved");
+							}
+							else
+							{
+								emh[2] += 1;
+							}
 						}
 					}
 				}
+				source = TestRessources.HardestDatabase110626;
+				board = new Board();
+				Assert.AreEqual(total, emh.Sum(x => x));
+				Assert.IsTrue(total > 10);
 			}
+			Assert.AreEqual(i, 2);
 		}
 	}
 }

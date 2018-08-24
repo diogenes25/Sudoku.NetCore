@@ -13,12 +13,13 @@ namespace DE.Onnen.Sudoku
 	/// </remarks>
 	public static class BoardExtensions
 	{
+
 		public static void SetCellsFromString(this IBoard board, string line, char zero = '0')
 		{
 			board.Clear();
 			int max = Consts.DimensionSquare * Consts.DimensionSquare;
 			if (line.Length < max)
-				throw new Exception("string is to short"); ;
+				throw new Exception("string is to short");
 			for (int x = 0; x < max; x++)
 			{
 				char currChar = line[x];
@@ -225,10 +226,6 @@ namespace DE.Onnen.Sudoku
 			sb.Append(Environment.NewLine);
 			sb.Append("</table>");
 			sb.Append(Environment.NewLine);
-			//sb.Append("Complete: ");
-			//sb.Append(board.SolvePercent);
-			//sb.Append(" %");
-			//sb.Append(Environment.NewLine);
 			return sb.ToString();
 		}
 	}

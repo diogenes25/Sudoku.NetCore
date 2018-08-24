@@ -25,6 +25,8 @@ namespace DE.Onnen.Sudoku
 		private const int ROW_CONTAINERTYPE = 0;
 		private const int COL_CONTAINERTYPE = 1;
 		private const int BLOCK_CONTAINERTYPE = 2;
+		private static readonly int countCell = Consts.DimensionSquare * Consts.DimensionSquare;
+
 		private List<SudokuHistoryItem> history;
 
 		//private List<ICell> givens;
@@ -184,25 +186,58 @@ namespace DE.Onnen.Sudoku
 		/// <summary>
 		/// Set a digit at cell.
 		/// </summary>
-		/// <param name="row">Row</param>
+		/// <param name="row">Row Range from 0-8 or 'A'-'I' or 'a'-'i'</param>
 		/// <param name="col">Column</param>
 		/// <param name="digit">Digit</param>
 		public SudokuLog SetDigit(int row, int col, int digit)
 		{
 			int cellid = 0;
+			int currentRow = row;
+			int lowRow = (int)'A'; // 65
+			if (row >= lowRow) // If row is greater or equal than 65 (ASCII of 'A') the row-value could be a char instead of an int.
+			{
+				currentRow = (int)Char.ToUpper((char)row);
+				currentRow -= lowRow;
+			}
+
+			SudokuLog sudokuResult = new SudokuLog
+			{
+				EventInfoInResult = new SudokuEvent()
+				{
+					ChangedCellBase = null,
+					Action = CellAction.SetDigitInt,
+					SolveTechnik = "SetDigit",
+				}
+			};
+
+			if (currentRow < 0 || currentRow > Consts.DimensionSquare)
+			{
+				sudokuResult.Successful = false;
+				sudokuResult.ErrorMessage = $"row must be between 1 and {Consts.DimensionSquare} or between 'a' and '{((char)(lowRow + Consts.DimensionSquare))}'";
+				return sudokuResult;
+			}
+
+			if (col < 0 || col > Consts.DimensionSquare)
+			{
+				sudokuResult.Successful = false;
+				sudokuResult.ErrorMessage = $"col must be between 0 and '{Consts.DimensionSquare - 1}'";
+				return sudokuResult;
+			}
+
+			if (digit < 1 || digit > Consts.DimensionSquare)
+			{
+				sudokuResult.Successful = false;
+				sudokuResult.ErrorMessage = $"digit must be between 0 and '{Consts.DimensionSquare - 1}'";
+				return sudokuResult;
+			}
+
 			checked
 			{
-				cellid = (row * 9) + col;
+				cellid = (currentRow * Consts.DimensionSquare) + col;
 			}
+
 			return this.SetDigit(cellid, digit);
-			//else
-			//{
-			//	return new SudokuLog()
-			//	{
-			//		ErrorMessage = "Overflow",
-			//		Successful = false,
-			//	};
-			//}
+
 		}
 
 		public SudokuLog SetDigit(int cellID, int digitToSet)
@@ -218,12 +253,14 @@ namespace DE.Onnen.Sudoku
 		/// <param name="withSolve">true = Start solving with every solvetechnique (without backtrack) after digit was set.</param>
 		public SudokuLog SetDigit(int cellID, int digitToSet, bool withSolve)
 		{
-			SudokuLog sudokuResult = new SudokuLog();
-			sudokuResult.EventInfoInResult = new SudokuEvent()
+			SudokuLog sudokuResult = new SudokuLog
 			{
-				ChangedCellBase = null,
-				Action = CellAction.SetDigitInt,
-				SolveTechnik = "SetDigit",
+				EventInfoInResult = new SudokuEvent()
+				{
+					ChangedCellBase = null,
+					Action = CellAction.SetDigitInt,
+					SolveTechnik = "SetDigit",
+				}
 			};
 
 			if (cellID < 0 || cellID > this._cells.Length)
@@ -377,15 +414,10 @@ namespace DE.Onnen.Sudoku
 		/// <summary>
 		/// Reset Board.
 		/// </summary>
-		public void Clear()
+		public new void Clear()
 		{
-			//this.givens.Clear();
 			this.history.Clear();
 			base.Clear();
-			//for (int i = 0; i < Consts.DimensionSquare * Consts.DimensionSquare; i++)
-			//{
-			//	cells[i].Digit = 0;
-			//}
 
 			for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
 			{
@@ -411,8 +443,7 @@ namespace DE.Onnen.Sudoku
 					{
 						Board newBoard = (Board)board.Clone();
 						SudokuLog result = newBoard.SetDigit(i, x, true);
-						if (BoardChangeEvent != null)
-							BoardChangeEvent(newBoard, new SudokuEvent() { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
+						BoardChangeEvent?.Invoke(newBoard, new SudokuEvent() { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
 						//Thread.Sleep(300);
 						if (!result.Successful)
 						{
@@ -449,7 +480,6 @@ namespace DE.Onnen.Sudoku
 		/// <returns>copy of board</returns>
 		public object Clone()
 		{
-			//Board cloneboard = new Board(this.solveTechniques.Where(x => !x.Info.Caption.Equals("LockedCandidates")).ToList());
 			Board cloneboard = new Board(this._solveTechniques);
 
 			for (int i = 0; i < this._cells.Length; i++)
@@ -467,7 +497,6 @@ namespace DE.Onnen.Sudoku
 
 		private void LoadSolveTechnics(string filePath)
 		{
-			//"d:\\Develop\\SolveTechniques"
 			if (String.IsNullOrWhiteSpace(filePath))
 				return;
 
@@ -503,7 +532,6 @@ namespace DE.Onnen.Sudoku
 			return sb.ToString();
 		}
 
-		private static int countCell = Consts.DimensionSquare * Consts.DimensionSquare;
 
 		/// <summary>
 		/// Convert a Board to a int-Array

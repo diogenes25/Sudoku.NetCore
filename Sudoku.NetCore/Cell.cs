@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+
 [assembly: InternalsVisibleTo("Sudoku.Test")]
 
 namespace DE.Onnen.Sudoku
 {
-
 	/// <inheritdoc cref="ICell"/>
 	[DebuggerDisplay("Cell-ID {id} {digit} / {CandidateValue}")]
 	public class Cell : ACellBase, ICell

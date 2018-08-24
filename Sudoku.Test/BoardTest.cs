@@ -93,6 +93,22 @@ namespace DE.Onnen.Sudoku
 			Assert.AreEqual(0, target[80].CandidateValue);
 		}
 
+		[TestMethod()]
+		public void SetDigit_with_Alpha_Row_Coordinates()
+		{
+			Board board = new Board();
+			ICell firstCell = board[1];
+			Assert.AreEqual(0, firstCell.Digit, "Just to be sure that this value is 0 at first.");
+			SudokuLog result = board.SetDigit('a', 1, 5);
+			Assert.IsTrue(result.Successful);
+			firstCell = board[1];
+			Assert.AreEqual(5, firstCell.Digit, "Cell A/1  is same as 0/1 is same as id=1 and must be set to 5");
+			result = board.SetDigit('B', 1, 6);
+			Assert.IsTrue(result.Successful);
+			firstCell = board[10];
+			Assert.AreEqual(6, firstCell.Digit, "Cell B/1 must be set to 6");
+		}
+
 		/// <summary>
 		/// A test for SetDigit
 		/// </summary>
