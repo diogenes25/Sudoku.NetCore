@@ -15,7 +15,7 @@ namespace Sudoku.SolveTechniques
 		//You can use the following additional attributes as you write your tests:
 		//
 		//Use ClassInitialize to run code before running the first test in the class
-		[ClassInitialize()]
+		[ClassInitialize]
 		public static void MyClassInitialize(TestContext testContext)
 		{
 			solveTechniques = new ASolveTechnique[] {
@@ -142,10 +142,9 @@ namespace Sudoku.SolveTechniques
 		public void Backtracking_solve_without_any_digit_and_NakedPairTrippleQuadTest()
 		{
 			Board target = new Board(solveTechniques);
-			SudokuLog log = new SudokuLog();
-			target.Backtracking(log);
-			Assert.IsTrue(log.Successful);
-			for (int i = 0; i < Consts.DimensionSquare; i++)
+            SudokuLog log = target.Backtracking();
+            Assert.IsTrue(log.Successful);
+            for (int i = 0; i < Consts.DimensionSquare; i++)
 			{
 				Assert.AreEqual((i + 1), target[i].Digit);
 			}

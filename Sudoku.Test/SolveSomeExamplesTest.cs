@@ -42,7 +42,7 @@ namespace DE.Onnen.Sudoku
 						}
 						else
 						{
-							board.Backtracking(result);
+                            result = board.Backtracking();
 							if (!board.IsComplete)
 							{
 								Assert.Fail("Board is not solved");

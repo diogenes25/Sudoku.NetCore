@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
 
 		public CellAction Action { get; set; }
 
-		public int value = 0;
+		public int value;
 
 		public String SolveTechnik;
 

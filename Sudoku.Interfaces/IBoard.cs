@@ -14,8 +14,6 @@ namespace DE.Onnen.Sudoku
 		/// <summary>
 		/// 81 cells of the board.
 		/// </summary>
-		//ICell[] Cells { get; }
-
 		ICell this[int index]
 		{
 			get;
@@ -58,7 +56,7 @@ namespace DE.Onnen.Sudoku
 		/// <param name="sudokuResult">Log</param>
 		void Solve(SudokuLog sudokuResult);
 
-		void Backtracking(SudokuLog sudokuResult);
+        SudokuLog Backtracking();
 	}
 
 	/// <summary>

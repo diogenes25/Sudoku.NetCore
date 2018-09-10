@@ -13,9 +13,8 @@ namespace Sudoku.SolveTechniques
 		public void Backtracking_solve_without_any_digit_and_LockedCandidates()
 		{
 			Board target = new Board(new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates());
-			SudokuLog log = new SudokuLog();
-			target.Backtracking(log);
-			Assert.IsTrue(log.Successful);
+            SudokuLog log = target.Backtracking();
+            Assert.IsTrue(log.Successful);
 			for (int i = 0; i < Consts.DimensionSquare; i++)
 			{
 				Assert.AreEqual((i + 1), target[i].Digit);

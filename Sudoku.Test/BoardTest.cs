@@ -44,26 +44,6 @@ namespace DE.Onnen.Sudoku
 			solveTechniques = GetSolveTechniques();
 		}
 
-		//
-		//Use ClassCleanup to run code after all tests in a class have run
-		//[ClassCleanup()]
-		//public static void MyClassCleanup()
-		//{
-		//}
-		//
-		//Use TestInitialize to run code before running each test
-		//[TestInitialize()]
-		//public void MyTestInitialize()
-		//{
-		//}
-		//
-		//Use TestCleanup to run code after each test has run
-		//[TestCleanup()]
-		//public void MyTestCleanup()
-		//{
-		//}
-		//
-
 		#endregion Additional test attributes
 
 		private static ASolveTechnique[] GetSolveTechniques()
@@ -331,8 +311,7 @@ namespace DE.Onnen.Sudoku
 		public void Backtracking_solve_without_any_digit()
 		{
 			Board target = new Board();
-			SudokuLog log = new SudokuLog();
-			target.Backtracking(log);
+            SudokuLog log = target.Backtracking();
 			Assert.IsTrue(log.Successful);
 			for (int i = 0; i < Consts.DimensionSquare; i++)
 			{

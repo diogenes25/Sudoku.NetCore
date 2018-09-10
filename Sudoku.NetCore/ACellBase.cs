@@ -3,70 +3,70 @@ using System.ComponentModel;
 
 namespace DE.Onnen.Sudoku
 {
-	public abstract class ACellBase : ICellBase, INotifyPropertyChanged
-	{
-		/// <summary>
-		/// Internal candidateValue to set value without NotifyPropertyChanged-Event.
-		/// </summary>
-		protected int candidateValueInternal = 0;
+    public abstract class ACellBase : ICellBase, INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Internal candidateValue to set value without NotifyPropertyChanged-Event.
+        /// </summary>
+        protected int candidateValueInternal = 0;
 
-		private int id;
-		private HouseType _hType;
+        private int id;
+        private HouseType _hType;
 
-		/// <summary>
-		/// Changes in CandidateValue and/or Digit.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Changes in CandidateValue and/or Digit.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		/// <inheritdoc />
-		public HouseType HType
-		{
-			get => this._hType;
-			protected set => this._hType = value;
-		}
+        /// <inheritdoc />
+        public HouseType HType
+        {
+            get => this._hType;
+            protected set => this._hType = value;
+        }
 
-		/// <inheritdoc />
-		public int ID
-		{
-			get { return this.id; }
-			protected set { this.id = value; }
-		}
+        /// <inheritdoc />
+        public int ID
+        {
+            get { return this.id; }
+            protected set { this.id = value; }
+        }
 
-		/// <inheritdoc />
-		public int CandidateValue
-		{
-			get { return this.candidateValueInternal; }
-			internal set { SetField(ref this.candidateValueInternal, value, "CandidateValue"); }
-		}
+        /// <inheritdoc />
+        public int CandidateValue
+        {
+            get { return this.candidateValueInternal; }
+            internal set { SetField(ref this.candidateValueInternal, value, "CandidateValue"); }
+        }
 
-		internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
+        internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
 
-		/// <summary>
-		/// Cell-Value (CandidateValue and/or Digit) changed.
-		/// </summary>
-		/// <param name="propertyName">Digit or CadidateValue</param>
-		protected virtual void OnPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+        /// <summary>
+        /// Cell-Value (CandidateValue and/or Digit) changed.
+        /// </summary>
+        /// <param name="propertyName">Digit or CadidateValue</param>
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-		/// <summary>
-		/// Set new PropertyValue and fire ProperyChanged-Event when old value differs from new value.
-		/// </summary>
-		/// <typeparam name="T">Propertytype</typeparam>
-		/// <param name="field">Property</param>
-		/// <param name="value">new value</param>
-		/// <param name="propertyName">Propertyname</param>
-		/// <returns>true = Value changed</returns>
-		protected bool SetField<T>(ref T field, T value, string propertyName)
-		{
-			if (EqualityComparer<T>.Default.Equals(field, value))
-			{
-				return false;
-			}
-			field = value;
-			OnPropertyChanged(propertyName);
-			return true;
-		}
-	}
+        /// <summary>
+        /// Set new PropertyValue and fire ProperyChanged-Event when old value differs from new value.
+        /// </summary>
+        /// <typeparam name="T">Propertytype</typeparam>
+        /// <param name="field">Property</param>
+        /// <param name="value">new value</param>
+        /// <param name="propertyName">Propertyname</param>
+        /// <returns>true = Value changed</returns>
+        protected bool SetField<T>(ref T field, T value, string propertyName)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+            {
+                return false;
+            }
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
 }

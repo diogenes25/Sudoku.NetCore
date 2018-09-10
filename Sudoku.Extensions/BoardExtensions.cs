@@ -150,9 +150,7 @@ namespace DE.Onnen.Sudoku
 								}
 								sb.Append("│");
 							}
-							//sb.Append("│");
 						}
-						//sb.Append("");
 						sb.Append(Environment.NewLine);
 						cellIDY++;
 					}
