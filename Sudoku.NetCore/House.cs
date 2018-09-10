@@ -45,7 +45,9 @@ namespace DE.Onnen.Sudoku
         private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Digit"))
+            {
                 this.ReCheck = true;
+            }
         }
 
         /// <summary>
@@ -61,7 +63,7 @@ namespace DE.Onnen.Sudoku
         {
             SudokuEvent sudokuEvent = new SudokuEvent()
             {
-                value = digit,
+                Value = digit,
                 SolveTechnik = "SetDigit",
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt
@@ -103,7 +105,7 @@ namespace DE.Onnen.Sudoku
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt,
                 SolveTechnik = "None",
-                value = digit,
+                Value = digit,
             };
 
             foreach (Cell cell in this.cells)

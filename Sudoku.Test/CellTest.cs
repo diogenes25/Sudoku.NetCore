@@ -29,38 +29,6 @@ namespace DE.Onnen.Sudoku
 			}
 		}
 
-		#region Additional test attributes
-
-		//
-		//You can use the following additional attributes as you write your tests:
-		//
-		//Use ClassInitialize to run code before running the first test in the class
-		//[ClassInitialize()]
-		//public static void MyClassInitialize(TestContext testContext)
-		//{
-		//}
-		//
-		//Use ClassCleanup to run code after all tests in a class have run
-		//[ClassCleanup()]
-		//public static void MyClassCleanup()
-		//{
-		//}
-		//
-		//Use TestInitialize to run code before running each test
-		//[TestInitialize()]
-		//public void MyTestInitialize()
-		//{
-		//}
-		//
-		//Use TestCleanup to run code after each test has run
-		//[TestCleanup()]
-		//public void MyTestCleanup()
-		//{
-		//}
-		//
-
-		#endregion Additional test attributes
-
 		[TestMethod()]
 		public void CandidateValue_Digit_is_0_when_BaseValue_was_set()
 		{
@@ -412,7 +380,6 @@ namespace DE.Onnen.Sudoku
 			{
 				for (int id2 = 0; id2 < Consts.DimensionSquare * Consts.DimensionSquare; id2++)
 				{
-					Cell target = cells[id];
 					if (id == id2)
 					{
 						Assert.AreEqual(cells[id].GetHashCode(), cells[id2].GetHashCode());

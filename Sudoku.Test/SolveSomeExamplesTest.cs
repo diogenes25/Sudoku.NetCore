@@ -23,8 +23,11 @@ namespace DE.Onnen.Sudoku
 				int total = 0;
 				foreach (string line in boards)
 				{
-					if (line.Length < 80)
-						continue;
+                    if (line.Length < 80)
+                    {
+                        continue;
+                    }
+
 					total++;
 					board.SetCellsFromString(line.Substring(0, 81).Replace('.', '0'));
 					DateTime start = DateTime.Now;
@@ -43,7 +46,7 @@ namespace DE.Onnen.Sudoku
 						else
 						{
                             result = board.Backtracking();
-							if (!board.IsComplete)
+							if (!board.IsComplete || !result.Successful)
 							{
 								Assert.Fail("Board is not solved");
 							}

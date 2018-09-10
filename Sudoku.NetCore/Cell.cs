@@ -12,7 +12,7 @@ namespace DE.Onnen.Sudoku
     [DebuggerDisplay("Cell-ID {id} {digit} / {CandidateValue}")]
     public class Cell : ACellBase, ICell
     {
-        private int _digit = 0;
+        private int _digit;
 
         internal House[] _fieldcontainters = new House[3];
 
@@ -24,7 +24,9 @@ namespace DE.Onnen.Sudoku
             {
                 base.CandidateValue = value;
                 if (base.CandidateValue > 0 && this.Digit > 0 && value > 0)
+                {
                     this._digit = 0;
+                }
             }
         }
 
@@ -42,11 +44,16 @@ namespace DE.Onnen.Sudoku
                 else
                 {
                     if (this._digit == value)
+                    {
                         return;
+                    }
+
                     if (value > 0 && value <= Consts.DimensionSquare && this._digit < 1 && (this.CandidateValue & (1 << (value - 1))) == (1 << (value - 1)))
                     {
                         if (SetField(ref this._digit, value, "Digit"))
+                        {
                             this.CandidateValue = 0;
+                        }
                     }
                     else
                     {
@@ -98,7 +105,7 @@ namespace DE.Onnen.Sudoku
                 ChangedCellBase = this,
                 Action = CellAction.RemPoss,
                 SolveTechnik = "SetDigit",
-                value = candidateToRemove,
+                Value = candidateToRemove,
             };
 
             SudokuLog nakeResult = sudokuResult.CreateChildResult();
@@ -137,7 +144,7 @@ namespace DE.Onnen.Sudoku
                     SudokuLog sresult = sudokuResult.CreateChildResult();
                     sresult.EventInfoInResult = new SudokuEvent()
                     {
-                        value = i + 1,
+                        Value = i + 1,
                         ChangedCellBase = this,
                         Action = CellAction.RemPoss,
                         SolveTechnik = "LastCandidate",
@@ -168,7 +175,7 @@ namespace DE.Onnen.Sudoku
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt,
                 SolveTechnik = "None",
-                value = digitFromOutside,
+                Value = digitFromOutside,
             };
 
             try

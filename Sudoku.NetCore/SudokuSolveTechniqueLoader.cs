@@ -55,7 +55,7 @@ namespace DE.Onnen.Sudoku
                 object obj = Activator.CreateInstance(type);
                 result.Add((ASolveTechnique)obj);
             }
-            if (result != null && result.Count > 0)
+            if (result.Count > 0)
             {
                 if (host != null)
                 {

@@ -89,7 +89,7 @@
                                 ChangedCellBase = resultContainer,
                                 Action = CellAction.RemPoss,
                                 SolveTechnik = solveTechnik,
-                                value = dc + 1,
+                                Value = dc + 1,
                             };
                         }
                         else
@@ -140,7 +140,10 @@
                 for (int p = 0; p < 3; p++)
                 {
                     if (part == p)
+                    {
                         continue;
+                    }
+
                     addVal |= valueInRow[p];
                 }
                 valueOnlyInOneRow[part] = valueInRow[part] ^ addVal; // XOR-Verknüpfung um nur die unterschiedlichen Nummern zu erhalten.

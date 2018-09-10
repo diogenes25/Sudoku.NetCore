@@ -43,7 +43,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     SudokuLog cresult = sudokuResult.CreateChildResult();
                     cresult.EventInfoInResult = new SudokuEvent()
                     {
-                        value = 0,
+                        Value = 0,
                         ChangedCellBase = house,
                         Action = CellAction.RemPoss,
                         SolveTechnik = st,

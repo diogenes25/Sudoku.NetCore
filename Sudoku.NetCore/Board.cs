@@ -80,7 +80,9 @@ namespace DE.Onnen.Sudoku
                 for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
                 {
                     if (!this.container[containerIdx][containerType].IsComplete)
+                    {
                         return false;
+                    }
                 }
                 return true;
             }
@@ -93,7 +95,6 @@ namespace DE.Onnen.Sudoku
         {
             this.reCheck = true;
         }
-
 
         public Board(params ASolveTechnique[] solveTechniques)
         {
@@ -321,7 +322,10 @@ namespace DE.Onnen.Sudoku
         public void SetHistory(int historyId)
         {
             if (historyId < 0 || historyId >= this.history.Count)
+            {
                 return;
+            }
+
             for (int i = 0; i < this.history[historyId].BoardInt.Length; i++)
             {
                 if (this.history[historyId].BoardInt[i] < 0)
@@ -364,7 +368,10 @@ namespace DE.Onnen.Sudoku
                     for (int containerType = 0; containerType < 3; containerType++)
                     {
                         if (this.container[containerIdx][containerType].IsComplete)
+                        {
                             continue;
+                        }
+
                         if (this._solveTechniques != null && this._solveTechniques.Length > 0)
                         {
                             foreach (ASolveTechnique st in this._solveTechniques)
@@ -372,10 +379,15 @@ namespace DE.Onnen.Sudoku
                                 if (st.IsActive)
                                 {
                                     if (!this.container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
+                                    {
                                         continue;
+                                    }
+
                                     st.SolveHouse(this.container[containerIdx][containerType], sudokuResult);
                                     if (!sudokuResult.Successful)
+                                    {
                                         return;
+                                    }
                                 }
                             }
                         }
@@ -428,7 +440,9 @@ namespace DE.Onnen.Sudoku
         private bool BacktrackingContinue(Board board)
         {
             if (board.IsComplete)
+            {
                 return true;
+            }
 
             for (int i = 0; i < this._cells.Length; i++)
             {
@@ -436,30 +450,24 @@ namespace DE.Onnen.Sudoku
                 {
                     ReadOnlyCollection<int> posDigit = board[i].Candidates;
                     foreach (int x in posDigit)
-                    //System.Threading.Tasks.Parallel.ForEach(posDigit, x=>
                     {
                         Board newBoard = (Board)board.Clone();
                         SudokuLog result = newBoard.SetDigit(i, x, true);
                         BoardChangeEvent?.Invoke(newBoard, new SudokuEvent() { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
-                        //Thread.Sleep(300);
                         if (!result.Successful)
                         {
-                            //Console.WriteLine(board.Cells[i].ToString() + " X SetDigit " + x);
                             continue;
                         }
                         if (newBoard.IsComplete)
                         {
-                            //newBoard.Show();
                             for (int s = 0; s < this._cells.Length; s++)
                             {
                                 this._cells[s].Digit = newBoard._cells[s].Digit;
-                                //this.cells[s].BaseValue = 0;
                             }
                             return true;
                         }
                         if (BacktrackingContinue(newBoard))
                         {
-                            //Console.WriteLine("OK " + board.Cells[i].ToString() + " : " + x);
                             return true;
                         }
                     }
@@ -482,9 +490,13 @@ namespace DE.Onnen.Sudoku
             for (int i = 0; i < this._cells.Length; i++)
             {
                 if (this._cells[i].Digit > 0)
+                {
                     cloneboard._cells[i].Digit = this._cells[i].Digit;
+                }
                 else
+                {
                     cloneboard._cells[i].CandidateValue = this._cells[i].CandidateValue;
+                }
             }
 
             return cloneboard;
@@ -495,11 +507,15 @@ namespace DE.Onnen.Sudoku
         private void LoadSolveTechnics(string filePath)
         {
             if (String.IsNullOrWhiteSpace(filePath))
+            {
                 return;
+            }
 
             List<string> files = new List<string>(Directory.GetFiles(filePath, "*.dll"));
             if (files == null || files.Count() < 1)
+            {
                 return;
+            }
 
             this._solveTechniques = new ASolveTechnique[files.Count()];
             int fileCount = 0;

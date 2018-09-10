@@ -144,6 +144,7 @@ namespace Sudoku.SolveTechniques
 			Board target = new Board(solveTechniques);
             SudokuLog log = target.Backtracking();
             Assert.IsTrue(log.Successful);
+            Assert.IsTrue(target.IsComplete);
             for (int i = 0; i < Consts.DimensionSquare; i++)
 			{
 				Assert.AreEqual((i + 1), target[i].Digit);

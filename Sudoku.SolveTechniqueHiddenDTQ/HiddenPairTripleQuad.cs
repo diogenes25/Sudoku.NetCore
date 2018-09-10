@@ -111,7 +111,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     {
                         ChangedCellBase = house,
                         Action = CellAction.RemPoss,
-                        value = 999999999,
+                        Value = 999999999,
                         SolveTechnik = st,
                     };
                     bool found = false;
@@ -121,7 +121,10 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         for (int i = 1; i < Consts.DimensionSquare + 1; i++)
                         {
                             if (kv.Value.Keys.Contains(i))
+                            {
                                 continue;
+                            }
+
                             found |= c.RemoveCandidate(i, cresult);
                         }
                     }
