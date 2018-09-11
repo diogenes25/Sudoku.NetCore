@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace DE.Onnen.Sudoku
@@ -146,7 +145,5 @@ namespace DE.Onnen.Sudoku
         }
 
         #endregion IEnumerable Members
-
-     
     }
 }

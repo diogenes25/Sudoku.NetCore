@@ -80,24 +80,24 @@ namespace DE.Onnen.Sudoku
             return this.ID == ((Cell)obj).ID;
         }
 
+        public bool Equals(ICell othercell)
+        {
+            if (othercell == null )
+            {
+                return false;
+            }
+            return this.ID == othercell.ID;
+        }
+
         /// <inheritdoc />
         public bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult)
         {
-            if (sudokuResult == null)
+            SudokuLog tmpSudokuResult = sudokuResult;
+            if (tmpSudokuResult == null)
             {
-                sudokuResult = new SudokuLog();
+                tmpSudokuResult = new SudokuLog();
             }
 
-            // if (((1 << (digit - 1)) & this.baseValue) == 0)
-            // 0110101 Abziehen
-            // 0011010 Original
-            // 0101111
-            // -------
-            // 0001010 Ergebnis
-            // int tmp = this.baseValue ^ remBaseValue;
-            // int newBaseValue = this.baseValue & tmp;
-            // if (newBaseValue == this.baseValue)
-            //    return false;
             if (candidateToRemove < 1 || candidateToRemove > Consts.DimensionSquare || (this.CandidateValue & (1 << (candidateToRemove - 1))) == 0)
             {
                 return false;
@@ -113,12 +113,12 @@ namespace DE.Onnen.Sudoku
                 Value = candidateToRemove,
             };
 
-            SudokuLog nakeResult = sudokuResult.CreateChildResult();
+            SudokuLog nakeResult = tmpSudokuResult.CreateChildResult();
             nakeResult.EventInfoInResult = eventInfoInResult;
 
-            CheckLastDigit(sudokuResult);
+            CheckLastDigit(tmpSudokuResult);
 
-            if (!sudokuResult.Successful)
+            if (!tmpSudokuResult.Successful)
             {
                 nakeResult.Successful = false;
                 nakeResult.ErrorMessage = "RemoveCandidateValue";
@@ -172,7 +172,9 @@ namespace DE.Onnen.Sudoku
         internal override bool SetDigit(int digitFromOutside, SudokuLog sudokuResult)
         {
             if (this._digit == digitFromOutside)
-                return false; ;
+            {
+                return false;
+            }
 
             SudokuLog result = sudokuResult.CreateChildResult();
             result.EventInfoInResult = new SudokuEvent
@@ -189,12 +191,9 @@ namespace DE.Onnen.Sudoku
             }
             catch (Exception e)
             {
-                //if (this.Digit != digitFromOutside)
-                //{
                 sudokuResult.Successful = false;
                 sudokuResult.ErrorMessage = e.Message;
                 return true;
-                //}
             }
 
             for (int i = 0; i < 3; i++)

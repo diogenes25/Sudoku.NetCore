@@ -80,7 +80,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     continue;
                 }
 
-                string st = "Hidden2";
+                string st;
                 switch (countCells)
                 {
                     case 2: st = "Hidden2"; break;

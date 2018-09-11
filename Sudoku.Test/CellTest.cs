@@ -476,10 +476,10 @@ namespace DE.Onnen.Sudoku
         {
             int id = 0;
             Cell target = new Cell(id);
-            int digit = 1; // TODO: Initialize to an appropriate value
-                           //SudokuLog expected = null; // TODO: Initialize to an appropriate value
+            int digit = 1; 
             SudokuLog actual;
             actual = target.SetDigit(digit);
+            Assert.IsTrue(actual.Successful);
             Assert.AreEqual(0, target.CandidateValue);
         }
 

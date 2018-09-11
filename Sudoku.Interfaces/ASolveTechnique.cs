@@ -8,7 +8,7 @@
 
         protected ASolveTechnique()
         {
-            this.Info = new SolveTechniqueInfo()
+            this.Info = new SolveTechniqueInfo
             {
                 Caption = "Not Defined"
             };

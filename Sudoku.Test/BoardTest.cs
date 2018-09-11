@@ -147,7 +147,6 @@ namespace DE.Onnen.Sudoku
             board.SetDigit(0, 2, 3);
             board.SetDigit(1, 0, 4);
             board.SetDigit(1, 1, 5);
-            //board.SetDigit(1, 2, 6);
             board.SetDigit(1, 3, 7);
             board.SetDigit(1, 4, 8);
             SudokuLog result = board.SetDigit(1, 5, 9);

@@ -33,21 +33,15 @@ namespace DE.Onnen.Sudoku
 
         #region ICollection<ICell> Members
 
-      
-
         public bool Contains(ICell item)
         {
             return this._cells.Contains(item);
         }
 
-    
-
         public int Count
         {
             get { return this._cells.Count(); }
         }
-
-        
 
         #endregion ICollection<ICell> Members
 

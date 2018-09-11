@@ -227,7 +227,7 @@ namespace DE.Onnen.Sudoku
                 return sudokuResult;
             }
 
-                cellid = (currentRow * Consts.DimensionSquare) + col;
+            cellid = (currentRow * Consts.DimensionSquare) + col;
 
             return this.SetDigit(cellid, digit);
         }
@@ -339,9 +339,10 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">Log</param>
         public void Solve(SudokuLog sudokuResult)
         {
-            if (sudokuResult == null)
+            SudokuLog tmpSudokuResult = sudokuResult;
+            if (tmpSudokuResult == null)
             {
-                sudokuResult = new SudokuLog();
+                tmpSudokuResult = new SudokuLog();
             }
 
             do
@@ -367,8 +368,8 @@ namespace DE.Onnen.Sudoku
                                         continue;
                                     }
 
-                                    st.SolveHouse(this.container[containerIdx][containerType], sudokuResult);
-                                    if (!sudokuResult.Successful)
+                                    st.SolveHouse(this.container[containerIdx][containerType], tmpSudokuResult);
+                                    if (!tmpSudokuResult.Successful)
                                     {
                                         return;
                                     }
@@ -557,11 +558,7 @@ namespace DE.Onnen.Sudoku
             if (obj != null && obj is IBoard)
             {
                 IBoard nb = (IBoard)obj;
-                retVal = true;
-                for (int i = 0; i < Consts.DimensionSquare; i++)
-                {
-                    retVal &= this[i].Digit == nb[i].Digit;
-                }
+                return Equals(nb);
             }
             return retVal;
         }
@@ -574,6 +571,21 @@ namespace DE.Onnen.Sudoku
                 retHash += (c.Digit + (1 << (c.ID % 9)));
             }
             return retHash;
+        }
+
+        public bool Equals(IBoard other)
+        {
+            bool retVal = true;
+            if (other == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < Consts.DimensionSquare; i++)
+            {
+                retVal &= this[i].Digit == other[i].Digit;
+            }
+            return retVal;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace DE.Onnen.Sudoku
@@ -9,7 +10,7 @@ namespace DE.Onnen.Sudoku
     /// It contains the 81 constituent cells, lined up in 9 rows and 9 columns, with a distinct border around the boxes.
     /// </remarks>
     /// </summary>
-    public interface IBoard : IEnumerable<ICell>
+    public interface IBoard : IEnumerable<ICell>, IEquatable<IBoard>
     {
         /// <summary>
         /// 81 cells of the board.

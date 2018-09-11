@@ -50,7 +50,6 @@ namespace DE.Onnen.Sudoku
                     if (String.IsNullOrWhiteSpace(line))
                     {
                         tr.Close();
-                        //tr.Dispose();
                         return retList;
                     }
                     sb.Append(line);
