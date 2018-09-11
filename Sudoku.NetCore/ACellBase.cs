@@ -28,14 +28,14 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public int ID
         {
-            get { return this._id; }
-            protected set { this._id = value; }
+            get => this._id;
+            protected set => this._id = value;
         }
 
         /// <inheritdoc />
         public int CandidateValue
         {
-            get { return this.candidateValueInternal; }
+            get => this.candidateValueInternal;
             internal set { SetField(ref this.candidateValueInternal, value, "CandidateValue"); }
         }
 

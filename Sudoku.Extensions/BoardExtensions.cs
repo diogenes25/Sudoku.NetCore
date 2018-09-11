@@ -146,7 +146,7 @@ namespace DE.Onnen.Sudoku
                                 {
                                     int digit = part + (cellIDY * 3) + 1;
                                     int cellID = (LineID * Consts.DimensionSquare) + partX + (line * 3);
-                                    string v = board[cellID].Digit.ToString();
+                                    string v = String.Empty;
                                     if (digit == 5 && board[cellID].Digit > 0)
                                     {
                                         v = board[cellID].Digit.ToString();

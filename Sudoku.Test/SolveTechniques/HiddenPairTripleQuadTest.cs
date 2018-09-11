@@ -8,14 +8,22 @@ namespace Sudoku.SolveTechniques
     public class HiddenPairTripleQuadTest
     {
         private static ASolveTechnique[] solveTechniques;
+        private IBoard _board;
 
         #region Additional test attributes
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this._board = new Board(solveTechniques);
+        }
+        
 
         //
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
+        [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
         {
             solveTechniques = GetSolveTechniques();
@@ -36,13 +44,12 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Backtracking_solve_without_any_digit_and_HiddenPairTripleQuad()
         {
-            Board target = new Board(solveTechniques);
-            SudokuLog log = target.Backtracking();
+            SudokuLog log = this._board.Backtracking();
             Assert.IsTrue(log.Successful);
-            Assert.IsTrue(target.IsComplete);
+            Assert.IsTrue(this._board.IsComplete);
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
-                Assert.AreEqual((i + 1), target[i].Digit);
+                Assert.AreEqual((i + 1), this._board[i].Digit);
             }
         }
     }

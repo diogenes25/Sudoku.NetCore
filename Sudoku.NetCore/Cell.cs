@@ -57,7 +57,7 @@ namespace DE.Onnen.Sudoku
                     }
                     else
                     {
-                        throw new Exception("Digit " + value + " is in " + this + " not possible");
+                        throw new ArgumentException("Digit " + value + " is in " + this + " not possible");
                     }
                 }
             }
