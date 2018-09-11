@@ -1,0 +1,7 @@
+version: '1.0.{build}'
+image: Visual Studio 2017
+platform: Any CPU
+before_build:
+- dotnet restore --verbosity q
+build_script:
+- dotnet publish -c Release --output "C:/SudokuCore"
