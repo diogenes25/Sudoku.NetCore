@@ -9,3 +9,4 @@ test:
   assemblies:
     only:
     - Sudoku.Test.dll
+    - Sudoku.NetCore.dll
