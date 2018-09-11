@@ -6,4 +6,4 @@ before_build:
 build_script:
 - dotnet publish -c Release --output "C:/SudokuCore"
 test:
-- dotnet  test .\Sudoku.Test\Sudoku.Test.csproj
+- Sudoku.Test.dll
