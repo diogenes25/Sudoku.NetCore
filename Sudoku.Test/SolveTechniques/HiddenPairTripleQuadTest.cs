@@ -42,7 +42,7 @@ namespace Sudoku.SolveTechniques
         ///A test for Backtracking
         ///</summary>
         [TestMethod]
-        public void Backtracking_solve_without_any_digit_and_HiddenPairTripleQuad()
+        public void Backtracking_solve_without_any_digit_and_HiddenPairTripleQuad_Test()
         {
             SudokuLog log = this._board.Backtracking();
             Assert.IsTrue(log.Successful);

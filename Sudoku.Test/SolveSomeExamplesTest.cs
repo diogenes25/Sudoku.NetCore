@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
     public class SolveSomeExamplesTest
     {
         [TestMethod]
-        public void TestHardestData()
+        public void TestHardestData_Test()
         {
             IBoard board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad());
             

@@ -30,7 +30,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void CandidateValue_Digit_is_0_when_BaseValue_was_set()
+        public void CandidateValue_Digit_is_0_when_BaseValue_was_set_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -45,7 +45,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void CandidateValue_is_0_when_Digit_set()
+        public void CandidateValue_is_0_when_Digit_set_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -57,7 +57,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void CandidateValue_fire_OnPropertyChanged_event_when_value_changes()
+        public void CandidateValue_fire_OnPropertyChanged_event_when_value_changes_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -81,7 +81,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Candidates
         ///</summary>
         [TestMethod]
-        public void Candidates_are_9()
+        public void Candidates_are_9_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -98,7 +98,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Candidates
         ///</summary>
         [TestMethod]
-        public void Candidates_changes_with_removePossibleDigit()
+        public void Candidates_changes_with_removePossibleDigit_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -120,7 +120,7 @@ namespace DE.Onnen.Sudoku
         ///</summary>
         [TestMethod]
         [DeploymentItem("Sudoku.exe")]
-        public void CheckLastDigit_returns_false_when_not_last_candidate()
+        public void CheckLastDigit_returns_false_when_not_last_candidate_Test()
         {
             Cell target = new Cell(0);
             SudokuLog sudokuResult = null;
@@ -144,7 +144,7 @@ namespace DE.Onnen.Sudoku
         ///</summary>
         [TestMethod]
         [DeploymentItem("Sudoku.exe")]
-        public void CheckLastDigit_returns_false_when_not_last_candidate_after_create()
+        public void CheckLastDigit_returns_false_when_not_last_candidate_after_create_Test()
         {
             Cell target = new Cell(0);
             SudokuLog sudokuResult = null;
@@ -157,7 +157,7 @@ namespace DE.Onnen.Sudoku
         ///A test for BaseValue
         ///</summary>
         [TestMethod]
-        public void Constructor_BaseValue_is_Consts_BaseStart()
+        public void Constructor_BaseValue_is_Consts_BaseStart_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -167,7 +167,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void Constructor_HType_eq_HouseType_Cell()
+        public void Constructor_HType_eq_HouseType_Cell_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -180,7 +180,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Cell Constructor
         ///</summary>
         [TestMethod]
-        public void Constructor_id_is_ID_Property()
+        public void Constructor_id_is_ID_Property_Test()
         {
             for (int id = 0; id < Consts.DimensionSquare; id++)
             {
@@ -190,7 +190,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void Digit_fire_OnPropertyChanged_event_when_Digit_changes_twice()
+        public void Digit_fire_OnPropertyChanged_event_when_Digit_changes_twice_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -225,7 +225,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Digit
         ///</summary>
         [TestMethod]
-        public void Digit_does_not_set_Digit_when_not_in_range()
+        public void Digit_does_not_set_Digit_when_not_in_range_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -250,7 +250,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Digit
         ///</summary>
         [TestMethod]
-        public void Digit_set_Digit()
+        public void Digit_set_Digit_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -262,7 +262,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void Digit_set_Digit_removes_Candidates_in_Houses()
+        public void Digit_set_Digit_removes_Candidates_in_Houses_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -297,7 +297,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void Digit_set_Digit_removes_Candidates_in_Houses_and_check_single_candidate()
+        public void Digit_set_Digit_removes_Candidates_in_Houses_and_check_single_candidate_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -325,7 +325,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Digit
         ///</summary>
         [TestMethod]
-        public void Digit_set_Digit_changes_BaseValue_to_0()
+        public void Digit_set_Digit_changes_BaseValue_to_0_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -340,7 +340,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Equals
         ///</summary>
         [TestMethod]
-        public void Equal_is_false_when_compare_with_null()
+        public void Equal_is_false_when_compare_with_null_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -355,7 +355,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Equals
         ///</summary>
         [TestMethod]
-        public void Equal_is_true_when_ID_is_equal()
+        public void Equal_is_true_when_ID_is_equal_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -370,7 +370,7 @@ namespace DE.Onnen.Sudoku
         ///A test for GetHashCode
         ///</summary>
         [TestMethod]
-        public void GetHashCode_is_always_unique()
+        public void GetHashCode_is_always_unique_Test()
         {
             Cell[] cells = new Cell[Consts.DimensionSquare * Consts.DimensionSquare];
             for (int id = 0; id < Consts.DimensionSquare * Consts.DimensionSquare; id++)
@@ -398,7 +398,7 @@ namespace DE.Onnen.Sudoku
         ///A test for RemovePossibleDigit
         ///</summary>
         [TestMethod]
-        public void RemoveCandidate_BaseValue_changes_when_candidate_removes()
+        public void RemoveCandidate_BaseValue_changes_when_candidate_removes_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -417,7 +417,7 @@ namespace DE.Onnen.Sudoku
         ///
         /// </remarks>
         [TestMethod]
-        public void RemoveCandidate_checks_lastcandidate()
+        public void RemoveCandidate_checks_lastcandidate_Test()
         {
             int id = 0;
             Cell target = new Cell(id)
@@ -441,7 +441,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SetDigit
         ///</summary>
         [TestMethod]
-        public void SetDigit_changes_Digit_peoperty()
+        public void SetDigit_changes_Digit_peoperty_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -456,7 +456,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SetDigit
         ///</summary>
         [TestMethod]
-        public void SetDigit_return_true_when_digit_was_set()
+        public void SetDigit_return_true_when_digit_was_set_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -472,7 +472,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SetDigit
         ///</summary>
         [TestMethod]
-        public void SetDigit_set_BaseValue_to_0()
+        public void SetDigit_set_BaseValue_to_0_Test()
         {
             int id = 0;
             Cell target = new Cell(id);
@@ -487,7 +487,7 @@ namespace DE.Onnen.Sudoku
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToStringTest()
+        public void ToStringTest_Test()
         {
             int id = 0; // TODO: Initialize to an appropriate value
             Cell target = new Cell(id); // TODO: Initialize to an appropriate value

@@ -7,5 +7,6 @@ build_script:
 - dotnet publish -c Release --output "C:/SudokuCore"
 test:
   assemblies:
-    only:
+    except:
     - Sudoku.Test.dll
+    - Sudoku.Interfaces.dll

@@ -41,7 +41,7 @@ namespace Sudoku.SolveTechniques
 		/// 000000000
 		/// </remarks>
 		[TestMethod]
-		public void NakedPairTrippleQuadTest_in_Box()
+		public void NakedPairTrippleQuadTest_in_Box_Test()
 		{
 			IBoard board = new Board(solveTechniques);
 			board.SetCellsFromString("123000000456000000700000000000000000000000000000000000000000000000000000000000000");
@@ -76,7 +76,7 @@ namespace Sudoku.SolveTechniques
 		/// 000000000
 		/// </remarks>
 		[TestMethod]
-		public void NakedPairTrippleQuadTest_in_Col()
+		public void NakedPairTrippleQuadTest_in_Col_Test()
 		{
 			IBoard board = new Board(solveTechniques);
 			board.SetCellsFromString("123000000056000000089000000000000000000000000000000000000000000000000000000000000");
@@ -111,7 +111,7 @@ namespace Sudoku.SolveTechniques
 		/// 000000000
 		/// </remarks>
 		[TestMethod]
-		public void NakedPairTrippleQuadTest_in_Row()
+		public void NakedPairTrippleQuadTest_in_Row_Test()
 		{
 			IBoard board = new Board(solveTechniques);
 			board.SetCellsFromString("123456700000000000000000000000000000000000000000000000000000000000000000000000000");
@@ -139,7 +139,7 @@ namespace Sudoku.SolveTechniques
 		///A test for Backtracking
 		///</summary>
 		[TestMethod]
-		public void Backtracking_solve_without_any_digit_and_NakedPairTrippleQuadTest()
+		public void Backtracking_solve_without_any_digit_and_NakedPairTrippleQuadTest_Test()
 		{
 			Board target = new Board(solveTechniques);
             SudokuLog log = target.Backtracking();

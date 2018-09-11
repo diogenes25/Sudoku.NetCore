@@ -10,7 +10,7 @@ namespace Sudoku.SolveTechniques
 		///A test for Backtracking
 		///</summary>
 		[TestMethod]
-		public void Backtracking_solve_without_any_digit_and_LockedCandidates()
+		public void Backtracking_solve_without_any_digit_and_LockedCandidates_Test()
 		{
 			Board target = new Board(new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates());
             SudokuLog log = target.Backtracking();

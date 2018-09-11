@@ -6,9 +6,9 @@ namespace DE.Onnen.Sudoku
     public abstract class ACellBase : ICellBase, INotifyPropertyChanged
     {
         /// <summary>
-        /// Internal candidateValue to set value without NotifyPropertyChanged-Event.
+        /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
-        protected int candidateValueInternal;
+        protected int _candidateValueInternal;
 
         private int _id;
         private HouseType _hType;
@@ -35,8 +35,8 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public int CandidateValue
         {
-            get => this.candidateValueInternal;
-            internal set { SetField(ref this.candidateValueInternal, value, "CandidateValue"); }
+            get => this._candidateValueInternal;
+            internal set { SetField(ref this._candidateValueInternal, value, "CandidateValue"); }
         }
 
         internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);

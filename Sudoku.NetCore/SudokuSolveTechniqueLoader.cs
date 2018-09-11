@@ -18,7 +18,7 @@ namespace DE.Onnen.Sudoku
             }
             else
             {
-                throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file {1}", typeof(ASolveTechnique).ToString(), fileName));
+                throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file {1}", typeof(ASolveTechnique), fileName));
             }
             return info;
         }

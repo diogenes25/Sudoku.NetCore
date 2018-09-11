@@ -96,7 +96,7 @@ namespace DE.Onnen.Sudoku
                 return true;
             }
 
-            this.candidateValueInternal = newBaseValue;
+            this._candidateValueInternal = newBaseValue;
 
             SudokuLog result = sudokuResult.CreateChildResult();
             result.EventInfoInResult = new SudokuEvent

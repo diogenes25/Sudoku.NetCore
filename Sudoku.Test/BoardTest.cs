@@ -68,7 +68,7 @@ namespace DE.Onnen.Sudoku
         /// A test for SetDigit
         /// </summary>
         [TestMethod]
-        public void SetDigit_with_coordinates()
+        public void SetDigit_with_coordinates_Test()
         {
             int row = 8;
             int col = 8;
@@ -80,7 +80,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigit_with_Alpha_Row_Coordinates()
+        public void SetDigit_with_Alpha_Row_Coordinates_Test()
         {
             Board tmpBoard = (Board)this._board;
             ICell firstCell = this._board[1];
@@ -99,7 +99,7 @@ namespace DE.Onnen.Sudoku
         /// A test for SetDigit
         /// </summary>
         [TestMethod]
-        public void SetDigit_set_digit_when_only_one_candidate_left()
+        public void SetDigit_set_digit_when_only_one_candidate_left_Test()
         {
             this._board.SetDigit(0, 1);
             this._board.SetDigit(1, 2);
@@ -124,7 +124,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SetDigit
         ///</summary>
         [TestMethod]
-        public void SetDigitTest3()
+        public void SetDigitTest3_Test()
         {
             for (int i = 0; i < 8; i++)
             {
@@ -143,7 +143,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigitTest4()
+        public void SetDigitTest4_Test()
         {
             Board tmpBoard = (Board)this._board;
             tmpBoard.SetDigit(0, 0, 1);
@@ -171,7 +171,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigitTest5()
+        public void SetDigitTest5_Test()
         {
             Board tmpBoard = (Board)this._board;
             tmpBoard.SetDigit(1, 4, 1);
@@ -186,7 +186,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigitTest6()
+        public void SetDigitTest6_Test()
         {
             Board tmpBoard = (Board)this._board;
             tmpBoard.SetDigit(4, 1, 1);
@@ -201,7 +201,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void Solve_Sudoku_solved_with_3_solvetechniques_and_without_backtracking()
+        public void Solve_Sudoku_solved_with_3_solvetechniques_and_without_backtracking_Test()
         {
             Board board = new Board(_solveTechniques);
             string simpleSudoku = @"030050040
@@ -243,7 +243,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Solve
         ///</summary>
         [TestMethod]
-        public void SolveTest()
+        public void SolveTest_Test()
         {
             Board tmpBoard = (Board)this._board;
             tmpBoard.SetDigit(1, 0, 2);
@@ -281,7 +281,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Board Constructor
         ///</summary>
         [TestMethod]
-        public void BoardConstructor_whith_null_techniques_cells_must_be_set()
+        public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
         {
             ASolveTechnique[] tempSolveTechniques = null;
             IBoard tmpBoard = new Board(tempSolveTechniques);
@@ -307,7 +307,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Board Constructor
         ///</summary>
         [TestMethod]
-        public void Constructor_empty_cells_must_be_set()
+        public void Constructor_empty_cells_must_be_set_Test()
         {
             CheckBoard(this._board);
         }
@@ -316,7 +316,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Backtracking
         ///</summary>
         [TestMethod]
-        public void Backtracking_solve_without_any_digit()
+        public void Backtracking_solve_without_any_digit_Test()
         {
             SudokuLog log = this._board.Backtracking();
             Assert.IsTrue(this._board.IsComplete);
@@ -331,7 +331,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Clear
         ///</summary>
         [TestMethod]
-        public void Clear_not_digit_is_set()
+        public void Clear_not_digit_is_set_Test()
         {
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
@@ -351,7 +351,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Clone
         ///</summary>
         [TestMethod]
-        public void Clone_Digit_and_Candidates_are_equal_to_clone()
+        public void Clone_Digit_and_Candidates_are_equal_to_clone_Test()
         {
             Board expected = new Board();
             for (int i = 0; i < Consts.DimensionSquare; i++)
@@ -368,7 +368,7 @@ namespace DE.Onnen.Sudoku
         ///A test for CreateSimpleBoard
         ///</summary>
         [TestMethod]
-        public void CreateSimpleBoard_creates_int_with()
+        public void CreateSimpleBoard_creates_int_with_Test()
         {
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
@@ -384,7 +384,7 @@ namespace DE.Onnen.Sudoku
         ///A test for GetEnumerator
         ///</summary>
         [TestMethod]
-        public void GetEnumeratorTest()
+        public void GetEnumeratorTest_Test()
         {
             IEnumerator<ICell> actual;
             actual = this._board.GetEnumerator();
@@ -400,7 +400,7 @@ namespace DE.Onnen.Sudoku
         ///A test for GetHouse
         ///</summary>
         [TestMethod]
-        public void GetHouse_House_Row()
+        public void GetHouse_House_Row_Test()
         {
             HouseType houseType = HouseType.Row;
             IHouse actual;
@@ -420,7 +420,7 @@ namespace DE.Onnen.Sudoku
         ///A test for GetHouse
         ///</summary>
         [TestMethod]
-        public void GetHouse_House_Col()
+        public void GetHouse_House_Col_Test()
         {
             HouseType houseType = HouseType.Col;
             IHouse actual;
@@ -440,7 +440,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SetBoard
         ///</summary>
         [TestMethod]
-        public void SetBoard_set_Digit_at_cell_0()
+        public void SetBoard_set_Digit_at_cell_0_Test()
         {
             IBoard otherBoard = new Board();
             otherBoard.SetDigit(0, 1);
@@ -453,7 +453,7 @@ namespace DE.Onnen.Sudoku
         ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void ToString_is_string_with_every_digit()
+        public void ToString_is_string_with_every_digit_Test()
         {
             string expected = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
             string actual;
@@ -465,7 +465,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Count
         ///</summary>
         [TestMethod]
-        public void Count_is_length_of_cells()
+        public void Count_is_length_of_cells_Test()
         {
             int actual;
             actual = ((Board)this._board).Count;
@@ -476,7 +476,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Givens
         ///</summary>
         [TestMethod]
-        public void GivensTest()
+        public void GivensTest_Test()
         {
             ReadOnlyCollection<ICell> actual;
             actual = this._board.Givens;
@@ -487,7 +487,7 @@ namespace DE.Onnen.Sudoku
         ///A test for IsComplete
         ///</summary>
         [TestMethod]
-        public void IsComplete_board_is_false_at_first()
+        public void IsComplete_board_is_false_at_first_Test()
         {
             bool actual;
             actual = this._board.IsComplete;
@@ -498,7 +498,7 @@ namespace DE.Onnen.Sudoku
         ///A test for Item
         ///</summary>
         [TestMethod]
-        public void ItemTest()
+        public void ItemTest_Test()
         {
             int index = 0; 
             ICell actual;
@@ -510,7 +510,7 @@ namespace DE.Onnen.Sudoku
         ///A test for SolvePercent
         ///</summary>
         [TestMethod]
-        public void SolvePercent_is_0_at_first()
+        public void SolvePercent_is_0_at_first_Test()
         {
             double actual;
             actual = this._board.SolvePercent;
@@ -518,7 +518,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SolvePercent_is_greater_than_0()
+        public void SolvePercent_is_greater_than_0_Test()
         {
             double actual;
             this._board.SetDigit(0, 1);
@@ -541,7 +541,7 @@ namespace DE.Onnen.Sudoku
         /// 000000000
         /// </remarks>
         [TestMethod]
-        public void SetDigit_LastDigit_produce_an_error()
+        public void SetDigit_LastDigit_produce_an_error_Test()
         {
             this._board.SetCellsFromString("003000000456000000789000000000000000000000000000000000000000000000000000000000000");
             // Es ist möglich die 1 oder 2 in Zelle 3 zu setzen. Dies führt aber zu einem Fehler.

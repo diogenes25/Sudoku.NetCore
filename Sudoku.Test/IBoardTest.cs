@@ -9,7 +9,7 @@ namespace DE.Onnen.Sudoku
         /// Digit must be set.
         ///</summary>
         [TestMethod]
-        public void SetDigit_Digit_in_Cell_must_be_set_()
+        public void SetDigit_Digit_in_Cell_must_be_set_Test()
         {
             IBoard target = new Board();
             int digit = 1;
@@ -20,7 +20,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigit_Digit_removed_as_candidate_in_col()
+        public void SetDigit_Digit_removed_as_candidate_in_col_Test()
         {
             IBoard target = new Board();
             int digit = 1;
@@ -37,7 +37,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigit_Digit_removed_as_candidate_in_row()
+        public void SetDigit_Digit_removed_as_candidate_in_row_Test()
         {
             IBoard target = new Board();
             int digit = 1;
@@ -54,7 +54,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigit_Digit_removed_as_candidate_in_box()
+        public void SetDigit_Digit_removed_as_candidate_in_box_Test()
         {
             IBoard target = new Board();
             int digit = 1;
@@ -80,7 +80,7 @@ namespace DE.Onnen.Sudoku
         }
 
         [TestMethod]
-        public void SetDigit_Digit_removed_as_candidate_in_peer_row()
+        public void SetDigit_Digit_removed_as_candidate_in_peer_row_Test()
         {
             IBoard target = new Board();
             int digit = 1;
