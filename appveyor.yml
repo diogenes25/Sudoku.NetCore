@@ -6,9 +6,8 @@ before_build:
 build_script:
 - dotnet publish -c Release --output "C:/SudokuCore"
 test_script:
-- dotnet test c:\projects\sudoku-netcore\Sudoku.Test\Sudoku.Test.csproj
+- dotnet test C:\projects\sudoku-netcore\Sudoku.Test\Sudoku.Test.csproj
 test:
   assemblies:
-    except:
+    only:
     - Sudoku.Test.dll
-    - Sudoku.Interfaces.dll
