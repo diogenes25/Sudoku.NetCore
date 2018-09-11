@@ -8,9 +8,9 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Internal candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
-        protected int candidateValueInternal = 0;
+        protected int candidateValueInternal;
 
-        private int id;
+        private int _id;
         private HouseType _hType;
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public int ID
         {
-            get { return this.id; }
-            protected set { this.id = value; }
+            get { return this._id; }
+            protected set { this._id = value; }
         }
 
         /// <inheritdoc />

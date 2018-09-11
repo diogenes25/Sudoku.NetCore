@@ -36,12 +36,17 @@ namespace DE.Onnen.Sudoku
                     SudokuLog result = board.SetDigit(x, digit);
                     if (!result.Successful)
                     {
-                        throw new Exception("Digit : " + digit + " could not be set");
+                        throw new InvalidOperationException("Digit : " + digit + " could not be set");
                     }
                 }
             }
         }
 
+        public static string Matrix(this IBoard board)
+        {
+            return Matrix(board, false);
+        }
+        
         /// <summary>
         /// Nice Output.
         /// </summary>
@@ -65,7 +70,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="board"></param>
         /// <param name="onlyGiven"></param>
         /// <returns></returns>
-        public static string Matrix(this IBoard board, bool onlyGiven = false)
+        public static string Matrix(this IBoard board, bool onlyGiven)
         {
             // ╔═╦═╗
             // ║ ║ ║
@@ -91,7 +96,7 @@ namespace DE.Onnen.Sudoku
                 }
                 IHouse house = board.GetHouse(HouseType.Row, i);
                 sb.Append((char)(i + 65));
-                for (int x = 0; x < house.Count; x++)
+                for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
                     if (x % 3 == 0)
                     {
@@ -122,8 +127,6 @@ namespace DE.Onnen.Sudoku
         public static string MatrixWithCandidates(this IBoard board)
         {
             StringBuilder sb = new StringBuilder();
-            //sb.Append("┌─────────────┬─────────────┬─────────────┐");
-            //sb.Append(Environment.NewLine);
             int LineID = 0;
             for (int boxX = 0; boxX < 3; boxX++)
             {
@@ -134,7 +137,6 @@ namespace DE.Onnen.Sudoku
                     int cellIDY = 0;
                     for (int l = 0, m = (Consts.Dimension); l < m; l++)
                     {
-                        //sb.Append("│");
                         for (int line = 0, maxline = (Consts.Dimension); line < maxline; line++)
                         {
                             sb.Append("│");
@@ -173,16 +175,7 @@ namespace DE.Onnen.Sudoku
                         sb.Append(Environment.NewLine);
                     }
                 }
-                //if (boxX < 3)
-                //{
-                //	//sb.Append("├─────────────┼─────────────┼─────────────┤");
-                //}
-                //else
-                //{
-                //	sb.Append("└───┴───┴───┘└───┴───┴───┘└───┴───┴───┘");
-                //}
             }
-            //sb.Append("└─────────────┴─────────────┴─────────────┘");
             sb.Append(Environment.NewLine);
             sb.Append("Complete: ");
             sb.Append(board.SolvePercent);
@@ -214,7 +207,7 @@ namespace DE.Onnen.Sudoku
                 sb.Append(Environment.NewLine);
                 sb.Append("\t");
                 IHouse house = board.GetHouse(HouseType.Row, i);
-                for (int x = 0; x < house.Count; x++)
+                for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
                     sb.Append("<td class=\"sudokucell\" id=\"cell[");
                     sb.Append(id);

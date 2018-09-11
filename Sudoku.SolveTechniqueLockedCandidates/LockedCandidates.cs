@@ -44,10 +44,12 @@
                             houseIdx = (verticalBlock) ? (house.ID % 3) * 3 + x : (house.ID / 3) * 3 + x;
                             cellInContainertype = (verticalBlock) ? HouseType.Col : HouseType.Row;
                             break;
+                        default:
+                            throw new System.ArgumentException($"HType {house.HType} ist unknown");
                     }
 
                     int pos = -1;
-                    foreach (ICell c in board.GetHouse(cellInContainertype, houseIdx)) // Cells des Row
+                    foreach (ICell c in this.board.GetHouse(cellInContainertype, houseIdx)) // Cells des Row
                     {
                         pos++;
                         if (((house.HType == HouseType.Row)
@@ -73,7 +75,7 @@
             }
         }
 
-        private bool RemoveMultiValue(ICell c, int removeValue, SudokuLog sudokuResult, ICellBase resultContainer, string solveTechnik)
+        private static bool RemoveMultiValue(ICell c, int removeValue, SudokuLog sudokuResult, ICellBase resultContainer, string solveTechnik)
         {
             for (int dc = 0; dc < Consts.DimensionSquare; dc++)
             {
@@ -84,7 +86,7 @@
                         SudokuLog child = sudokuResult.CreateChildResult();
                         if (c.RemoveCandidate(dc + 1, child))
                         {
-                            child.EventInfoInResult = new SudokuEvent()
+                            child.EventInfoInResult = new SudokuEvent
                             {
                                 ChangedCellBase = resultContainer,
                                 Action = CellAction.RemPoss,
@@ -114,7 +116,7 @@
         /// Das Array enthält drei Elemente. Je nachdem ob die Digit im ersten (0) zweiten (1) oder drittem Drittel (2) enthalten sind.
         /// </remarks>
         /// <returns>Drei Int-Werte [erster, zweiter oder dritter Part] der gefundenen Nummern |-Verknüpft.</returns>
-        private int[] CheckInBlockpartOfRowCol(IHouse house, bool verticalBlock = false)
+        private static int[] CheckInBlockpartOfRowCol(IHouse house, bool verticalBlock = false)
         {
             int[] valueInRow = new int[Consts.Dimension];
             int[] valueOnlyInOneRow = new int[3];

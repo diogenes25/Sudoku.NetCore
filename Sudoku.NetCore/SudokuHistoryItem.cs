@@ -77,7 +77,6 @@ namespace DE.Onnen.Sudoku
                                     this.Digit,
                                     string.Format("{0:0.00}", this.Percent)
                             );
-            //return "Cell(" + this.CellID + ") [" + ((char)(int)((this.CellID / Consts.DimensionSquare) + 65)) + "" + ((this.CellID % Consts.DimensionSquare) + 1) + "] " + this.Digit + " " + this.Percent + "%";
         }
     }
 }

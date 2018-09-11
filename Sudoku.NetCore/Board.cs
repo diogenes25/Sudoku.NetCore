@@ -110,7 +110,6 @@ namespace DE.Onnen.Sudoku
         }
 
         public Board()
-        //: this("..\\..\\..\\Sudoku\\SolveTechnics\\")
         {
             Init();
         }
@@ -124,7 +123,6 @@ namespace DE.Onnen.Sudoku
         private void Init()
         {
             this._cells = new Cell[Consts.DimensionSquare * Consts.DimensionSquare];
-            //this.givens = new List<ICell>();
             this.history = new List<SudokuHistoryItem>();
             this.solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
             for (int i = 0; i < Consts.DimensionSquare * Consts.DimensionSquare; i++)
@@ -200,7 +198,7 @@ namespace DE.Onnen.Sudoku
 
             SudokuLog sudokuResult = new SudokuLog
             {
-                EventInfoInResult = new SudokuEvent()
+                EventInfoInResult = new SudokuEvent
                 {
                     ChangedCellBase = null,
                     Action = CellAction.SetDigitInt,
@@ -229,10 +227,7 @@ namespace DE.Onnen.Sudoku
                 return sudokuResult;
             }
 
-            checked
-            {
                 cellid = (currentRow * Consts.DimensionSquare) + col;
-            }
 
             return this.SetDigit(cellid, digit);
         }
@@ -252,7 +247,7 @@ namespace DE.Onnen.Sudoku
         {
             SudokuLog sudokuResult = new SudokuLog
             {
-                EventInfoInResult = new SudokuEvent()
+                EventInfoInResult = new SudokuEvent
                 {
                     ChangedCellBase = null,
                     Action = CellAction.SetDigitInt,
@@ -272,25 +267,17 @@ namespace DE.Onnen.Sudoku
             if (sudokuResult.Successful)
             {
                 this._cells[cellID].IsGiven = true;
-                //this.givens.Add(this.cells[cellID]);
                 if (withSolve)
                 {
                     this.Solve(sudokuResult);
                 }
-            }
 
-            if (sudokuResult.Successful)
-            {
                 this.history.Add(new SudokuHistoryItem(this, this._cells[cellID], sudokuResult));
             }
             else
             {
                 SetHistory(this.history.Count - 1);
                 this._cells[cellID].RemoveCandidate(digitToSet, sudokuResult);
-                //if (withSolve)
-                //{
-                //    this.Solve(sudokuResult);
-                //}
             }
             return sudokuResult;
         }
@@ -301,12 +288,12 @@ namespace DE.Onnen.Sudoku
         /// <param name="otherBoard">Another Board</param>
         public void SetBoard(IBoard otherBoard)
         {
-            if (otherBoard == null || otherBoard == null)
+            if (otherBoard == null)
             {
                 return;
             }
 
-            for (int i = 0; i < otherBoard.Count; i++)
+            for (int i = 0; i < countCell; i++)
             {
                 if (otherBoard[i].Digit > 0)
                 {
@@ -336,7 +323,6 @@ namespace DE.Onnen.Sudoku
                     }
                     catch
                     {
-                        //Console.WriteLine(ex.Message);
                         continue;
                     }
                 }
@@ -345,8 +331,6 @@ namespace DE.Onnen.Sudoku
                     this._cells[i].CandidateValue = this.history[historyId].BoardInt[i];
                 }
             }
-
-            //this.Solve(new SudokuResult());
         }
 
         /// <summary>
@@ -397,16 +381,6 @@ namespace DE.Onnen.Sudoku
             } while (this.reCheck);
         }
 
-        //public SudokuLog Backtracking()
-        //{
-        //	//this.Backtracking(new SudokuLog());
-        //          return new SudokuLog()
-        //          {
-        //              Successful = false,
-        //              ErrorMessage = "SudokuLog is null"
-        //          };
-        //      }
-
         public SudokuLog Backtracking()
         {
             SudokuLog tmpSudokuResult = new SudokuLog();
@@ -453,7 +427,7 @@ namespace DE.Onnen.Sudoku
                     {
                         Board newBoard = (Board)board.Clone();
                         SudokuLog result = newBoard.SetDigit(i, x, true);
-                        BoardChangeEvent?.Invoke(newBoard, new SudokuEvent() { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
+                        BoardChangeEvent?.Invoke(newBoard, new SudokuEvent { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
                         if (!result.Successful)
                         {
                             continue;
@@ -511,8 +485,8 @@ namespace DE.Onnen.Sudoku
                 return;
             }
 
-            List<string> files = new List<string>(Directory.GetFiles(filePath, "*.dll"));
-            if (files == null || files.Count() < 1)
+            string[] files = Directory.GetFiles(filePath, "*.dll");
+            if (files.Count() < 1)
             {
                 return;
             }
@@ -531,6 +505,7 @@ namespace DE.Onnen.Sudoku
 
         public void Register(ISolveTechnique solveTechnic)
         {
+            throw new NotImplementedException();
         }
 
         #endregion ISudokuHost Members
@@ -556,13 +531,13 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         public static int[] CreateSimpleBoard(IBoard board)
         {
-            if (board == null || board.Count < 1)
+            if (board == null || countCell < 1)
             {
                 return null;
             }
 
             int[] retLst = new int[countCell];
-            for (int i = 0; i < board.Count; i++)
+            for (int i = 0; i < countCell; i++)
             {
                 if (board[i].Digit > 0)
                 {

@@ -6,7 +6,7 @@
         private ISudokuHost host;
         protected IBoard board;
 
-        public ASolveTechnique()
+        protected ASolveTechnique()
         {
             this.Info = new SolveTechniqueInfo()
             {

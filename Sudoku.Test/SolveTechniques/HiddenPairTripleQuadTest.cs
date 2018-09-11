@@ -33,7 +33,7 @@ namespace Sudoku.SolveTechniques
         /// <summary>
         ///A test for Backtracking
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Backtracking_solve_without_any_digit_and_HiddenPairTripleQuad()
         {
             Board target = new Board(solveTechniques);

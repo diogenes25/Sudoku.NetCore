@@ -35,13 +35,16 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             foreach (KeyValuePair<int, List<ICell>> kv in nakedMore)
             {
                 if (kv.Value.Count > 5)
+                {
                     return;
+                }
+
                 int count = kv.Value.First().Candidates.Count;
                 if (kv.Value.Count == count)
                 {
                     string st = "Naked" + count;
                     SudokuLog cresult = sudokuResult.CreateChildResult();
-                    cresult.EventInfoInResult = new SudokuEvent()
+                    cresult.EventInfoInResult = new SudokuEvent
                     {
                         Value = 0,
                         ChangedCellBase = house,

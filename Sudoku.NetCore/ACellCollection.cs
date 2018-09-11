@@ -33,35 +33,21 @@ namespace DE.Onnen.Sudoku
 
         #region ICollection<ICell> Members
 
-        public void Add(ICell item)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public bool Contains(ICell item)
         {
             return this._cells.Contains(item);
         }
 
-        public void CopyTo(ICell[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
+    
 
         public int Count
         {
             get { return this._cells.Count(); }
         }
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
-        public bool Remove(ICell item)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         #endregion ICollection<ICell> Members
 

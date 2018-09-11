@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace DE.Onnen.Sudoku
 {
-	[TestClass()]
+	[TestClass]
 	public class SolveSomeExamplesTest
 	{
-		[TestMethod()]
+		[TestMethod]
 		public void TestHardestData()
 		{
 			IBoard board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad());
-			string source = TestRessources.top95; // TestRessources.ElevensHardestSudoku_Small;
+			string source = TestRessources.top95; 
 			int i = 0;
 			for (i = 0; i < 2; i++)
 			{
@@ -30,7 +30,6 @@ namespace DE.Onnen.Sudoku
 
 					total++;
 					board.SetCellsFromString(line.Substring(0, 81).Replace('.', '0'));
-					DateTime start = DateTime.Now;
 					if (board.IsComplete)
 					{
 						emh[0] += 1;

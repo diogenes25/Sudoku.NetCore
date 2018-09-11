@@ -11,7 +11,7 @@ namespace DE.Onnen.Sudoku
         public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
         {
             ASolveTechnique solveTechnic = LoadSolveTechnic(fileName, null);
-            SolveTechniqueInfo info = new SolveTechniqueInfo();
+            SolveTechniqueInfo info;
             if (solveTechnic is ISolveTechnique)
             {
                 info = ((ISolveTechnique)solveTechnic).Info;

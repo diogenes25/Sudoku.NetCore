@@ -57,7 +57,7 @@ namespace DE.Onnen.Sudoku
                     }
                     else
                     {
-                        throw new Exception("Digit " + value + " is in " + this.ToString() + " not possible");
+                        throw new Exception("Digit " + value + " is in " + this + " not possible");
                     }
                 }
             }
@@ -73,7 +73,10 @@ namespace DE.Onnen.Sudoku
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is ICell))
+            {
                 return false;
+            }
+
             return this.ID == ((Cell)obj).ID;
         }
 
@@ -96,11 +99,13 @@ namespace DE.Onnen.Sudoku
             // if (newBaseValue == this.baseValue)
             //    return false;
             if (candidateToRemove < 1 || candidateToRemove > Consts.DimensionSquare || (this.CandidateValue & (1 << (candidateToRemove - 1))) == 0)
+            {
                 return false;
+            }
 
             this.CandidateValue -= (1 << (candidateToRemove - 1));
 
-            SudokuEvent eventInfoInResult = new SudokuEvent()
+            SudokuEvent eventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
                 Action = CellAction.RemPoss,
@@ -142,7 +147,7 @@ namespace DE.Onnen.Sudoku
                 if (((1 << i) & this.CandidateValue) == this.CandidateValue)
                 {
                     SudokuLog sresult = sudokuResult.CreateChildResult();
-                    sresult.EventInfoInResult = new SudokuEvent()
+                    sresult.EventInfoInResult = new SudokuEvent
                     {
                         Value = i + 1,
                         ChangedCellBase = this,
@@ -170,7 +175,7 @@ namespace DE.Onnen.Sudoku
                 return false; ;
 
             SudokuLog result = sudokuResult.CreateChildResult();
-            result.EventInfoInResult = new SudokuEvent()
+            result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt,
@@ -240,7 +245,9 @@ namespace DE.Onnen.Sudoku
                 for (int i = 0; i < Consts.DimensionSquare; i++)
                 {
                     if (((1 << i) & this.CandidateValue) > 0)
+                    {
                         retInt.Add(i + 1);
+                    }
                 }
                 return retInt.AsReadOnly();
             }

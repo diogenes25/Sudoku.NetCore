@@ -10,11 +10,11 @@ namespace DE.Onnen.Sudoku
     ///This is a test class for BoardTest and is intended
     ///to contain all BoardTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class BoardTest
     {
         private TestContext testContextInstance;
-        private static ASolveTechnique[] solveTechniques;
+        private static ASolveTechnique[] _solveTechniques;
 
         /// <summary>
         ///Gets or sets the test context which provides
@@ -38,10 +38,10 @@ namespace DE.Onnen.Sudoku
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
+        [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
         {
-            solveTechniques = GetSolveTechniques();
+            _solveTechniques = GetSolveTechniques();
         }
 
         #endregion Additional test attributes
@@ -60,10 +60,10 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// A test for SetDigit
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_with_coordinates()
         {
-            Board target = new Board(solveTechniques);
+            Board target = new Board(_solveTechniques);
             int row = 8;
             int col = 8;
             int digit = 9;
@@ -73,7 +73,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(0, target[80].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_with_Alpha_Row_Coordinates()
         {
             Board board = new Board();
@@ -92,10 +92,10 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// A test for SetDigit
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_set_digit_when_only_one_candidate_left()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             board.SetDigit(0, 1);
             board.SetDigit(1, 2);
             board.SetDigit(2, 3);
@@ -118,15 +118,18 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for SetDigit
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetDigitTest3()
         {
-            Board target = new Board(solveTechniques);
+            Board target = new Board(_solveTechniques);
             for (int i = 0; i < 8; i++)
             {
                 target.SetDigit(i, i + 1);
                 if (i == 0)
+                {
                     continue;
+                }
+
                 target.SetDigit((i * 9), 9 - i);
             }
             Assert.AreEqual(9, target[8].Digit);
@@ -135,10 +138,10 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(0, target[72].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigitTest4()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             board.SetDigit(0, 0, 1);
             board.SetDigit(0, 1, 2);
             board.SetDigit(0, 2, 3);
@@ -164,10 +167,10 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(block1r2ValueSolve, board[23].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigitTest5()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             board.SetDigit(1, 4, 1);
             board.SetDigit(0, 6, 2);
             board.SetDigit(0, 7, 3);
@@ -179,10 +182,10 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(block1r2Value, board[20].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigitTest6()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             board.SetDigit(4, 1, 1);
             board.SetDigit(6, 0, 2);
             board.SetDigit(7, 0, 3);
@@ -194,10 +197,10 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(block1r2Value, board[20].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Solve_Sudoku_solved_with_3_solvetechniques_and_without_backtracking()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             string simpleSudoku = @"030050040
 008010500
 460000012
@@ -236,10 +239,10 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Solve
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SolveTest()
         {
-            Board board = new Board(solveTechniques);
+            Board board = new Board(_solveTechniques);
             board.SetDigit(1, 0, 2);
             board.SetDigit(1, 2, 3);
             board.SetDigit(1, 3, 6);
@@ -274,17 +277,17 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Board Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BoardConstructor_whith_null_techniques_cells_must_be_set()
         {
-            ASolveTechnique[] solveTechniques = null; // TODO: Initialize to an appropriate value
-            Board target = new Board(solveTechniques);
+            ASolveTechnique[] tempSolveTechniques = null; 
+            Board target = new Board(tempSolveTechniques);
             CheckBoard(target);
         }
 
         public void BoardConstructor_whith_techniques_cells_must_be_set()
         {
-            Board target = new Board(solveTechniques);
+            Board target = new Board(_solveTechniques);
             CheckBoard(target);
         }
 
@@ -301,7 +304,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Board Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Constructor_empty_cells_must_be_set()
         {
             Board target = new Board();
@@ -311,7 +314,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Backtracking
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Backtracking_solve_without_any_digit()
         {
             Board target = new Board();
@@ -327,7 +330,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Clear
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Clear_not_digit_is_set()
         {
             Board target = new Board();
@@ -348,7 +351,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Clone
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Clone_Digit_and_Candidates_are_equal_to_clone()
         {
             Board target = new Board();
@@ -366,7 +369,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for CreateSimpleBoard
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CreateSimpleBoard_creates_int_with()
         {
             IBoard board = new Board();
@@ -374,7 +377,7 @@ namespace DE.Onnen.Sudoku
             {
                 board.SetDigit(i, i + 1);
             }
-            int[] expected = new int[] { -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] expected = { -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int[] actual;
             actual = Board.CreateSimpleBoard(board);
             Assert.AreEqual(expected.Length, actual.Length);
@@ -383,7 +386,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for GetEnumerator
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetEnumeratorTest()
         {
             Board target = new Board();
@@ -400,7 +403,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for GetHouse
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetHouse_House_Row()
         {
             IBoard target = new Board();
@@ -421,7 +424,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for GetHouse
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetHouse_House_Col()
         {
             IBoard target = new Board();
@@ -442,7 +445,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for SetBoard
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetBoard_set_Digit_at_cell_0()
         {
             Board target = new Board();
@@ -456,7 +459,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToString_is_string_with_every_digit()
         {
             Board target = new Board(); // TODO: Initialize to an appropriate value
@@ -469,7 +472,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Count
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Count_is_length_of_cells()
         {
             Board target = new Board();
@@ -481,7 +484,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for Givens
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GivensTest()
         {
             Board target = new Board();
@@ -493,7 +496,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for IsComplete
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsComplete_board_is_false_at_first()
         {
             Board target = new Board(); // TODO: Initialize to an appropriate value
@@ -503,25 +506,13 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for IsReadOnly
-        ///</summary>
-        [TestMethod()]
-        public void IsReadOnlyTest()
-        {
-            Board target = new Board(); // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.IsReadOnly;
-            Assert.IsTrue(actual);
-        }
-
-        /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ItemTest()
         {
-            Board target = new Board(); // TODO: Initialize to an appropriate value
-            int index = 0; // TODO: Initialize to an appropriate value
+            Board target = new Board();
+            int index = 0; 
             ICell actual;
             actual = target[index];
             Assert.AreEqual(0, actual.ID);
@@ -530,7 +521,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         ///A test for SolvePercent
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SolvePercent_is_0_at_first()
         {
             Board target = new Board();
@@ -539,7 +530,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(0.0, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SolvePercent_is_greater_than_0()
         {
             Board target = new Board();
@@ -563,7 +554,7 @@ namespace DE.Onnen.Sudoku
         /// 000000000
         /// 000000000
         /// </remarks>
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_LastDigit_produce_an_error()
         {
             IBoard board = new Board();

@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Digit must be set.
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_Digit_in_Cell_must_be_set_()
         {
             IBoard target = new Board();
@@ -19,7 +19,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(0, target[0].CandidateValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_col()
         {
             IBoard target = new Board();
@@ -36,7 +36,7 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_row()
         {
             IBoard target = new Board();
@@ -53,7 +53,7 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_box()
         {
             IBoard target = new Board();
@@ -79,7 +79,7 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_peer_row()
         {
             IBoard target = new Board();

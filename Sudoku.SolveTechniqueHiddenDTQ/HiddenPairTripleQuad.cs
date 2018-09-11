@@ -86,6 +86,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     case 2: st = "Hidden2"; break;
                     case 3: st = "Hidden3"; break;
                     case 4: st = "Hidden4"; break;
+                    default: st = "--No HiddenFiled possible ---"; break;
                 }
 
                 bool eq = true;
@@ -107,7 +108,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 if (eq)
                 {
                     SudokuLog cresult = sudokuResult.CreateChildResult();
-                    cresult.EventInfoInResult = new SudokuEvent()
+                    cresult.EventInfoInResult = new SudokuEvent
                     {
                         ChangedCellBase = house,
                         Action = CellAction.RemPoss,

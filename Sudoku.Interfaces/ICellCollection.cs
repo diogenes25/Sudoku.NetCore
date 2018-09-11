@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace de.onnen.Sudoku.SudokuExternal
 {
-    public interface ICellCollection : ICollection<ICell>
+    public interface ICellCollection : IEnumerable<ICell>
     {
         /// <summary>
         ///

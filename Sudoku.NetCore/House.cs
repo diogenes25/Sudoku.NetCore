@@ -61,7 +61,7 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         internal override bool SetDigit(int digit, SudokuLog sudokuResult)
         {
-            SudokuEvent sudokuEvent = new SudokuEvent()
+            SudokuEvent sudokuEvent = new SudokuEvent
             {
                 Value = digit,
                 SolveTechnik = "SetDigit",
@@ -100,7 +100,7 @@ namespace DE.Onnen.Sudoku
             this.candidateValueInternal = newBaseValue;
 
             SudokuLog result = sudokuResult.CreateChildResult();
-            result.EventInfoInResult = new SudokuEvent()
+            result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt,
@@ -129,40 +129,6 @@ namespace DE.Onnen.Sudoku
 
         #endregion IList<ICell> Members
 
-        #region ICollection<ICell> Members
-
-        public void Add(ICell item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(ICell item)
-        {
-            return this.cells.Contains(item);
-        }
-
-        public void CopyTo(ICell[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Count
-        {
-            get { return this.cells.Length; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
-        public bool Remove(ICell item)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion ICollection<ICell> Members
-
         #region IEnumerable<ICell> Members
 
         public IEnumerator<ICell> GetEnumerator()
@@ -181,9 +147,6 @@ namespace DE.Onnen.Sudoku
 
         #endregion IEnumerable Members
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

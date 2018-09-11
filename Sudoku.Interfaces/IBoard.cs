@@ -9,7 +9,7 @@ namespace DE.Onnen.Sudoku
     /// It contains the 81 constituent cells, lined up in 9 rows and 9 columns, with a distinct border around the boxes.
     /// </remarks>
     /// </summary>
-    public interface IBoard : ICollection<ICell>
+    public interface IBoard : IEnumerable<ICell>
     {
         /// <summary>
         /// 81 cells of the board.
@@ -18,6 +18,8 @@ namespace DE.Onnen.Sudoku
         {
             get;
         }
+
+        void Clear();
 
         /// <summary>
         /// Returns a specific house.
