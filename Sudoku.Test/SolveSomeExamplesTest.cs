@@ -39,7 +39,7 @@ namespace DE.Onnen.Sudoku
                     }
                     catch (Exception ex)
                     {
-                        //Assert.Fail($"Error in line{total} : {prueLine} " + ex.Message);
+                        Assert.Fail($"Error in line{total} : {prueLine} " + ex.Message);
                         continue;
                     }
                     if (board.IsComplete)
