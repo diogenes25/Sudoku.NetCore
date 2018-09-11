@@ -6,4 +6,6 @@ before_build:
 build_script:
 - dotnet publish -c Release --output "C:/SudokuCore"
 test:
-- Sudoku.Test.dll
+  assemblies:
+    only:
+    - Sudoku.Test.dll
