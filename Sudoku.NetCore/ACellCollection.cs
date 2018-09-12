@@ -20,16 +20,12 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        #region IList<ICell> Members
-
         /// <summary>
         ///
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
         public ICell this[int index] => this._cells[index];
-
-        #endregion IList<ICell> Members
 
         #region ICollection<ICell> Members
 

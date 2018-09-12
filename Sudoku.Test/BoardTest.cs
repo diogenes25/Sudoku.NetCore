@@ -74,7 +74,7 @@ namespace DE.Onnen.Sudoku
             int col = 8;
             int digit = 9;
             Assert.AreEqual(0, this._board[80].Digit);
-            ((Board)this._board).SetDigit(row, col, digit);
+            this._board.SetDigit(row, col, digit);
             Assert.AreEqual(9, this._board[80].Digit);
             Assert.AreEqual(0, this._board[80].CandidateValue);
         }
@@ -82,14 +82,13 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_with_Alpha_Row_Coordinates_Test()
         {
-            Board tmpBoard = (Board)this._board;
             ICell firstCell = this._board[1];
             Assert.AreEqual(0, firstCell.Digit, "Just to be sure that this value is 0 at first.");
-            SudokuLog result = tmpBoard.SetDigit('a', 1, 5);
+            SudokuLog result = this._board.SetDigit('a', 1, 5);
             Assert.IsTrue(result.Successful);
             firstCell = this._board[1];
             Assert.AreEqual(5, firstCell.Digit, "Cell A/1  is same as 0/1 is same as id=1 and must be set to 5");
-            result = tmpBoard.SetDigit('B', 1, 6);
+            result = this._board.SetDigit('B', 1, 6);
             Assert.IsTrue(result.Successful);
             firstCell = this._board[10];
             Assert.AreEqual(6, firstCell.Digit, "Cell B/1 must be set to 6");
@@ -145,15 +144,14 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigitTest4_Test()
         {
-            Board tmpBoard = (Board)this._board;
-            tmpBoard.SetDigit(0, 0, 1);
-            tmpBoard.SetDigit(0, 1, 2);
-            tmpBoard.SetDigit(0, 2, 3);
-            tmpBoard.SetDigit(1, 0, 4);
-            tmpBoard.SetDigit(1, 1, 5);
-            tmpBoard.SetDigit(1, 3, 7);
-            tmpBoard.SetDigit(1, 4, 8);
-            SudokuLog result = tmpBoard.SetDigit(1, 5, 9);
+            this._board.SetDigit(0, 0, 1);
+            this._board.SetDigit(0, 1, 2);
+            this._board.SetDigit(0, 2, 3);
+            this._board.SetDigit(1, 0, 4);
+            this._board.SetDigit(1, 1, 5);
+            this._board.SetDigit(1, 3, 7);
+            this._board.SetDigit(1, 4, 8);
+            SudokuLog result = this._board.SetDigit(1, 5, 9);
             Assert.AreEqual(6, this._board[11].Digit);
             int block0Value = (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block0Value, this._board[18].CandidateValue);
@@ -335,7 +333,7 @@ namespace DE.Onnen.Sudoku
         {
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
-                ((Board)this._board).SetDigit(i, i, i + 1);
+                this._board.SetDigit(i, i, i + 1);
                 Assert.AreEqual(i + 1, this._board[i + (i * Consts.DimensionSquare)].Digit);
             }
             this._board.Clear();
@@ -356,7 +354,7 @@ namespace DE.Onnen.Sudoku
             Board expected = new Board();
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
-                ((Board)this._board).SetDigit(i, i, i + 1);
+                this._board.SetDigit(i, i, i + 1);
                 expected.SetDigit(i, i, i + 1);
             }
             object actual;
@@ -468,7 +466,7 @@ namespace DE.Onnen.Sudoku
         public void Count_is_length_of_cells_Test()
         {
             int actual;
-            actual = ((Board)this._board).Count;
+            actual = this._board.Count;
             Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, actual);
         }
 

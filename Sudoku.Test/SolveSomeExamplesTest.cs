@@ -24,22 +24,22 @@ namespace DE.Onnen.Sudoku
                 int total = 0;
                 foreach (string line in boards)
                 {
-                    if (line.Length < 80)
+                    if (line.Length < 81)
                     {
                         continue;
                     }
 
                     total++;
-                    string prueLine = "---";
+                    string currentLine = "---";
 
                     try
                     {
-                        prueLine = line.Substring(0, 81).Replace('.', '0');
-                        board.SetCellsFromString(prueLine);
+                        currentLine = line.Substring(0, 81).Replace('.', '0');
+                        board.SetCellsFromString(currentLine);
                     }
                     catch (Exception ex)
                     {
-                        Assert.Fail($"Error in line{total} : {prueLine} " + ex.Message);
+                        Assert.Fail($"Error in line{total} : {currentLine} " + ex.Message);
                         continue;
                     }
                     if (board.IsComplete)

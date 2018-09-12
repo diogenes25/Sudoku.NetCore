@@ -231,5 +231,58 @@ namespace DE.Onnen.Sudoku
             sb.Append(Environment.NewLine);
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Set a digit at cell.
+        /// </summary>
+        /// <param name="row">Row Range from 0-8 or 'A'-'I' or 'a'-'i'</param>
+        /// <param name="col">Column</param>
+        /// <param name="digit">Digit</param>
+        public static SudokuLog SetDigit(this IBoard board, int row, int col, int digit)
+        {
+            int cellid = 0;
+            int currentRow = row;
+            int lowRow = (int)'A'; // 65
+            if (row >= lowRow) // If row is greater or equal than 65 (ASCII of 'A') the row-value could be a char instead of an int.
+            {
+                currentRow = (int)Char.ToUpper((char)row);
+                currentRow -= lowRow;
+            }
+
+            SudokuLog sudokuResult = new SudokuLog
+            {
+                EventInfoInResult = new SudokuEvent
+                {
+                    ChangedCellBase = null,
+                    Action = CellAction.SetDigitInt,
+                    SolveTechnik = "SetDigit",
+                }
+            };
+
+            if (currentRow < 0 || currentRow > Consts.DimensionSquare)
+            {
+                sudokuResult.Successful = false;
+                sudokuResult.ErrorMessage = $"row must be between 1 and {Consts.DimensionSquare} or between 'a' and '{((char)(lowRow + Consts.DimensionSquare))}'";
+                return sudokuResult;
+            }
+
+            if (col < 0 || col > Consts.DimensionSquare)
+            {
+                sudokuResult.Successful = false;
+                sudokuResult.ErrorMessage = $"col must be between 0 and '{Consts.DimensionSquare - 1}'";
+                return sudokuResult;
+            }
+
+            if (digit < 1 || digit > Consts.DimensionSquare)
+            {
+                sudokuResult.Successful = false;
+                sudokuResult.ErrorMessage = $"digit must be between 0 and '{Consts.DimensionSquare - 1}'";
+                return sudokuResult;
+            }
+
+            cellid = (currentRow * Consts.DimensionSquare) + col;
+
+            return board.SetDigit(cellid, digit);
+        }
     }
 }

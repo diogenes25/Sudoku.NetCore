@@ -68,5 +68,20 @@ namespace DE.Onnen.Sudoku
             OnPropertyChanged(propertyName);
             return true;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ICell))
+            {
+                return false;
+            }
+
+            return this.ID == ((Cell)obj).ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1);
+        }
     }
 }

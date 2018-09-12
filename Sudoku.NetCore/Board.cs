@@ -20,20 +20,20 @@ namespace DE.Onnen.Sudoku
     /// http://www.sudocue.net/glossary.php
     /// http://walter.bislins.ch/projekte/index.asp?page=Sudoku
     /// </summary>
-    public class Board : ACellCollection, ICloneable, IBoard, ISudokuHost
+    public class Board : ACellCollection, ICloneable, IBoard, ISudokuHost, IEquatable<Board>
     {
         private const int ROW_CONTAINERTYPE = 0;
         private const int COL_CONTAINERTYPE = 1;
         private const int BLOCK_CONTAINERTYPE = 2;
         private static readonly int countCell = Consts.DimensionSquare * Consts.DimensionSquare;
 
-        private List<SudokuHistoryItem> history;
-        private readonly House[][] container = new House[Consts.DimensionSquare][];
-        private bool reCheck;
-        private double solvePercentBase;
+        private List<SudokuHistoryItem> _history;
+        private readonly House[][] _container = new House[Consts.DimensionSquare][];
+        private bool _keepGoingWithChecks;
+        private double _solvePercentBase;
         private ASolveTechnique[] _solveTechniques;
 
-        public ReadOnlyCollection<SudokuHistoryItem> History { get { return this.history.AsReadOnly(); } }
+        public ReadOnlyCollection<SudokuHistoryItem> History { get { return this._history.AsReadOnly(); } }
 
         /// <inheritdoc />
         public ReadOnlyCollection<ICell> Givens { get { return this._cells.Where(x => x.IsGiven).Select(x => (ICell)x).ToList().AsReadOnly(); } }
@@ -45,7 +45,7 @@ namespace DE.Onnen.Sudoku
 
         public IHouse GetHouse(HouseType houseType, int idx)
         {
-            return this.container[idx][(int)houseType];
+            return this._container[idx][(int)houseType];
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace DE.Onnen.Sudoku
                     currSolvePercent += (Consts.DimensionSquare - c.Candidates.Count);
                 }
 
-                return (currSolvePercent / this.solvePercentBase) * 100;
+                return (currSolvePercent / this._solvePercentBase) * 100;
             }
         }
 
@@ -79,7 +79,7 @@ namespace DE.Onnen.Sudoku
                 int containerType = 0;
                 for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
                 {
-                    if (!this.container[containerIdx][containerType].IsComplete)
+                    if (!this._container[containerIdx][containerType].IsComplete)
                     {
                         return false;
                     }
@@ -91,9 +91,9 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Some changes happend while solving. Another check is needed.
         /// </summary>
-        internal void ReCheck()
+        internal void SomeChangesOccurs()
         {
-            this.reCheck = true;
+            this._keepGoingWithChecks = true;
         }
 
         public Board(params ASolveTechnique[] solveTechniques)
@@ -123,8 +123,8 @@ namespace DE.Onnen.Sudoku
         private void Init()
         {
             this._cells = new Cell[Consts.DimensionSquare * Consts.DimensionSquare];
-            this.history = new List<SudokuHistoryItem>();
-            this.solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
+            this._history = new List<SudokuHistoryItem>();
+            this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
             for (int i = 0; i < Consts.DimensionSquare * Consts.DimensionSquare; i++)
             {
                 this._cells[i] = new Cell(i);
@@ -162,13 +162,13 @@ namespace DE.Onnen.Sudoku
                     }
                 }
 
-                this.container[containerIdx] = new House[3];
+                this._container[containerIdx] = new House[3];
                 for (int containerType = 0; containerType < 3; containerType++)
                 {
-                    this.container[containerIdx][containerType] = new House(fieldcontainer[containerType][containerIdx], (HouseType)containerType, containerIdx);
+                    this._container[containerIdx][containerType] = new House(fieldcontainer[containerType][containerIdx], (HouseType)containerType, containerIdx);
                     foreach (Cell f in fieldcontainer[containerType][containerIdx])
                     {
-                        f._fieldcontainters[containerType] = this.container[containerIdx][containerType];
+                        f._fieldcontainters[containerType] = this._container[containerIdx][containerType];
                     }
                 }
             }
@@ -176,61 +176,10 @@ namespace DE.Onnen.Sudoku
 
         private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.ReCheck();
+            this.SomeChangesOccurs();
         }
 
-        /// <summary>
-        /// Set a digit at cell.
-        /// </summary>
-        /// <param name="row">Row Range from 0-8 or 'A'-'I' or 'a'-'i'</param>
-        /// <param name="col">Column</param>
-        /// <param name="digit">Digit</param>
-        public SudokuLog SetDigit(int row, int col, int digit)
-        {
-            int cellid = 0;
-            int currentRow = row;
-            int lowRow = (int)'A'; // 65
-            if (row >= lowRow) // If row is greater or equal than 65 (ASCII of 'A') the row-value could be a char instead of an int.
-            {
-                currentRow = (int)Char.ToUpper((char)row);
-                currentRow -= lowRow;
-            }
 
-            SudokuLog sudokuResult = new SudokuLog
-            {
-                EventInfoInResult = new SudokuEvent
-                {
-                    ChangedCellBase = null,
-                    Action = CellAction.SetDigitInt,
-                    SolveTechnik = "SetDigit",
-                }
-            };
-
-            if (currentRow < 0 || currentRow > Consts.DimensionSquare)
-            {
-                sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"row must be between 1 and {Consts.DimensionSquare} or between 'a' and '{((char)(lowRow + Consts.DimensionSquare))}'";
-                return sudokuResult;
-            }
-
-            if (col < 0 || col > Consts.DimensionSquare)
-            {
-                sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"col must be between 0 and '{Consts.DimensionSquare - 1}'";
-                return sudokuResult;
-            }
-
-            if (digit < 1 || digit > Consts.DimensionSquare)
-            {
-                sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"digit must be between 0 and '{Consts.DimensionSquare - 1}'";
-                return sudokuResult;
-            }
-
-            cellid = (currentRow * Consts.DimensionSquare) + col;
-
-            return this.SetDigit(cellid, digit);
-        }
 
         public SudokuLog SetDigit(int cellID, int digitToSet)
         {
@@ -272,11 +221,11 @@ namespace DE.Onnen.Sudoku
                     this.Solve(sudokuResult);
                 }
 
-                this.history.Add(new SudokuHistoryItem(this, this._cells[cellID], sudokuResult));
+                this._history.Add(new SudokuHistoryItem(this, this._cells[cellID], sudokuResult));
             }
             else
             {
-                SetHistory(this.history.Count - 1);
+                SetHistory(this._history.Count - 1);
                 this._cells[cellID].RemoveCandidate(digitToSet, sudokuResult);
             }
             return sudokuResult;
@@ -308,18 +257,18 @@ namespace DE.Onnen.Sudoku
 
         public void SetHistory(int historyId)
         {
-            if (historyId < 0 || historyId >= this.history.Count)
+            if (historyId < 0 || historyId >= this._history.Count)
             {
                 return;
             }
 
-            for (int i = 0; i < this.history[historyId].BoardInt.Length; i++)
+            for (int i = 0; i < this._history[historyId].BoardInt.Length; i++)
             {
-                if (this.history[historyId].BoardInt[i] < 0)
+                if (this._history[historyId].BoardInt[i] < 0)
                 {
                     try
                     {
-                        this._cells[i].Digit = this.history[historyId].BoardInt[i] * -1;
+                        this._cells[i].Digit = this._history[historyId].BoardInt[i] * -1;
                     }
                     catch
                     {
@@ -328,7 +277,7 @@ namespace DE.Onnen.Sudoku
                 }
                 else
                 {
-                    this._cells[i].CandidateValue = this.history[historyId].BoardInt[i];
+                    this._cells[i].CandidateValue = this._history[historyId].BoardInt[i];
                 }
             }
         }
@@ -347,12 +296,12 @@ namespace DE.Onnen.Sudoku
 
             do
             {
-                this.reCheck = false;
+                this._keepGoingWithChecks = false;
                 for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
                 {
                     for (int containerType = 0; containerType < 3; containerType++)
                     {
-                        if (this.container[containerIdx][containerType].IsComplete)
+                        if (this._container[containerIdx][containerType].IsComplete)
                         {
                             continue;
                         }
@@ -363,12 +312,12 @@ namespace DE.Onnen.Sudoku
                             {
                                 if (st.IsActive)
                                 {
-                                    if (!this.container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
+                                    if (!this._container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
                                     {
                                         continue;
                                     }
 
-                                    st.SolveHouse(this.container[containerIdx][containerType], tmpSudokuResult);
+                                    st.SolveHouse(this._container[containerIdx][containerType], tmpSudokuResult);
                                     if (!tmpSudokuResult.Successful)
                                     {
                                         return;
@@ -376,10 +325,10 @@ namespace DE.Onnen.Sudoku
                                 }
                             }
                         }
-                        this.container[containerIdx][containerType].ReCheck = false;
+                        this._container[containerIdx][containerType].ReCheck = false;
                     }
                 }
-            } while (this.reCheck);
+            } while (this._keepGoingWithChecks);
         }
 
         public SudokuLog Backtracking()
@@ -400,14 +349,14 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public new void Clear()
         {
-            this.history.Clear();
+            this._history.Clear();
             base.Clear();
 
             for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
             {
                 for (int containerType = 0; containerType < 3; containerType++)
                 {
-                    this.container[containerIdx][containerType].CandidateValue = (1 << Consts.DimensionSquare) - 1;
+                    this._container[containerIdx][containerType].CandidateValue = (1 << Consts.DimensionSquare) - 1;
                 }
             }
         }
@@ -586,6 +535,11 @@ namespace DE.Onnen.Sudoku
                 retVal &= this[i].Digit == other[i].Digit;
             }
             return retVal;
+        }
+
+        public bool Equals(Board other)
+        {
+            return Equals((IBoard)other);
         }
     }
 }

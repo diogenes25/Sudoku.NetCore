@@ -22,6 +22,8 @@ namespace DE.Onnen.Sudoku
 
         void Clear();
 
+        int Count { get; }
+
         /// <summary>
         /// Returns a specific house.
         /// </summary>

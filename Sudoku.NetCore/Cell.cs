@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
 {
     /// <inheritdoc cref="ICell"/>
     [DebuggerDisplay("Cell-ID {id} {digit} / {CandidateValue}")]
-    public class Cell : ACellBase, ICell
+    public class Cell : ACellBase, ICell, IEquatable<Cell>
     {
         private int _digit;
 
@@ -70,16 +70,7 @@ namespace DE.Onnen.Sudoku
             this.CandidateValue = Consts.BaseStart;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || !(obj is ICell))
-            {
-                return false;
-            }
-
-            return this.ID == ((Cell)obj).ID;
-        }
-
+  
         public bool Equals(ICell othercell)
         {
             if (othercell == null )
@@ -233,6 +224,11 @@ namespace DE.Onnen.Sudoku
         public override int GetHashCode()
         {
             return (this._digit == 0) ? (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1) : (this._digit + ((1 << Consts.Dimension) + this.ID));
+        }
+
+        public bool Equals(Cell other)
+        {
+            return this.Equals((ICell)other);
         }
 
         /// <inheritdoc />

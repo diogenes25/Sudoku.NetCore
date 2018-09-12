@@ -14,5 +14,9 @@ namespace de.onnen.Sudoku.SudokuExternal
         {
             get;
         }
+
+        int Count { get; }
+
+        void Clear();
     }
 }
