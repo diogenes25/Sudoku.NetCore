@@ -3,11 +3,8 @@ image: Visual Studio 2017
 platform: Any CPU
 before_build:
 - dotnet restore --verbosity q
-build_script:
-- dotnet publish -c Release --output "C:/SudokuCore"
-test_script:
-- dotnet test C:\projects\sudoku-netcore\Sudoku.Test\Sudoku.Test.csproj
 test:
   assemblies:
     only:
-    - Sudoku.Test.dll
+    - '**\*.test.dll'
+    
