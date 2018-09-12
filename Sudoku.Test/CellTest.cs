@@ -11,23 +11,7 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class CellTest
     {
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return this.testContextInstance;
-            }
-            set
-            {
-                this.testContextInstance = value;
-            }
-        }
+      
 
         [TestMethod]
         public void CandidateValue_Digit_is_0_when_BaseValue_was_set_Test()

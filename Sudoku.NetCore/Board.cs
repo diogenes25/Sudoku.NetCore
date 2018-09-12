@@ -25,7 +25,6 @@ namespace DE.Onnen.Sudoku
         private const int ROW_CONTAINERTYPE = 0;
         private const int COL_CONTAINERTYPE = 1;
         private const int BLOCK_CONTAINERTYPE = 2;
-        private static readonly int countCell = Consts.DimensionSquare * Consts.DimensionSquare;
 
         private List<SudokuHistoryItem> _history;
         private readonly House[][] _container = new House[Consts.DimensionSquare][];
@@ -109,6 +108,19 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        public Board(int[] uniqueCellIDs, params ASolveTechnique[] solveTechniques)
+        {
+            this._solveTechniques = solveTechniques;
+            this._cells = new Cell[Consts.CountCell];
+            for (int i = 0; i < Consts.CountCell; i++)
+            {
+                Cell c = Cell.CreateCellFromUniqueID(uniqueCellIDs[i]);
+                this._cells[c.ID] = c;
+                this._cells[c.ID].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
+            }
+            CombineHousesToCells();
+        }
+
         public Board()
         {
             Init();
@@ -122,15 +134,20 @@ namespace DE.Onnen.Sudoku
 
         private void Init()
         {
-            this._cells = new Cell[Consts.DimensionSquare * Consts.DimensionSquare];
-            this._history = new List<SudokuHistoryItem>();
-            this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
-            for (int i = 0; i < Consts.DimensionSquare * Consts.DimensionSquare; i++)
+            this._cells = new Cell[Consts.CountCell];
+
+            for (int i = 0; i < Consts.CountCell; i++)
             {
                 this._cells[i] = new Cell(i);
                 this._cells[i].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
             }
+            CombineHousesToCells();
+        }
 
+        private void CombineHousesToCells()
+        {
+            this._history = new List<SudokuHistoryItem>();
+            this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
             ICell[][][] fieldcontainer;
             fieldcontainer = new ICell[3][][];
             fieldcontainer[ROW_CONTAINERTYPE] = new ICell[Consts.DimensionSquare][]; // Row
@@ -178,8 +195,6 @@ namespace DE.Onnen.Sudoku
         {
             this.SomeChangesOccurs();
         }
-
-
 
         public SudokuLog SetDigit(int cellID, int digitToSet)
         {
@@ -242,7 +257,7 @@ namespace DE.Onnen.Sudoku
                 return;
             }
 
-            for (int i = 0; i < countCell; i++)
+            for (int i = 0; i < Consts.CountCell; i++)
             {
                 if (otherBoard[i].Digit > 0)
                 {
@@ -253,6 +268,38 @@ namespace DE.Onnen.Sudoku
                     this._cells[i].CandidateValue = otherBoard[i].CandidateValue;
                 }
             }
+        }
+        /// <summary>
+        /// Convert a Board to a int-Array
+        /// </summary>
+        /// <remarks>
+        /// Positiv value = Candidates as bitmask.<br/>
+        /// Negativ value = Digit.
+        /// </remarks>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public int[] CreateSimpleBoard()
+        {
+            //if (board == null || Consts.CountCell < 1)
+            //{
+            //    return null;
+            //}
+
+            int[] retLst = new int[Consts.CountCell];
+            for (int i = 0; i < Consts.CountCell; i++)
+            {
+                retLst[i] = ((Cell)this[i]).GetUniqueID();
+                //retLst[i] = (this[i].Digit == 0) ? (this[i].CandidateValue + ((1 << Consts.Dimension) + this[i].ID) * -1) : (this[i].Digit + ((1 << Consts.Dimension) + this[i].ID));
+                //if (board[i].Digit > 0)
+                //{
+                //    retLst[i] = board[i].Digit * -1;
+                //}
+                //else
+                //{
+                //    retLst[i] = board[i].CandidateValue;
+                //}
+            }
+            return retLst;
         }
 
         public void SetHistory(int historyId)
@@ -386,7 +433,8 @@ namespace DE.Onnen.Sudoku
                         {
                             for (int s = 0; s < this._cells.Length; s++)
                             {
-                                this._cells[s].Digit = newBoard._cells[s].Digit;
+                                this._cells[s]._candidateValueInternal = 0;
+                                this._cells[s]._digit = newBoard._cells[s].Digit;
                             }
                             return true;
                         }
@@ -422,7 +470,6 @@ namespace DE.Onnen.Sudoku
                     cloneboard._cells[i].CandidateValue = this._cells[i].CandidateValue;
                 }
             }
-
             return cloneboard;
         }
 
@@ -470,36 +517,7 @@ namespace DE.Onnen.Sudoku
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Convert a Board to a int-Array
-        /// </summary>
-        /// <remarks>
-        /// Positiv value = Candidates as bitmask.<br/>
-        /// Negativ value = Digit.
-        /// </remarks>
-        /// <param name="board"></param>
-        /// <returns></returns>
-        public static int[] CreateSimpleBoard(IBoard board)
-        {
-            if (board == null || countCell < 1)
-            {
-                return null;
-            }
 
-            int[] retLst = new int[countCell];
-            for (int i = 0; i < countCell; i++)
-            {
-                if (board[i].Digit > 0)
-                {
-                    retLst[i] = board[i].Digit * -1;
-                }
-                else
-                {
-                    retLst[i] = board[i].CandidateValue;
-                }
-            }
-            return retLst;
-        }
 
         public override bool Equals(object obj)
         {

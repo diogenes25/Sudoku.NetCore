@@ -5,62 +5,56 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class IBoardTest
     {
+
+        private IBoard target;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.target = new Board(); 
+            int digit = 1;
+            int cell = 0;
+            this.target.SetDigit(cell, digit);
+        }
+
         /// <summary>
         /// Digit must be set.
         ///</summary>
         [TestMethod]
         public void SetDigit_Digit_in_Cell_must_be_set_Test()
         {
-            IBoard target = new Board();
-            int digit = 1;
-            int cell = 0;
-            target.SetDigit(cell, digit);
-            Assert.AreEqual(1, target[0].Digit);
-            Assert.AreEqual(0, target[0].CandidateValue);
+
+            Assert.AreEqual(1, this.target[0].Digit);
+            Assert.AreEqual(0, this.target[0].CandidateValue);
         }
 
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_col_Test()
         {
-            IBoard target = new Board();
-            int digit = 1;
-            int cell = 0;
-            target.SetDigit(cell, digit);
-
             int baseValue = (1 << Consts.DimensionSquare) - 1;
             int expected = baseValue - (1 << 0);
             for (int i = 1; i < 9; i++)
             {
-                Assert.AreEqual(0, target[i * 9].Digit);
-                Assert.AreEqual(expected, target[i * 9].CandidateValue);
+                Assert.AreEqual(0, this.target[i * 9].Digit);
+                Assert.AreEqual(expected, this.target[i * 9].CandidateValue);
             }
         }
 
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_row_Test()
         {
-            IBoard target = new Board();
-            int digit = 1;
-            int cell = 0;
-            target.SetDigit(cell, digit);
-
             int baseValue = (1 << Consts.DimensionSquare) - 1;
             int expected = baseValue - (1 << 0);
             for (int i = 1; i < 9; i++)
             {
-                Assert.AreEqual(0, target[i].Digit);
-                Assert.AreEqual(expected, target[i].CandidateValue);
+                Assert.AreEqual(0, this.target[i].Digit);
+                Assert.AreEqual(expected, this.target[i].CandidateValue);
             }
         }
 
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_box_Test()
         {
-            IBoard target = new Board();
-            int digit = 1;
-            int cell = 0;
-            target.SetDigit(cell, digit);
-
             int baseValue = (1 << Consts.DimensionSquare) - 1;
             int expected = baseValue - (1 << 0);
             int containerIdx = 0;
@@ -73,8 +67,8 @@ namespace DE.Onnen.Sudoku
                     {
                         continue;
                     }
-                    Assert.AreEqual(0, target[b].Digit);
-                    Assert.AreEqual(expected, target[b].CandidateValue);
+                    Assert.AreEqual(0, this.target[b].Digit);
+                    Assert.AreEqual(expected, this.target[b].CandidateValue);
                 }
             }
         }
@@ -82,19 +76,13 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_peer_row_Test()
         {
-            IBoard target = new Board();
-            int digit = 1;
-            int cell = 0;
-            target.SetDigit(cell, digit);
-
             int baseValue = (1 << Consts.DimensionSquare) - 1;
             int expected = baseValue - (1 << 0);
-            //foreach (target.p
 
             for (int i = 1; i < 9; i++)
             {
-                Assert.AreEqual(0, target[i].Digit);
-                Assert.AreEqual(expected, target[i].CandidateValue);
+                Assert.AreEqual(0, this.target[i].Digit);
+                Assert.AreEqual(expected, this.target[i].CandidateValue);
             }
         }
     }

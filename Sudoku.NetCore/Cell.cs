@@ -9,10 +9,10 @@ using System.Runtime.CompilerServices;
 namespace DE.Onnen.Sudoku
 {
     /// <inheritdoc cref="ICell"/>
-    [DebuggerDisplay("Cell-ID {id} {digit} / {CandidateValue}")]
+    [DebuggerDisplay("Cell-ID {ID} {_digit} / {CandidateValue}")]
     public class Cell : ACellBase, ICell, IEquatable<Cell>
     {
-        private int _digit;
+        internal int _digit;
 
         internal House[] _fieldcontainters = new House[3];
 
@@ -50,14 +50,14 @@ namespace DE.Onnen.Sudoku
 
                     if (value > 0 && value <= Consts.DimensionSquare && this._digit < 1 && (this.CandidateValue & (1 << (value - 1))) == (1 << (value - 1)))
                     {
-                        if (SetField(ref this._digit, value, "Digit"))
+                        if (SetField(ref this._digit, value, nameof(this.Digit)))
                         {
                             this.CandidateValue = 0;
                         }
                     }
                     else
                     {
-                        throw new ArgumentException("Digit " + value + " is in " + this + " not possible");
+                        throw new ArgumentException($"Digit {value} is in {this} not possible");
                     }
                 }
             }
@@ -70,14 +70,43 @@ namespace DE.Onnen.Sudoku
             this.CandidateValue = Consts.BaseStart;
         }
 
-  
-        public bool Equals(ICell othercell)
+        public static Cell CreateCellFromUniqueID(int x)
         {
-            if (othercell == null )
+            int mask = ((1 << 7) - 1);
+            int tmpId = 0;
+            int tmpCandidates = 0;
+            int tmpDigit = 0;
+            if (x < 0)
             {
-                return false;
+                tmpId = (x * -1) & mask;
+                tmpDigit = (x*-1) >> 7;
             }
-            return this.ID == othercell.ID;
+            else
+            {
+                tmpId = x & mask;
+                tmpCandidates = x >> 7;
+            }
+            Cell retVAl = new Cell(tmpId)
+            {
+                _candidateValueInternal = tmpCandidates,
+                _digit = tmpDigit
+            };
+            //retLst[i] = (this[i].Digit == 0) ? (this[i].CandidateValue + ((1 << Consts.Dimension) + this[i].ID) * -1) : (this[i].Digit + ((1 << Consts.Dimension) + this[i].ID));
+            return retVAl;
+        }
+
+        public int GetUniqueID()
+        {
+            int retVal = 0;
+            if (this.Digit == 0)
+            {
+                retVal = (this.CandidateValue << 7) + this.ID;
+            }
+            else
+            {
+                retVal = ((this.Digit << 7) + this.ID) * -1;
+            }
+            return retVal;
         }
 
         /// <inheritdoc />
@@ -213,23 +242,18 @@ namespace DE.Onnen.Sudoku
             return this.HType + "(" + this.ID + ") [" + ((char)(int)((this.ID / Consts.DimensionSquare) + 65)) + "" + ((this.ID % Consts.DimensionSquare) + 1) + "] " + this._digit;
         }
 
-        /// <summary>
-        /// Uniqe hashcode of the cell.
-        /// </summary>
-        /// <remarks>
-        /// When digit not set: negative value. First 9 Bits represents the candidates, next bits are the Cell-ID.<br />
-        /// When digit set: Positive value. First 9 Bits is the digit, next bits are the Cell-ID
-        /// </remarks>
-        /// <returns>Uniqe int with every information.</returns>
-        public override int GetHashCode()
-        {
-            return (this._digit == 0) ? (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1) : (this._digit + ((1 << Consts.Dimension) + this.ID));
-        }
-
-        public bool Equals(Cell other)
-        {
-            return this.Equals((ICell)other);
-        }
+        ///// <summary>
+        ///// Every Information in one single int.
+        ///// </summary>
+        ///// <remarks>
+        ///// When digit not set: negative value. First 9 Bits represents the candidates, next bits are the Cell-ID.<br />
+        ///// When digit set: Positive value. First 9 Bits is the digit, next bits are the Cell-ID
+        ///// </remarks>
+        ///// <returns>Uniqe int with every information.</returns>
+        //public int CellValueId()
+        //{
+        //    return (this._digit == 0) ? (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1) : (this._digit + ((1 << Consts.Dimension) + this.ID));
+        //}
 
         /// <inheritdoc />
         public ReadOnlyCollection<int> Candidates
@@ -253,6 +277,25 @@ namespace DE.Onnen.Sudoku
         {
             get;
             set;
+        }
+
+        public bool Equals(ICell othercell)
+        {
+            if (othercell == null)
+            {
+                return false;
+            }
+            return this.ID == othercell.ID;
+        }
+
+        public bool Equals(Cell other)
+        {
+            return this.Equals((ICell)other);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

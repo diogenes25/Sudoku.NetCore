@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using DE.Onnen.Sudoku;
 
 namespace DE.Onnen.Sudoku
 {
@@ -40,9 +41,9 @@ namespace DE.Onnen.Sudoku
         /// <param name="board">Current board</param>
         /// <param name="cell">Last changed Cell</param>
         /// <param name="sudokuResult"></param>
-        public SudokuHistoryItem(IBoard board, ICell cell, SudokuLog sudokuResult)
+        public SudokuHistoryItem(Board board, ICell cell, SudokuLog sudokuResult)
         {
-            this.BoardInt = Board.CreateSimpleBoard(board);
+            this.BoardInt = board.CreateSimpleBoard();
             if (cell == null)
             {
                 this.CellID = -1;

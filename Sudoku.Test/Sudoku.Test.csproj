@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Soduko.Serialization\Soduko.Serialization.csproj" />
     <ProjectReference Include="..\Sudoku.Extensions\Sudoku.Extensions.csproj" />
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
     <ProjectReference Include="..\Sudoku.NetCore\Sudoku.NetCore.csproj" />

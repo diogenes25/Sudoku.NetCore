@@ -13,6 +13,7 @@ namespace DE.Onnen.Sudoku
     /// </remarks>
     public static class BoardExtensions
     {
+      
         public static void SetCellsFromString(this IBoard board, string line)
         {
             SetCellsFromString(board, line, '0');
@@ -284,5 +285,8 @@ namespace DE.Onnen.Sudoku
 
             return board.SetDigit(cellid, digit);
         }
+
+      
+
     }
 }

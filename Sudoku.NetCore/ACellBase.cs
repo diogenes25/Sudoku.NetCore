@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
-        protected int _candidateValueInternal;
+        internal int _candidateValueInternal;
 
         private int _id;
         private HouseType _hType;
@@ -36,7 +36,7 @@ namespace DE.Onnen.Sudoku
         public int CandidateValue
         {
             get => this._candidateValueInternal;
-            internal set { SetField(ref this._candidateValueInternal, value, "CandidateValue"); }
+            internal set { SetField(ref this._candidateValueInternal, value, nameof(this.CandidateValue)); }
         }
 
         internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
@@ -71,17 +71,17 @@ namespace DE.Onnen.Sudoku
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is ICell))
+            if (obj == null || !(obj is ICellBase))
             {
                 return false;
             }
 
-            return this.ID == ((Cell)obj).ID;
+            return this.ID == ((ICellBase)obj).ID;
         }
 
         public override int GetHashCode()
         {
-            return (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1);
+            return this.ID;
         }
     }
 }

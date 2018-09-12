@@ -96,5 +96,7 @@ namespace DE.Onnen.Sudoku
         /// Im normalen Sudoku = (9 Bit) = 2^9 = 511
         /// </remarks>
         public static readonly int BaseStart = (1 << Consts.DimensionSquare) - 1;
+
+        public static readonly int CountCell = Consts.DimensionSquare * Consts.DimensionSquare;
     }
 }

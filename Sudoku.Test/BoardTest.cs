@@ -13,7 +13,6 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class BoardTest
     {
-        private TestContext testContextInstance;
         private static ASolveTechnique[] _solveTechniques;
         private IBoard _board;
 
@@ -21,22 +20,6 @@ namespace DE.Onnen.Sudoku
         public void Initialize()
         {
             this._board = new Board(_solveTechniques);
-        }
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return this.testContextInstance;
-            }
-            set
-            {
-                this.testContextInstance = value;
-            }
         }
 
         #region Additional test attributes
@@ -372,10 +355,51 @@ namespace DE.Onnen.Sudoku
             {
                 this._board.SetDigit(i, i + 1);
             }
-            int[] expected = { -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            int[] actual;
-            actual = Board.CreateSimpleBoard(this._board);
+            int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] actual = ((Board)this._board).CreateSimpleBoard();
             Assert.AreEqual(expected.Length, actual.Length);
+            for (int i = 0; i < Consts.CountCell; i++)
+            {
+                Cell c = Cell.CreateCellFromUniqueID(actual[i]);
+                Assert.AreEqual(this._board[i].CandidateValue, c.CandidateValue);
+                Assert.AreEqual(i, c.ID);
+                Assert.AreEqual(this._board[i].Digit, expected[i]);
+                Assert.AreEqual(this._board[i].Digit, c.Digit);
+            }
+
+            Board recreatedBoard = new Board(actual);
+            for (int i = 0; i < Consts.CountCell; i++)
+            {
+                Assert.AreEqual(i, recreatedBoard[i].ID);
+                Assert.AreEqual(this._board[i].CandidateValue, recreatedBoard[i].CandidateValue);
+                Assert.AreEqual(this._board[i].Digit, recreatedBoard[i].Digit);
+                Assert.AreEqual(this._board[i].ID, recreatedBoard[i].ID);
+            }
+
+
+        }
+
+        [TestMethod]
+        public void Clone_Test()
+        {
+            Board recreatedBoard = (Board)((Board)this._board).Clone();
+            Assert.AreEqual(this._board, recreatedBoard);
+            Assert.AreEqual(3, recreatedBoard.SolveTechniques.Count);
+            Assert.AreEqual(3, ((Board)this._board).SolveTechniques.Count);
+            for (int i = 0; i < Consts.CountCell; i++)
+            {
+                Assert.AreEqual(i, recreatedBoard[i].ID);
+                Assert.AreEqual(this._board[i].CandidateValue, recreatedBoard[i].CandidateValue);
+                Assert.AreEqual(this._board[i].Digit, recreatedBoard[i].Digit);
+                Assert.AreEqual(this._board[i].ID, recreatedBoard[i].ID);
+            }
+
+            this._board.SetDigit(0, 1);
+            //int[] candId2 = { 1, 2, 3, 4, 5, 6, 7, 8 }; 
+            for (int ccc = 0; ccc < Consts.DimensionSquare - 1; ccc++)
+            {
+                Assert.AreEqual(this._board[1].Candidates[ccc], ccc + 2);
+            }
         }
 
         /// <summary>
@@ -498,7 +522,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void ItemTest_Test()
         {
-            int index = 0; 
+            int index = 0;
             ICell actual;
             actual = this._board[index];
             Assert.AreEqual(0, actual.ID);
@@ -545,6 +569,18 @@ namespace DE.Onnen.Sudoku
             // Es ist möglich die 1 oder 2 in Zelle 3 zu setzen. Dies führt aber zu einem Fehler.
             SudokuLog log = this._board.SetDigit(3, 1);
             Assert.IsFalse(log.Successful);
+        }
+
+        [TestMethod]
+        public void Check_Equals_If_Cellvalue_Changes_Test()
+        {
+            IBoard otherBoard = new Board();
+            Assert.AreEqual(this._board, otherBoard);
+            Assert.AreEqual(this._board.GetHashCode(), otherBoard.GetHashCode());
+            SudokuLog log = otherBoard[0].SetDigit(1);
+            Assert.IsTrue(log.Successful);
+            Assert.AreNotEqual(this._board, otherBoard);
+            Assert.AreNotEqual(this._board.GetHashCode(), otherBoard.GetHashCode());
         }
     }
 }
