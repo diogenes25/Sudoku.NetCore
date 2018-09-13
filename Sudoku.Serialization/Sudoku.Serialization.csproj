@@ -6,7 +6,6 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>true</Optimize>
-    <DocumentationFile>H:\Develop\Projects\Sudoku.NetCore\Soduko.Serialization\Soduko.Serialization.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
