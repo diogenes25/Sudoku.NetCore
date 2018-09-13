@@ -14,7 +14,7 @@ namespace Soduko.Serialization
     {
         public static string GetJson(this Board board, params DigitAction[] digActions)
         {
-            SudokuTransfer transfer = new SudokuTransfer()
+            SudokuTransfer transfer = new SudokuTransfer
             {
                 Cells = new ReadOnlyCollection<int>(board.CreateSimpleBoard()),
                 Action = new ReadOnlyCollection<DigitAction>(digActions),

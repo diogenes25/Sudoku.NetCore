@@ -206,7 +206,6 @@ namespace DE.Onnen.Sudoku.Extensions
                 sb.Append("<tr class=\"sudokurow\">");
                 sb.Append(Environment.NewLine);
                 sb.Append("\t");
-                IHouse house = board.GetHouse(HouseType.Row, i);
                 for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
                     sb.Append("<td class=\"sudokucell\" id=\"cell[");

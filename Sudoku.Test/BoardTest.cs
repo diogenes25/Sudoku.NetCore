@@ -393,7 +393,6 @@
             }
 
             this._board.SetDigit(0, 1);
-            //int[] candId2 = { 1, 2, 3, 4, 5, 6, 7, 8 };
             for (int ccc = 0; ccc < Consts.DimensionSquare - 1; ccc++)
             {
                 Assert.AreEqual(this._board[1].Candidates[ccc], ccc + 2);

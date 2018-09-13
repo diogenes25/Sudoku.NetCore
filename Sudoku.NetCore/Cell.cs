@@ -246,19 +246,6 @@ namespace DE.Onnen.Sudoku
             return this.HType + "(" + this.ID + ") [" + ((char)(int)((this.ID / Consts.DimensionSquare) + 65)) + "" + ((this.ID % Consts.DimensionSquare) + 1) + "] " + this._digit;
         }
 
-        ///// <summary>
-        ///// Every Information in one single int.
-        ///// </summary>
-        ///// <remarks>
-        ///// When digit not set: negative value. First 9 Bits represents the candidates, next bits are the Cell-ID.<br />
-        ///// When digit set: Positive value. First 9 Bits is the digit, next bits are the Cell-ID
-        ///// </remarks>
-        ///// <returns>Uniqe int with every information.</returns>
-        //public int CellValueId()
-        //{
-        //    return (this._digit == 0) ? (this.CandidateValue + ((1 << Consts.Dimension) + this.ID) * -1) : (this._digit + ((1 << Consts.Dimension) + this.ID));
-        //}
-
         /// <inheritdoc />
         public ReadOnlyCollection<int> Candidates
         {

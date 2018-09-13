@@ -43,7 +43,6 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult"></param>
         public SudokuHistoryItem(Board board, ICell cell, SudokuLog sudokuResult)
         {
-            this.BoardInt = new ReadOnlyCollection<int>(board.CreateSimpleBoard());
             if (cell == null)
             {
                 this.CellID = -1;
@@ -61,6 +60,7 @@ namespace DE.Onnen.Sudoku
             }
             else
             {
+                this.BoardInt = new ReadOnlyCollection<int>(board.CreateSimpleBoard());
                 this.Percent = board.SolvePercent;
             }
         }

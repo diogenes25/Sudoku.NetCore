@@ -279,13 +279,7 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         public int[] CreateSimpleBoard()
         {
-            //return this.Where(x => x.Digit > 0).Select(x => ((Cell)x).GetUniqueID()).ToArray();
-            int[] retLst = new int[Consts.CountCell];
-            for (int i = 0; i < Consts.CountCell; i++)
-            {
-                retLst[i] = ((Cell)this[i]).GetUniqueID();
-            }
-            return retLst;
+            return this.Select(x => ((Cell)x).GetUniqueID()).ToArray();
         }
 
         public void SetHistory(int historyId)
