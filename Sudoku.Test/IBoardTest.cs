@@ -5,13 +5,12 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class IBoardTest
     {
-
         private IBoard target;
 
         [TestInitialize]
         public void Initialize()
         {
-            this.target = new Board(); 
+            this.target = new Board();
             int digit = 1;
             int cell = 0;
             this.target.SetDigit(cell, digit);
@@ -23,7 +22,6 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_in_Cell_must_be_set_Test()
         {
-
             Assert.AreEqual(1, this.target[0].Digit);
             Assert.AreEqual(0, this.target[0].CandidateValue);
         }

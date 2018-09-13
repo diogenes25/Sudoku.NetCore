@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DE.Onnen.Sudoku
+namespace DE.Onnen.Sudoku.Extensions
 {
     /// <summary>
     /// Extension-Methods for IBoard.
@@ -13,7 +13,6 @@ namespace DE.Onnen.Sudoku
     /// </remarks>
     public static class BoardExtensions
     {
-      
         public static void SetCellsFromString(this IBoard board, string line)
         {
             SetCellsFromString(board, line, '0');
@@ -22,7 +21,7 @@ namespace DE.Onnen.Sudoku
         public static void SetCellsFromString(this IBoard board, string line, char zero)
         {
             board.Clear();
-            int max = Consts.DimensionSquare * Consts.DimensionSquare;
+            int max = Consts.CountCell;
             if (line.Length < max)
             {
                 throw new ArgumentOutOfRangeException("string is to short");
@@ -47,7 +46,7 @@ namespace DE.Onnen.Sudoku
         {
             return Matrix(board, false);
         }
-        
+
         /// <summary>
         /// Nice Output.
         /// </summary>
@@ -185,12 +184,12 @@ namespace DE.Onnen.Sudoku
             return sb.ToString();
         }
 
-        public static string HtmlTable(this IBoard board)
+        public static string ToHtmlTable(this IBoard board)
         {
-            return HtmlTable(board, false);
+            return ToHtmlTable(board, false);
         }
 
-        public static string HtmlTable(this IBoard board, bool onlyGiven)
+        public static string ToHtmlTable(this IBoard board, bool onlyGiven)
         {
             StringBuilder sb = new StringBuilder();
             List<int> givenID = null;
@@ -212,14 +211,14 @@ namespace DE.Onnen.Sudoku
                 {
                     sb.Append("<td class=\"sudokucell\" id=\"cell[");
                     sb.Append(id);
-                    sb.Append("]\" />");
+                    sb.Append("]\" >");
                     if (onlyGiven)
                     {
                         sb.Append(((givenID.Contains(id)) ? board[id].Digit.ToString() : "&nbsp;"));
                     }
                     else
                     {
-                        sb.Append(((house[x].Digit > 0) ? house[x].Digit.ToString() : "&nbsp;"));
+                        sb.Append(((board[id].Digit > 0) ? board[id].Digit.ToString() : "[" + String.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue));
                     }
                     sb.Append("</td>");
                     id++;
@@ -285,8 +284,5 @@ namespace DE.Onnen.Sudoku
 
             return board.SetDigit(cellid, digit);
         }
-
-      
-
     }
 }

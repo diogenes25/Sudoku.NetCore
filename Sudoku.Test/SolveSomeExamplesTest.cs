@@ -1,11 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sudoku.Test;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DE.Onnen.Sudoku
+﻿namespace DE.Onnen.Sudoku
 {
+    using DE.Onnen.Sudoku.Extensions;
+    using global::Sudoku.Test;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     [TestClass]
     public class SolveSomeExamplesTest
     {
@@ -13,7 +14,7 @@ namespace DE.Onnen.Sudoku
         public void TestHardestData_Test()
         {
             IBoard board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad());
-            
+
             string source = TestRessources.top95;
             int i = 0;
             for (i = 0; i < 2; i++)
@@ -68,6 +69,7 @@ namespace DE.Onnen.Sudoku
                         }
                     }
                 }
+
                 source = TestRessources.HardestDatabase110626;
                 board = new Board();
                 Assert.AreEqual(total, emh.Sum(x => x));

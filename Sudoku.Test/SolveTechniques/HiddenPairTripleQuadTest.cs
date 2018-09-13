@@ -17,7 +17,6 @@ namespace Sudoku.SolveTechniques
         {
             this._board = new Board(solveTechniques);
         }
-        
 
         //
         //You can use the following additional attributes as you write your tests:

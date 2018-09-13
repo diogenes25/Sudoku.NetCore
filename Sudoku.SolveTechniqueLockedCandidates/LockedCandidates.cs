@@ -44,6 +44,7 @@
                             houseIdx = (verticalBlock) ? (house.ID % 3) * 3 + x : (house.ID / 3) * 3 + x;
                             cellInContainertype = (verticalBlock) ? HouseType.Col : HouseType.Row;
                             break;
+
                         default:
                             throw new System.ArgumentException($"HType {house.HType} ist unknown");
                     }

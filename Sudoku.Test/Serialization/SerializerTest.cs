@@ -1,11 +1,8 @@
 ﻿/// <summary>
-/// 
+///
 /// </summary>
 namespace Sudoku.Test.Serialization
 {
-    using System;
-    using System.Text;
-    using System.Collections.Generic;
     using DE.Onnen.Sudoku;
     using DE.Onnen.Sudoku.SolveTechniques;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +35,7 @@ namespace Sudoku.Test.Serialization
         public void Serialize_Board_Test()
         {
             this._board.SetDigit(0, 1);
-            string json = this._board.GetJson(1, 2);
+            string json = this._board.GetJson(new DigitAction(1, 2));
             Board tmpBoard = SudokuSerializer.ParseToBoard(json);
             Assert.AreEqual(1, tmpBoard[0].Digit);
         }

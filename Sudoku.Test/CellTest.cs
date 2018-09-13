@@ -11,8 +11,6 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class CellTest
     {
-      
-
         [TestMethod]
         public void CandidateValue_Digit_is_0_when_BaseValue_was_set_Test()
         {
@@ -460,7 +458,7 @@ namespace DE.Onnen.Sudoku
         {
             int id = 0;
             Cell target = new Cell(id);
-            int digit = 1; 
+            int digit = 1;
             SudokuLog actual;
             actual = target.SetDigit(digit);
             Assert.IsTrue(actual.Successful);

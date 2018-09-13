@@ -1,26 +1,37 @@
-﻿using DE.Onnen.Sudoku;
-using DE.Onnen.Sudoku.SolveTechniques;
-using System;
-using System.Linq;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SudokuSerializer.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Soduko.Serialization
 {
+    using DE.Onnen.Sudoku;
+    using DE.Onnen.Sudoku.SolveTechniques;
+    using Newtonsoft.Json;
+    using System.Collections.ObjectModel;
+
     public static class SudokuSerializer
     {
-        public static string GetJson(this Board board, int cellid, int digit)
+        public static string GetJson(this Board board, params DigitAction[] digActions)
         {
-            int[] actual = board.CreateSimpleBoard();
-            string sLine = String.Join(',', actual);
-            return $"{{{Environment.NewLine}\t\"cells\": [{sLine}],{Environment.NewLine}\t\"setdigit\": {{ \"id\": {cellid}, \"digit\": {digit} }}";
+            SudokuTransfer transfer = new SudokuTransfer()
+            {
+                Cells = new ReadOnlyCollection<int>(board.CreateSimpleBoard()),
+                Action = new ReadOnlyCollection<DigitAction>(digActions),
+            };
+
+            return JsonConvert.SerializeObject(transfer, Formatting.Indented);
         }
 
         public static Board ParseToBoard(string json, params ASolveTechnique[] solveTechniques)
         {
-            int firstBrck = json.IndexOf('[');
-            int lastBrck = json.IndexOf(']');
-            string cv = json.Substring(firstBrck + 1, lastBrck - firstBrck - 1);
-            var cellval = cv.Split(',').Select(x => int.Parse(x.Trim())).ToArray();
-            return new Board(cellval, solveTechniques);
+            SudokuTransfer transfer = JsonConvert.DeserializeObject<SudokuTransfer>(json);
+            Board board = new Board(transfer.Cells, solveTechniques);
+            foreach (DigitAction boardAction in transfer.Action)
+            {
+                board.SetDigit(boardAction.CellId, boardAction.Digit);
+            }
+            return board;
         }
     }
 }

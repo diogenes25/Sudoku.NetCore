@@ -1,14 +1,15 @@
-﻿using DE.Onnen.Sudoku.SolveTechniques;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-namespace DE.Onnen.Sudoku
+﻿namespace DE.Onnen.Sudoku
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using DE.Onnen.Sudoku.SolveTechniques;
+    using DE.Onnen.Sudoku.Extensions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
-    ///This is a test class for BoardTest and is intended
-    ///to contain all BoardTest Unit Tests
+    /// This is a test class for BoardTest and is intended
+    /// to contain all BoardTest Unit Tests
     ///</summary>
     [TestClass]
     public class BoardTest
@@ -24,7 +25,6 @@ namespace DE.Onnen.Sudoku
 
         #region Additional test attributes
 
-        //
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
@@ -375,8 +375,6 @@ namespace DE.Onnen.Sudoku
                 Assert.AreEqual(this._board[i].Digit, recreatedBoard[i].Digit);
                 Assert.AreEqual(this._board[i].ID, recreatedBoard[i].ID);
             }
-
-
         }
 
         [TestMethod]
@@ -395,7 +393,7 @@ namespace DE.Onnen.Sudoku
             }
 
             this._board.SetDigit(0, 1);
-            //int[] candId2 = { 1, 2, 3, 4, 5, 6, 7, 8 }; 
+            //int[] candId2 = { 1, 2, 3, 4, 5, 6, 7, 8 };
             for (int ccc = 0; ccc < Consts.DimensionSquare - 1; ccc++)
             {
                 Assert.AreEqual(this._board[1].Candidates[ccc], ccc + 2);

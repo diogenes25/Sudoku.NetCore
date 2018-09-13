@@ -79,7 +79,7 @@ namespace DE.Onnen.Sudoku
             if (x < 0)
             {
                 tmpId = (x * -1) & mask;
-                tmpDigit = (x*-1) >> 7;
+                tmpDigit = (x * -1) >> 7;
             }
             else
             {
@@ -91,7 +91,6 @@ namespace DE.Onnen.Sudoku
                 _candidateValueInternal = tmpCandidates,
                 _digit = tmpDigit
             };
-            //retLst[i] = (this[i].Digit == 0) ? (this[i].CandidateValue + ((1 << Consts.Dimension) + this[i].ID) * -1) : (this[i].Digit + ((1 << Consts.Dimension) + this[i].ID));
             return retVAl;
         }
 
@@ -104,9 +103,14 @@ namespace DE.Onnen.Sudoku
             }
             else
             {
-                retVal = ((this.Digit << 7) + this.ID) * -1;
+                retVal = CreateUniqueID(this.ID, this.Digit);
             }
             return retVal;
+        }
+
+        public static int CreateUniqueID(int id, int digit)
+        {
+            return ((digit << 7) + id) * -1;
         }
 
         /// <inheritdoc />

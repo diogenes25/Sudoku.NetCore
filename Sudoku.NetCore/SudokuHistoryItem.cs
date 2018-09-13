@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
-using DE.Onnen.Sudoku;
 
 namespace DE.Onnen.Sudoku
 {
@@ -12,7 +12,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Integer represenning the board.
         /// </summary>
-        public int[] BoardInt { get; private set; }
+        public ReadOnlyCollection<int> BoardInt { get; private set; }
 
         /// <summary>
         /// CellID of the cell that was set before this HistoryItem was created.
@@ -43,7 +43,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult"></param>
         public SudokuHistoryItem(Board board, ICell cell, SudokuLog sudokuResult)
         {
-            this.BoardInt = board.CreateSimpleBoard();
+            this.BoardInt = new ReadOnlyCollection<int>(board.CreateSimpleBoard());
             if (cell == null)
             {
                 this.CellID = -1;

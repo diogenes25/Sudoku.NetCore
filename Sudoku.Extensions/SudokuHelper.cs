@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace DE.Onnen.Sudoku
+namespace DE.Onnen.Sudoku.Extensions
 {
     public static class SudokuHelper
     {

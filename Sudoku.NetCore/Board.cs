@@ -97,28 +97,22 @@ namespace DE.Onnen.Sudoku
 
         public Board(params ASolveTechnique[] solveTechniques)
         {
-            Init();
             this._solveTechniques = solveTechniques;
-            if (this._solveTechniques != null && this._solveTechniques.Length > 0)
-            {
-                foreach (ASolveTechnique st in this._solveTechniques)
-                {
-                    st.SetBoard(this);
-                }
-            }
+            Init();
         }
 
-        public Board(int[] uniqueCellIDs, params ASolveTechnique[] solveTechniques)
+        public Board(IEnumerable<int> uniqueCellIDs, params ASolveTechnique[] solveTechniques)
         {
             this._solveTechniques = solveTechniques;
-            this._cells = new Cell[Consts.CountCell];
-            for (int i = 0; i < Consts.CountCell; i++)
+            Init();
+            foreach (int uniqueCellID in uniqueCellIDs)
             {
-                Cell c = Cell.CreateCellFromUniqueID(uniqueCellIDs[i]);
-                this._cells[c.ID] = c;
-                this._cells[c.ID].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
+                Cell c = Cell.CreateCellFromUniqueID(uniqueCellID);
+
+                this._cells[c.ID]._candidateValueInternal = c.CandidateValue;
+                this._cells[c.ID]._digit = c.Digit;
+                this._cells[c.ID].IsGiven = true;
             }
-            CombineHousesToCells();
         }
 
         public Board()
@@ -134,6 +128,14 @@ namespace DE.Onnen.Sudoku
 
         private void Init()
         {
+            if (this._solveTechniques != null && this._solveTechniques.Length > 0)
+            {
+                foreach (ASolveTechnique st in this._solveTechniques)
+                {
+                    st.SetBoard(this);
+                }
+            }
+
             this._cells = new Cell[Consts.CountCell];
 
             for (int i = 0; i < Consts.CountCell; i++)
@@ -141,11 +143,7 @@ namespace DE.Onnen.Sudoku
                 this._cells[i] = new Cell(i);
                 this._cells[i].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
             }
-            CombineHousesToCells();
-        }
 
-        private void CombineHousesToCells()
-        {
             this._history = new List<SudokuHistoryItem>();
             this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
             ICell[][][] fieldcontainer;
@@ -269,6 +267,7 @@ namespace DE.Onnen.Sudoku
                 }
             }
         }
+
         /// <summary>
         /// Convert a Board to a int-Array
         /// </summary>
@@ -280,24 +279,11 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         public int[] CreateSimpleBoard()
         {
-            //if (board == null || Consts.CountCell < 1)
-            //{
-            //    return null;
-            //}
-
+            //return this.Where(x => x.Digit > 0).Select(x => ((Cell)x).GetUniqueID()).ToArray();
             int[] retLst = new int[Consts.CountCell];
             for (int i = 0; i < Consts.CountCell; i++)
             {
                 retLst[i] = ((Cell)this[i]).GetUniqueID();
-                //retLst[i] = (this[i].Digit == 0) ? (this[i].CandidateValue + ((1 << Consts.Dimension) + this[i].ID) * -1) : (this[i].Digit + ((1 << Consts.Dimension) + this[i].ID));
-                //if (board[i].Digit > 0)
-                //{
-                //    retLst[i] = board[i].Digit * -1;
-                //}
-                //else
-                //{
-                //    retLst[i] = board[i].CandidateValue;
-                //}
             }
             return retLst;
         }
@@ -309,7 +295,7 @@ namespace DE.Onnen.Sudoku
                 return;
             }
 
-            for (int i = 0; i < this._history[historyId].BoardInt.Length; i++)
+            for (int i = 0; i < this._history[historyId].BoardInt.Count; i++)
             {
                 if (this._history[historyId].BoardInt[i] < 0)
                 {
@@ -457,19 +443,7 @@ namespace DE.Onnen.Sudoku
         /// <returns>copy of board</returns>
         public object Clone()
         {
-            Board cloneboard = new Board(this._solveTechniques);
-
-            for (int i = 0; i < this._cells.Length; i++)
-            {
-                if (this._cells[i].Digit > 0)
-                {
-                    cloneboard._cells[i].Digit = this._cells[i].Digit;
-                }
-                else
-                {
-                    cloneboard._cells[i].CandidateValue = this._cells[i].CandidateValue;
-                }
-            }
+            Board cloneboard = new Board(this.CreateSimpleBoard(), this._solveTechniques);
             return cloneboard;
         }
 
@@ -516,8 +490,6 @@ namespace DE.Onnen.Sudoku
             }
             return sb.ToString();
         }
-
-
 
         public override bool Equals(object obj)
         {
