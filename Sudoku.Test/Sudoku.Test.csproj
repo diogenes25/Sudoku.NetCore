@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Soduko.Serialization\Soduko.Serialization.csproj" />
     <ProjectReference Include="..\Sudoku.Extensions\Sudoku.Extensions.csproj" />
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
     <ProjectReference Include="..\Sudoku.NetCore\Sudoku.NetCore.csproj" />
+    <ProjectReference Include="..\Sudoku.Serialization\Sudoku.Serialization.csproj" />
     <ProjectReference Include="..\Sudoku.SolveTechniqueDTQ\Sudoku.SolveTechniqueDTQ.csproj" />
     <ProjectReference Include="..\Sudoku.SolveTechniqueHiddenDTQ\Sudoku.SolveTechniqueHiddenDTQ.csproj" />
     <ProjectReference Include="..\Sudoku.SolveTechniqueLockedCandidates\Sudoku.SolveTechniqueLockedCandidates.csproj" />

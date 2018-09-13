@@ -283,10 +283,5 @@ namespace DE.Onnen.Sudoku
         {
             return this.Equals((ICell)other);
         }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }
