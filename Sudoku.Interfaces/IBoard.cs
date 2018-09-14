@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IBoard.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Sudoku puzzle.
     /// <remarks>
@@ -35,7 +39,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Return true when Sudoku is completed.
         /// </summary>
-        bool IsComplete { get; }
+        bool IsComplete();
 
         /// <summary>
         /// Set a digit at cell.
@@ -47,7 +51,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Cells where Digits where set by SetDigit.
         /// </summary>
-        ReadOnlyCollection<ICell> Givens { get; }
+        //ReadOnlyCollection<ICell> Givens { get; }
 
         /// <summary>
         /// Percent

@@ -34,9 +34,6 @@ namespace DE.Onnen.Sudoku
 
         public ReadOnlyCollection<SudokuHistoryItem> History { get { return this._history.AsReadOnly(); } }
 
-        /// <inheritdoc />
-        public ReadOnlyCollection<ICell> Givens { get { return this._cells.Where(x => x.IsGiven).Select(x => (ICell)x).ToList().AsReadOnly(); } }
-
         /// <summary>
         /// Loaded solvetechniques.
         /// </summary>
@@ -65,26 +62,22 @@ namespace DE.Onnen.Sudoku
                 {
                     currSolvePercent += (Consts.DimensionSquare - c.Candidates.Count);
                 }
-
                 return (currSolvePercent / this._solvePercentBase) * 100;
             }
         }
 
         /// <inheritdoc />
-        public bool IsComplete
+        public bool IsComplete()
         {
-            get
+            int containerType = 0;
+            for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
             {
-                int containerType = 0;
-                for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
+                if (!this._container[containerIdx][containerType].IsComplete())
                 {
-                    if (!this._container[containerIdx][containerType].IsComplete)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                return true;
             }
+            return true;
         }
 
         /// <summary>
@@ -93,6 +86,17 @@ namespace DE.Onnen.Sudoku
         internal void SomeChangesOccurs()
         {
             this._keepGoingWithChecks = true;
+        }
+
+        public Board()
+        {
+            Init();
+        }
+
+        public Board(string filePath)
+        {
+            LoadSolveTechnics(filePath);
+            Init();
         }
 
         public Board(params ASolveTechnique[] solveTechniques)
@@ -111,19 +115,8 @@ namespace DE.Onnen.Sudoku
 
                 this._cells[c.ID]._candidateValueInternal = c.CandidateValue;
                 this._cells[c.ID]._digit = c.Digit;
-                this._cells[c.ID].IsGiven = true;
+                this._cells[c.ID].IsGiven = c.Digit > 0;
             }
-        }
-
-        public Board()
-        {
-            Init();
-        }
-
-        public Board(string filePath)
-        {
-            Init();
-            LoadSolveTechnics(filePath);
         }
 
         private void Init()
@@ -268,8 +261,9 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        // Convert a Board to an int-Array
         /// <summary>
-        /// Convert a Board to a int-Array
+        /// Convert a Board to an int-Array
         /// </summary>
         /// <remarks>
         /// Positiv value = Candidates as bitmask.<br/>
@@ -328,7 +322,7 @@ namespace DE.Onnen.Sudoku
                 {
                     for (int containerType = 0; containerType < 3; containerType++)
                     {
-                        if (this._container[containerIdx][containerType].IsComplete)
+                        if (this._container[containerIdx][containerType].IsComplete())
                         {
                             continue;
                         }
@@ -390,7 +384,7 @@ namespace DE.Onnen.Sudoku
 
         private bool BacktrackingContinue(Board board)
         {
-            if (board.IsComplete)
+            if (board.IsComplete())
             {
                 return true;
             }
@@ -404,28 +398,39 @@ namespace DE.Onnen.Sudoku
                     {
                         Board newBoard = (Board)board.Clone();
                         SudokuLog result = newBoard.SetDigit(i, x, true);
+                        newBoard[i].IsGiven = false;
                         BoardChangeEvent?.Invoke(newBoard, new SudokuEvent { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
                         if (!result.Successful)
                         {
                             continue;
                         }
-                        if (newBoard.IsComplete)
+
+                        if (newBoard.IsComplete())
                         {
+                            if (this._solveTechniques != null && this._solveTechniques.Length > 0)
+                            {
+                                this._solveTechniques.ToList().ForEach(st => st.SetBoard(this));
+                            }
+
                             for (int s = 0; s < this._cells.Length; s++)
                             {
                                 this._cells[s]._candidateValueInternal = 0;
                                 this._cells[s]._digit = newBoard._cells[s].Digit;
                             }
+
                             return true;
                         }
+
                         if (BacktrackingContinue(newBoard))
                         {
                             return true;
                         }
                     }
+
                     return false;
                 }
             }
+
             return false;
         }
 
@@ -437,8 +442,7 @@ namespace DE.Onnen.Sudoku
         /// <returns>copy of board</returns>
         public object Clone()
         {
-            Board cloneboard = new Board(this.CreateSimpleBoard(), this._solveTechniques);
-            return cloneboard;
+            return new Board(this.CreateSimpleBoard(), this._solveTechniques);
         }
 
         #endregion ICloneable Members
@@ -462,7 +466,6 @@ namespace DE.Onnen.Sudoku
             {
                 ASolveTechnique st = SudokuSolveTechniqueLoader.LoadSolveTechnic(file, this);
                 this._solveTechniques[fileCount++] = st;
-                st.SetBoard(this);
             }
         }
 

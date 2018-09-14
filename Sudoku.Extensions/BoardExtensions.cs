@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace DE.Onnen.Sudoku.Extensions
@@ -77,11 +75,6 @@ namespace DE.Onnen.Sudoku.Extensions
             // ╠═╬═╣
             // ╚═╩═╝
             StringBuilder sb = new StringBuilder();
-            List<int> givenID = null;
-            if (onlyGiven)
-            {
-                givenID = board.Givens.Select(x => x.ID).ToList();
-            }
             int id = 0;
             sb.Append("  123 456 789");
             sb.Append(Environment.NewLine);
@@ -104,7 +97,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     }
                     if (onlyGiven)
                     {
-                        sb.Append(((givenID.Contains(id)) ? board[id].Digit.ToString() : " "));
+                        sb.Append(((board[id].IsGiven) ? board[id].Digit.ToString() : " "));
                     }
                     else
                     {
@@ -192,11 +185,6 @@ namespace DE.Onnen.Sudoku.Extensions
         public static string ToHtmlTable(this IBoard board, bool onlyGiven)
         {
             StringBuilder sb = new StringBuilder();
-            List<int> givenID = null;
-            if (onlyGiven)
-            {
-                givenID = board.Givens.Select(x => x.ID).ToList();
-            }
             int id = 0;
             sb.Append("<table class=\"sudokutbl\">");
             sb.Append(Environment.NewLine);
@@ -208,12 +196,12 @@ namespace DE.Onnen.Sudoku.Extensions
                 sb.Append("\t");
                 for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
-                    sb.Append("<td class=\"sudokucell\" id=\"cell[");
+                    sb.Append($"<td class=\"{((board[id].IsGiven) ? "sudokucell_given" : "sudokucell")}\" id=\"cell[");
                     sb.Append(id);
                     sb.Append("]\" >");
                     if (onlyGiven)
                     {
-                        sb.Append(((givenID.Contains(id)) ? board[id].Digit.ToString() : "&nbsp;"));
+                        sb.Append(((board[id].IsGiven) ? board[id].Digit.ToString() : "&nbsp;"));
                     }
                     else
                     {

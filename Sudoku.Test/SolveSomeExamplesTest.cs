@@ -1,15 +1,26 @@
-﻿namespace DE.Onnen.Sudoku
+﻿//-----------------------------------------------------------------------
+// <copyright file="SolveSomeExamplesTest.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+namespace DE.Onnen.Sudoku
 {
-    using DE.Onnen.Sudoku.Extensions;
-    using global::Sudoku.Test;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DE.Onnen.Sudoku.Extensions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using global::Sudoku.Test;
 
+    /// <summary>
+    /// Test some real world examples.
+    /// </summary>
     [TestClass]
     public class SolveSomeExamplesTest
     {
+        /// <summary>
+        /// Test Sudoku that can only be beaten with backtracking
+        /// </summary>
         [TestMethod]
         public void TestHardestData_Test()
         {
@@ -43,7 +54,8 @@
                         Assert.Fail($"Error in line{total} : {currentLine} " + ex.Message);
                         continue;
                     }
-                    if (board.IsComplete)
+
+                    if (board.IsComplete())
                     {
                         emh[0] += 1;
                     }
@@ -51,14 +63,14 @@
                     {
                         SudokuLog result = new SudokuLog();
                         board.Solve(result);
-                        if (board.IsComplete)
+                        if (board.IsComplete())
                         {
                             emh[1] += 1;
                         }
                         else
                         {
                             result = board.Backtracking();
-                            if (!board.IsComplete || !result.Successful)
+                            if (!board.IsComplete() || !result.Successful)
                             {
                                 Assert.Fail("Board is not solved");
                             }
@@ -75,6 +87,7 @@
                 Assert.AreEqual(total, emh.Sum(x => x));
                 Assert.IsTrue(total > 10);
             }
+
             Assert.AreEqual(i, 2);
         }
     }

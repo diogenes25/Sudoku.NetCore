@@ -15,17 +15,21 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Every Cell inside this House has a Digit.
         /// </summary>
-        public bool IsComplete
+        public bool IsComplete()
         {
-            get
+            int retval = 0;
+            int checkDigit = 0;
+            foreach (Cell c in this.cells)
             {
-                int retval = 0;
-                foreach (Cell c in this.cells)
-                {
-                    retval |= c.CandidateValue;
-                }
-                return retval == 0;
+                retval |= c.CandidateValue;
+                checkDigit ^= (1 << (c.Digit - 1));
             }
+            if (retval == 0 && checkDigit != Consts.BaseStart)
+            {
+                throw new System.Exception("House is invalid");
+            }
+
+            return retval == 0 && checkDigit == Consts.BaseStart;
         }
 
         internal House(ICell[] cells, HouseType containerType, int containerIdx)
@@ -111,6 +115,7 @@ namespace DE.Onnen.Sudoku
             {
                 cell.RemoveCandidate(digit, result);
             }
+
             return true;
         }
 
@@ -119,14 +124,10 @@ namespace DE.Onnen.Sudoku
             return this.HType + "(" + this.ID + ") " + this.CandidateValue;
         }
 
-        #region IList<ICell> Members
-
         public ICell this[int index]
         {
             get { return this.cells[index]; }
         }
-
-        #endregion IList<ICell> Members
 
         #region IEnumerable<ICell> Members
 

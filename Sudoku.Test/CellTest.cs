@@ -354,15 +354,15 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void GetHashCode_is_always_unique_Test()
         {
-            Cell[] cells = new Cell[Consts.DimensionSquare * Consts.DimensionSquare];
-            for (int id = 0; id < Consts.DimensionSquare * Consts.DimensionSquare; id++)
+            Cell[] cells = new Cell[Consts.CountCell];
+            for (int id = 0; id < Consts.CountCell; id++)
             {
                 cells[id] = new Cell(id);
             }
 
-            for (int id = 0; id < Consts.DimensionSquare * Consts.DimensionSquare; id++)
+            for (int id = 0; id < Consts.CountCell; id++)
             {
-                for (int id2 = 0; id2 < Consts.DimensionSquare * Consts.DimensionSquare; id2++)
+                for (int id2 = 0; id2 < Consts.CountCell; id2++)
                 {
                     if (id == id2)
                     {

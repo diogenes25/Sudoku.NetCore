@@ -1,44 +1,22 @@
-﻿using System.Collections.Generic;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IHouse.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
-    /// <summary>
-    /// A group of 9 cells.
-    /// <remarks>
-    /// Each cell must contain a different digit in the solution.
-    /// In standard sudoku, a house can be a row, a column or a box. There are 27 houses in a standard sudoku grid.
-    /// </remarks>
-    /// </summary>
-    public interface IHouse : ICellBase, IEnumerable<ICell>
-    {
-        /// <summary>
-        /// 81 cells of the board.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        ICell this[int index]
-        {
-            get;
-        }
-
-        /// <summary>
-        /// true == Every digit ist set.
-        /// </summary>
-        bool IsComplete { get; }
-    }
-
     /// <summary>
     /// Type of house.
     /// </summary>
     public enum HouseType
     {
         /// <summary>
-        /// Row
+        /// A Row
         /// </summary>
         Row = 0,
 
         /// <summary>
-        /// Column
+        /// A Column
         /// </summary>
         Col = 1,
 
@@ -47,6 +25,35 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         Box = 2,
 
+        /// <summary>
+        /// Singe cell
+        /// </summary>
         Cell = 3,
+    } 
+    
+    /// <summary>
+    /// A group of 9 cells.
+    /// <remarks>
+    /// Each cell must contain a different digit in the solution.
+    /// In standard sudoku, a house can be a row, a column or a box. There are 27 houses in a standard sudoku grid.
+    /// </remarks>
+    /// </summary>
+    public interface IHouse : ICellBase, System.Collections.Generic.IEnumerable<ICell>
+    {
+        /// <summary>
+        /// 9 cells of a House.
+        /// </summary>
+        /// <param name="index">Index of the cell in this House</param>
+        /// <returns>Cell of the House</returns>
+        ICell this[int index]
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Checks a House that every cell in this House is set and each digit is only st once.
+        /// </summary>
+        /// <returns>true == Every digit is set (correctly).</returns>
+        bool IsComplete();
     }
 }

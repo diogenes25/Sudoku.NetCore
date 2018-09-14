@@ -45,7 +45,7 @@ namespace Sudoku.SolveTechniques
         {
             SudokuLog log = this._board.Backtracking();
             Assert.IsTrue(log.Successful);
-            Assert.IsTrue(this._board.IsComplete);
+            Assert.IsTrue(this._board.IsComplete());
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
                 Assert.AreEqual((i + 1), this._board[i].Digit);

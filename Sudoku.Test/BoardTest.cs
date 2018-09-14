@@ -1,11 +1,11 @@
 ﻿namespace DE.Onnen.Sudoku
 {
+    using DE.Onnen.Sudoku.Extensions;
+    using DE.Onnen.Sudoku.SolveTechniques;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using DE.Onnen.Sudoku.SolveTechniques;
-    using DE.Onnen.Sudoku.Extensions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq;
 
     /// <summary>
     /// This is a test class for BoardTest and is intended
@@ -213,10 +213,10 @@
                 }
             }
             SudokuLog sudokuResult = new SudokuLog();
-            Assert.IsFalse(board.IsComplete);
+            Assert.IsFalse(board.IsComplete());
             Assert.IsTrue(sudokuResult.Successful);
             board.Solve(sudokuResult);
-            Assert.IsTrue(board.IsComplete);
+            Assert.IsTrue(board.IsComplete());
             Assert.IsTrue(sudokuResult.Successful);
         }
 
@@ -276,7 +276,7 @@
 
         private static void CheckBoard(IBoard target)
         {
-            Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, ((Board)target).Count);
+            Assert.AreEqual(Consts.CountCell, ((Board)target).Count);
             foreach (ICell cell in target)
             {
                 Assert.AreEqual(Consts.BaseStart, cell.CandidateValue);
@@ -300,7 +300,7 @@
         public void Backtracking_solve_without_any_digit_Test()
         {
             SudokuLog log = this._board.Backtracking();
-            Assert.IsTrue(this._board.IsComplete);
+            Assert.IsTrue(this._board.IsComplete());
             Assert.IsTrue(log.Successful);
             for (int i = 0; i < Consts.DimensionSquare; i++)
             {
@@ -489,17 +489,20 @@
             int actual;
             actual = this._board.Count;
             Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, actual);
+            Assert.AreEqual(Consts.CountCell, actual);
         }
 
         /// <summary>
         ///A test for Givens
         ///</summary>
         [TestMethod]
-        public void GivensTest_Test()
+        public void IsGiven_Test()
         {
-            ReadOnlyCollection<ICell> actual;
-            actual = this._board.Givens;
-            Assert.AreEqual(0, actual.Count);
+            var actual = this._board.Where(x => x.IsGiven);
+            Assert.AreEqual(0, actual.Count());
+            this._board.SetDigit(1, 1);
+            actual = this._board.Where(x => x.IsGiven);
+            Assert.AreEqual(1, actual.Count());
         }
 
         /// <summary>
@@ -509,7 +512,7 @@
         public void IsComplete_board_is_false_at_first_Test()
         {
             bool actual;
-            actual = this._board.IsComplete;
+            actual = this._board.IsComplete();
             Assert.IsFalse(actual);
         }
 

@@ -7,7 +7,6 @@ namespace DE.Onnen.Sudoku.Extensions
 {
     public static class SudokuHelper
     {
-        private static readonly int countCell = Consts.DimensionSquare * Consts.DimensionSquare;
 
         /// <summary>
         /// Read Sudokus from file.
@@ -24,7 +23,7 @@ namespace DE.Onnen.Sudoku.Extensions
             string line;
             while ((line = tr.ReadLine()) != null)
             {
-                if (line.Length < countCell)
+                if (line.Length < Consts.CountCell)
                 {
                     continue;
                 }
