@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
     {
         public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
         {
-            ASolveTechnique solveTechnic = LoadSolveTechnic(fileName, null);
+            ISolveTechnique solveTechnic = LoadSolveTechnic(fileName);
             SolveTechniqueInfo info;
             if (solveTechnic is ISolveTechnique)
             {
@@ -24,7 +24,7 @@ namespace DE.Onnen.Sudoku
             return info;
         }
 
-        public static ASolveTechnique LoadSolveTechnic(string fileName, ISudokuHost host)
+        public static ISolveTechnique LoadSolveTechnic(string fileName)
         {
             if (String.IsNullOrWhiteSpace(fileName))
             {
@@ -32,7 +32,7 @@ namespace DE.Onnen.Sudoku
             }
 
             Assembly solvetechnic = Assembly.LoadFrom(fileName);
-            string typeName = typeof(ASolveTechnique).ToString();
+            string typeName = typeof(ISolveTechnique).ToString();
             Type[] types = solvetechnic.GetTypes();
             List<Type> mytype = new List<Type>();
             bool typeFound = false;
@@ -50,14 +50,16 @@ namespace DE.Onnen.Sudoku
                 throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file{1}", typeName, fileName));
             }
 
-            List<ASolveTechnique> result = new List<ASolveTechnique>();
+            List<ISolveTechnique> result = new List<ISolveTechnique>();
             foreach (Type type in mytype)
             {
                 try
                 {
                     object obj = Activator.CreateInstance(type);
-                    result.Add((ASolveTechnique)obj);
-                } catch {
+                    result.Add((ISolveTechnique)obj);
+                }
+                catch
+                {
                     continue;
                 }
             }

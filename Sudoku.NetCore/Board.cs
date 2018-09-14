@@ -20,7 +20,7 @@ namespace DE.Onnen.Sudoku
     /// http://www.sudocue.net/glossary.php
     /// http://walter.bislins.ch/projekte/index.asp?page=Sudoku
     /// </summary>
-    public class Board : ACellCollection, ICloneable, IBoard, ISudokuHost, IEquatable<Board>
+    public class Board : ACellCollection, ICloneable, IBoard, IEquatable<Board>
     {
         private const int ROW_CONTAINERTYPE = 0;
         private const int COL_CONTAINERTYPE = 1;
@@ -30,7 +30,7 @@ namespace DE.Onnen.Sudoku
         private readonly House[][] _container = new House[Consts.DimensionSquare][];
         private bool _keepGoingWithChecks;
         private double _solvePercentBase;
-        private ASolveTechnique[] _solveTechniques;
+        private ISolveTechnique[] _solveTechniques;
 
         public ReadOnlyCollection<SudokuHistoryItem> History { get { return this._history.AsReadOnly(); } }
 
@@ -39,9 +39,9 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public IList<ISolveTechnique> SolveTechniques { get { return this._solveTechniques.Select(x => (ISolveTechnique)x).ToList<ISolveTechnique>(); } }
 
-        public IHouse GetHouse(HouseType houseType, int idx)
+        public IHouse GetHouse(HouseType houseType, int houseID)
         {
-            return this._container[idx][(int)houseType];
+            return this._container[houseID][(int)houseType];
         }
 
         /// <summary>
@@ -99,13 +99,13 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(params ASolveTechnique[] solveTechniques)
+        public Board(params ISolveTechnique[] solveTechniques)
         {
             this._solveTechniques = solveTechniques;
             Init();
         }
 
-        public Board(IEnumerable<int> uniqueCellIDs, params ASolveTechnique[] solveTechniques)
+        public Board(IEnumerable<int> uniqueCellIDs, params ISolveTechnique[] solveTechniques)
         {
             this._solveTechniques = solveTechniques;
             Init();
@@ -121,14 +121,6 @@ namespace DE.Onnen.Sudoku
 
         private void Init()
         {
-            if (this._solveTechniques != null && this._solveTechniques.Length > 0)
-            {
-                foreach (ASolveTechnique st in this._solveTechniques)
-                {
-                    st.SetBoard(this);
-                }
-            }
-
             this._cells = new Cell[Consts.CountCell];
 
             for (int i = 0; i < Consts.CountCell; i++)
@@ -307,7 +299,7 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">Log</param>
-        public void Solve(SudokuLog sudokuResult)
+        public bool Solve(SudokuLog sudokuResult)
         {
             SudokuLog tmpSudokuResult = sudokuResult;
             if (tmpSudokuResult == null)
@@ -329,7 +321,7 @@ namespace DE.Onnen.Sudoku
 
                         if (this._solveTechniques != null && this._solveTechniques.Length > 0)
                         {
-                            foreach (ASolveTechnique st in this._solveTechniques)
+                            foreach (ISolveTechnique st in this._solveTechniques)
                             {
                                 if (st.IsActive)
                                 {
@@ -338,10 +330,17 @@ namespace DE.Onnen.Sudoku
                                         continue;
                                     }
 
-                                    st.SolveHouse(this._container[containerIdx][containerType], tmpSudokuResult);
+                                    try
+                                    {
+                                        st.SolveHouse(this, this._container[containerIdx][containerType], tmpSudokuResult);
+                                    }
+                                    catch
+                                    {
+                                        return false;
+                                    }
                                     if (!tmpSudokuResult.Successful)
                                     {
-                                        return;
+                                        return false;
                                     }
                                 }
                             }
@@ -350,6 +349,7 @@ namespace DE.Onnen.Sudoku
                     }
                 }
             } while (this._keepGoingWithChecks);
+            return tmpSudokuResult.Successful;
         }
 
         public SudokuLog Backtracking()
@@ -426,11 +426,6 @@ namespace DE.Onnen.Sudoku
 
                         if (isComplete)
                         {
-                            if (this._solveTechniques != null && this._solveTechniques.Length > 0)
-                            {
-                                this._solveTechniques.ToList().ForEach(st => st.SetBoard(this));
-                            }
-
                             for (int s = 0; s < this._cells.Length; s++)
                             {
                                 this._cells[s]._candidateValueInternal = 0;
@@ -483,19 +478,10 @@ namespace DE.Onnen.Sudoku
             int fileCount = 0;
             foreach (string file in files)
             {
-                ASolveTechnique st = SudokuSolveTechniqueLoader.LoadSolveTechnic(file, this);
+                ISolveTechnique st = SudokuSolveTechniqueLoader.LoadSolveTechnic(file);
                 this._solveTechniques[fileCount++] = st;
             }
         }
-
-        #region ISudokuHost Members
-
-        public void Register(ISolveTechnique solveTechnic)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion ISudokuHost Members
 
         public override string ToString()
         {

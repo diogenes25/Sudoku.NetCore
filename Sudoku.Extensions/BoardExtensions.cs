@@ -87,7 +87,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     sb.Append(" ├───┼───┼───┤");
                     sb.Append(Environment.NewLine);
                 }
-                IHouse house = board.GetHouse(HouseType.Row, i);
+                //IHouse house = board.GetHouse(HouseType.Row, i);
                 sb.Append((char)(i + 65));
                 for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
@@ -101,7 +101,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     }
                     else
                     {
-                        sb.Append(((house[x].Digit > 0) ? house[x].Digit.ToString() : " "));
+                        sb.Append(((board[id].Digit > 0) ? board[id].Digit.ToString() : " "));
                     }
                     id++;
                 }

@@ -10,8 +10,7 @@
 
         void Deactivate();
 
-
-        void SolveHouse(IHouse house, SudokuLog sudokuResult);
+        void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult);
 
         ECellView CellView { get; }
     }

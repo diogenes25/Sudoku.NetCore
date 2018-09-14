@@ -7,7 +7,6 @@ namespace DE.Onnen.Sudoku.Extensions
 {
     public static class SudokuHelper
     {
-
         /// <summary>
         /// Read Sudokus from file.
         /// </summary>

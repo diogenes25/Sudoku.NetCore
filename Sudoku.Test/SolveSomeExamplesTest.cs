@@ -5,12 +5,12 @@
 //-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
+    using DE.Onnen.Sudoku.Extensions;
+    using global::Sudoku.Test;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using DE.Onnen.Sudoku.Extensions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using global::Sudoku.Test;
 
     /// <summary>
     /// Test some real world examples.

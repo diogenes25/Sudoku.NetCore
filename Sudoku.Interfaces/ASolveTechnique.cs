@@ -9,21 +9,15 @@
     public abstract class ASolveTechnique : ISolveTechnique
     {
         private bool isActive = true;
-        protected IBoard board;
 
         protected ASolveTechnique()
         {
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
         }
 
-        public void SetBoard(IBoard board)
-        {
-            this.board = board;
-        }
-
         #region ISolveTechnic Members
 
-        public abstract void SolveHouse(IHouse house, SudokuLog sudokuResult);
+        public abstract void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult);
 
         public SolveTechniqueInfo Info
         {
@@ -57,6 +51,4 @@
 
         #endregion ISolveTechnic Members
     }
-
-
 }

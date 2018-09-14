@@ -7,16 +7,16 @@
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
         }
 
-        public override void SolveHouse(IHouse house, SudokuLog sudokuResult)
+        public override void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult)
         {
-            DigitInBlock(house, sudokuResult);
+            DigitInBlock(board, house, sudokuResult);
             if (house.HType == HouseType.Box)
             {
-                DigitInBlock(house, sudokuResult, true);
+                DigitInBlock(board, house, sudokuResult, true);
             }
         }
 
-        private void DigitInBlock(IHouse house, SudokuLog sudokuResult, bool verticalBlock = false)
+        private static void DigitInBlock(IBoard board, IHouse house, SudokuLog sudokuResult, bool verticalBlock = false)
         {
             int[] valueOnlyInOnePart = CheckInBlockpartOfRowCol(house, verticalBlock);
             for (int x = 0; x < 3; x++)
@@ -49,14 +49,14 @@
                     }
 
                     int pos = -1;
-                    foreach (ICell c in this.board.GetHouse(cellInContainertype, houseIdx)) // Cells des Row
+                    foreach (ICell c in board.GetHouse(cellInContainertype, houseIdx)) // Cells des Row
                     {
                         pos++;
                         if (
                             ((house.HType == HouseType.Row) && (house.ID % Consts.Dimension) == (pos / Consts.Dimension))
                             || ((house.HType == HouseType.Col) && (house.ID % Consts.Dimension) == (pos % Consts.Dimension))
-                            || ((house.HType == HouseType.Box) 
-                                && ((!verticalBlock && (house.ID % Consts.Dimension) == (pos / Consts.Dimension)) 
+                            || ((house.HType == HouseType.Box)
+                                && ((!verticalBlock && (house.ID % Consts.Dimension) == (pos / Consts.Dimension))
                                     || (verticalBlock && (house.ID / Consts.Dimension) == (pos / Consts.Dimension))
                                    )
                                )

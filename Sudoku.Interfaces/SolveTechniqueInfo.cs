@@ -2,7 +2,6 @@
 {
     public class SolveTechniqueInfo
     {
-
         private SolveTechniqueInfo()
         {
         }
