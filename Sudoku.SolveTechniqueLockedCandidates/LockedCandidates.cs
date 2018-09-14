@@ -4,8 +4,7 @@
     {
         public LockedCandidates()
         {
-            this.Info.Caption = "LockedCandidates";
-            this.Info.Description = "";
+            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
         }
 
         public override void SolveHouse(IHouse house, SudokuLog sudokuResult)
@@ -53,16 +52,15 @@
                     foreach (ICell c in this.board.GetHouse(cellInContainertype, houseIdx)) // Cells des Row
                     {
                         pos++;
-                        if (((house.HType == HouseType.Row)
-                                                        && (house.ID % Consts.Dimension) == (pos / Consts.Dimension)) ||
-                                         ((house.HType == HouseType.Col)
-                                                        && (house.ID % Consts.Dimension) == (pos % Consts.Dimension)) ||
-                                         ((house.HType == HouseType.Box)
-                                                        && ((!verticalBlock
-                                                                        && (house.ID % Consts.Dimension) == (pos / Consts.Dimension)) ||
-                                                         (verticalBlock
-                                                                        && (house.ID / Consts.Dimension) == (pos / Consts.Dimension))))
-                                        )
+                        if (
+                            ((house.HType == HouseType.Row) && (house.ID % Consts.Dimension) == (pos / Consts.Dimension))
+                            || ((house.HType == HouseType.Col) && (house.ID % Consts.Dimension) == (pos % Consts.Dimension))
+                            || ((house.HType == HouseType.Box) 
+                                && ((!verticalBlock && (house.ID % Consts.Dimension) == (pos / Consts.Dimension)) 
+                                    || (verticalBlock && (house.ID / Consts.Dimension) == (pos / Consts.Dimension))
+                                   )
+                               )
+                            )
                         {
                             continue;
                         }

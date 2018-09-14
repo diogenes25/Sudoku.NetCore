@@ -384,7 +384,17 @@ namespace DE.Onnen.Sudoku
 
         private bool BacktrackingContinue(Board board)
         {
-            if (board.IsComplete())
+            bool isComplete = false;
+            try
+            {
+                isComplete = board.IsComplete();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            if (isComplete)
             {
                 return true;
             }
@@ -405,7 +415,16 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-                        if (newBoard.IsComplete())
+                        try
+                        {
+                            isComplete = newBoard.IsComplete();
+                        }
+                        catch (Exception)
+                        {
+                            return false;
+                        }
+
+                        if (isComplete)
                         {
                             if (this._solveTechniques != null && this._solveTechniques.Length > 0)
                             {

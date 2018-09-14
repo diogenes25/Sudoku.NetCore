@@ -23,10 +23,14 @@ namespace DE.Onnen.Sudoku
             {
                 retval |= c.CandidateValue;
                 checkDigit ^= (1 << (c.Digit - 1));
+                if ((c.CandidateValue == 0 && c.Digit == 0) || (c.CandidateValue > 0 && c.Digit != 0))
+                {
+                    throw new System.ArgumentException($"Cell{c.ID} in House {ID} has an invalid status: Digit: {c.Digit} / Candidate: {c.CandidateValue}");
+                }
             }
             if (retval == 0 && checkDigit != Consts.BaseStart)
             {
-                throw new System.Exception("House is invalid");
+                throw new System.ArgumentException("House is invalid");
             }
 
             return retval == 0 && checkDigit == Consts.BaseStart;

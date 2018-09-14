@@ -1,17 +1,19 @@
 ﻿namespace DE.Onnen.Sudoku.SolveTechniques
 {
+    public enum ECellView
+    {
+        OnlyHouse,
+        GlobalView,
+    }
+
     public abstract class ASolveTechnique : ISolveTechnique
     {
         private bool isActive = true;
-        private ISudokuHost host;
         protected IBoard board;
 
         protected ASolveTechnique()
         {
-            this.Info = new SolveTechniqueInfo
-            {
-                Caption = "Not Defined"
-            };
+            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
         }
 
         public void SetBoard(IBoard board)
@@ -29,16 +31,6 @@
             set;
         }
 
-        public ISudokuHost Host
-        {
-            get { return this.host; }
-            set
-            {
-                this.host = value;
-                this.host.Register(this);
-            }
-        }
-
         public void Activate()
         {
             this.IsActive = true;
@@ -54,7 +46,7 @@
             get { return this.isActive; }
             private set
             {
-                this.isActive = value; this.Info.Active = this.isActive;
+                this.isActive = value;
             }
         }
 
@@ -66,9 +58,5 @@
         #endregion ISolveTechnic Members
     }
 
-    public enum ECellView
-    {
-        OnlyHouse,
-        GlobalView,
-    }
+
 }

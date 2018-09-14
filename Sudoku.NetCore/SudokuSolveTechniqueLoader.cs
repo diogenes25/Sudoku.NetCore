@@ -20,6 +20,7 @@ namespace DE.Onnen.Sudoku
             {
                 throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file {1}", typeof(ASolveTechnique), fileName));
             }
+
             return info;
         }
 
@@ -52,15 +53,17 @@ namespace DE.Onnen.Sudoku
             List<ASolveTechnique> result = new List<ASolveTechnique>();
             foreach (Type type in mytype)
             {
-                object obj = Activator.CreateInstance(type);
-                result.Add((ASolveTechnique)obj);
+                try
+                {
+                    object obj = Activator.CreateInstance(type);
+                    result.Add((ASolveTechnique)obj);
+                } catch {
+                    continue;
+                }
             }
+
             if (result.Count > 0)
             {
-                if (host != null)
-                {
-                    result[0].Host = host;
-                }
                 return result[0];
             }
 

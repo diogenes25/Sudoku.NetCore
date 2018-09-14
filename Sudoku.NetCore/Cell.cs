@@ -264,7 +264,7 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <inheritdoc />
-        public bool IsGiven { get; set; } = false;
+        public bool IsGiven { get; set; }
 
         public bool Equals(ICell othercell)
         {

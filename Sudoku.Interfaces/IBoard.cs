@@ -49,11 +49,6 @@ namespace DE.Onnen.Sudoku
         SudokuLog SetDigit(int cellID, int digitToSet);
 
         /// <summary>
-        /// Cells where Digits where set by SetDigit.
-        /// </summary>
-        //ReadOnlyCollection<ICell> Givens { get; }
-
-        /// <summary>
         /// Percent
         /// </summary>
         /// <returns>Percent</returns>

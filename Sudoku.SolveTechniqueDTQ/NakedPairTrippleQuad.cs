@@ -15,7 +15,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     {
         public NakedPairTrippleQuad()
         {
-            this.Info.Caption = "Naked PairTripleQuad";
+            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
         }
 
         public override void SolveHouse(IHouse house, SudokuLog sudokuResult)
