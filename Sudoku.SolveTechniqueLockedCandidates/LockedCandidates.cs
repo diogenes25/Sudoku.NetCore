@@ -1,13 +1,13 @@
 ﻿namespace DE.Onnen.Sudoku.SolveTechniques
 {
-    public class LockedCandidates : ASolveTechnique
+    public class LockedCandidates<C> : ASolveTechnique<C> where C : ICell
     {
         public LockedCandidates()
         {
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
         }
 
-        public override void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult)
+        public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             DigitInBlock(board, house, sudokuResult);
             if (house.HType == HouseType.Box)
@@ -16,7 +16,7 @@
             }
         }
 
-        private static void DigitInBlock(IBoard board, IHouse house, SudokuLog sudokuResult, bool verticalBlock = false)
+        private static void DigitInBlock(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult, bool verticalBlock = false)
         {
             int[] valueOnlyInOnePart = CheckInBlockpartOfRowCol(house, verticalBlock);
             for (int x = 0; x < 3; x++)
@@ -74,7 +74,7 @@
             }
         }
 
-        private static bool RemoveMultiValue(ICell c, int removeValue, SudokuLog sudokuResult, ICellBase resultContainer, string solveTechnik)
+        private static bool RemoveMultiValue(ICell c, int removeValue, SudokuLog sudokuResult, IHasCandidates resultContainer, string solveTechnik)
         {
             for (int dc = 0; dc < Consts.DimensionSquare; dc++)
             {
@@ -115,7 +115,7 @@
         /// Das Array enthält drei Elemente. Je nachdem ob die Digit im ersten (0) zweiten (1) oder drittem Drittel (2) enthalten sind.
         /// </remarks>
         /// <returns>Drei Int-Werte [erster, zweiter oder dritter Part] der gefundenen Nummern |-Verknüpft.</returns>
-        private static int[] CheckInBlockpartOfRowCol(IHouse house, bool verticalBlock = false)
+        private static int[] CheckInBlockpartOfRowCol(IHouse<C> house, bool verticalBlock = false)
         {
             int[] valueInRow = new int[Consts.Dimension];
             int[] valueOnlyInOneRow = new int[3];

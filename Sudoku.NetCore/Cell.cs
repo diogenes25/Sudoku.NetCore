@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -10,11 +8,11 @@ namespace DE.Onnen.Sudoku
 {
     /// <inheritdoc cref="ICell"/>
     [DebuggerDisplay("Cell-ID {ID} {_digit} / {CandidateValue}")]
-    public class Cell : ACellBase, ICell, IEquatable<Cell>
+    public class Cell : AHasCandidates, ICell, IEquatable<Cell>
     {
         internal int _digit;
 
-        internal House[] _fieldcontainters = new House[3];
+        internal House<Cell>[] _fieldcontainters = new House<Cell>[3];
 
         /// <inheritdoc />
         public new int CandidateValue
@@ -63,11 +61,9 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        internal Cell(int id)
+        internal Cell(int id) : base(HouseType.Cell)
         {
-            this.HType = HouseType.Cell;
             this.ID = id;
-            this.CandidateValue = Consts.BaseStart;
         }
 
         public static Cell CreateCellFromUniqueID(int x)
@@ -111,78 +107,6 @@ namespace DE.Onnen.Sudoku
         public static int CreateUniqueID(int id, int digit)
         {
             return ((digit << 7) + id) * -1;
-        }
-
-        /// <inheritdoc />
-        public bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult)
-        {
-            SudokuLog tmpSudokuResult = sudokuResult;
-            if (tmpSudokuResult == null)
-            {
-                tmpSudokuResult = new SudokuLog();
-            }
-
-            if (candidateToRemove < 1 || candidateToRemove > Consts.DimensionSquare || (this.CandidateValue & (1 << (candidateToRemove - 1))) == 0)
-            {
-                return false;
-            }
-
-            this.CandidateValue -= (1 << (candidateToRemove - 1));
-
-            SudokuEvent eventInfoInResult = new SudokuEvent
-            {
-                ChangedCellBase = this,
-                Action = CellAction.RemPoss,
-                SolveTechnik = "SetDigit",
-                Value = candidateToRemove,
-            };
-
-            SudokuLog nakeResult = tmpSudokuResult.CreateChildResult();
-            nakeResult.EventInfoInResult = eventInfoInResult;
-
-            CheckLastDigit(tmpSudokuResult);
-
-            if (!tmpSudokuResult.Successful)
-            {
-                nakeResult.Successful = false;
-                nakeResult.ErrorMessage = "RemoveCandidateValue";
-                return true;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check if there is only one candidate left.
-        /// </summary>
-        /// <param name="sudokuResult">Log </param>
-        /// <returns>true = Only one candidate was left and will be set</returns>
-        internal bool CheckLastDigit(SudokuLog sudokuResult)
-        {
-            // Check every possible Digit
-            for (int i = 0; i < Consts.DimensionSquare; i++)
-            {
-                // convert Digit to BitMask (example: 4 => (1 << 4 ) = (Byte)00001000
-                // Whenn BitMask & CandidateValue still Candidate Value then must the Digit the last Candidate (or bit)
-                // Example false: BitMask = 00001000 (4) and there are 2 Candidate (4 and 5) left = 00011000
-                // 00001000 & 00011000 = 00001000 != 00011000 (Candidates)
-                // Excample true: only Candidate 4 ist left (00001000)
-                // 00001000 & 00001000 = 00001000 == 00001000 (Candidates)
-                if (((1 << i) & this.CandidateValue) == this.CandidateValue)
-                {
-                    SudokuLog sresult = sudokuResult.CreateChildResult();
-                    sresult.EventInfoInResult = new SudokuEvent
-                    {
-                        Value = i + 1,
-                        ChangedCellBase = this,
-                        Action = CellAction.RemPoss,
-                        SolveTechnik = "LastCandidate",
-                    };
-
-                    return SetDigit(i + 1, sresult);
-                }
-            }
-            return false;
         }
 
         /// <inheritdoc />
@@ -247,24 +171,7 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <inheritdoc />
-        public ReadOnlyCollection<int> Candidates
-        {
-            get
-            {
-                List<int> retInt = new List<int>();
-                for (int i = 0; i < Consts.DimensionSquare; i++)
-                {
-                    if (((1 << i) & this.CandidateValue) > 0)
-                    {
-                        retInt.Add(i + 1);
-                    }
-                }
-                return retInt.AsReadOnly();
-            }
-        }
-
-        /// <inheritdoc />
-        public bool IsGiven { get; set; }
+        public bool IsGiven { get; internal set; }
 
         public bool Equals(ICell othercell)
         {

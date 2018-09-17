@@ -5,7 +5,7 @@ namespace DE.Onnen.Sudoku
 {
     public class SudokuLog
     {
-        private bool successful = true;
+        private bool _successful = true;
 
         public SudokuEvent EventInfoInResult { get; set; }
 
@@ -13,14 +13,14 @@ namespace DE.Onnen.Sudoku
         {
             get
             {
-                bool result = this.successful;
+                bool result = this._successful;
                 foreach (SudokuLog sr in this.ChildSudokuResult)
                 {
                     result &= sr.Successful;
                 }
                 return result;
             }
-            set { this.successful = value; }
+            set { this._successful = value; }
         }
 
         public string ErrorMessage { get; set; }

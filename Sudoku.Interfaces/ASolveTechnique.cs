@@ -6,7 +6,7 @@
         GlobalView,
     }
 
-    public abstract class ASolveTechnique : ISolveTechnique
+    public abstract class ASolveTechnique<C> : ISolveTechnique<C> where C : ICell
     {
         private bool isActive = true;
 
@@ -17,13 +17,9 @@
 
         #region ISolveTechnic Members
 
-        public abstract void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult);
+        public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
 
-        public SolveTechniqueInfo Info
-        {
-            get;
-            set;
-        }
+        public SolveTechniqueInfo Info { get; protected set; }
 
         public void Activate()
         {

@@ -6,7 +6,6 @@
 namespace DE.Onnen.Sudoku
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Sudoku puzzle.
@@ -14,7 +13,8 @@ namespace DE.Onnen.Sudoku
     /// It contains the 81 constituent cells, lined up in 9 rows and 9 columns, with a distinct border around the boxes.
     /// </remarks>
     /// </summary>
-    public interface IBoard : IEnumerable<ICell>, IEquatable<IBoard>
+    public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>>
+    where C : ICell
     {
         // Gets the percentage solution progress
         /// <summary>
@@ -22,21 +22,6 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }
- 
-        // Gets the number of Cells
-        /// <summary>
-        /// Gets the number of Cells
-        /// </summary>
-        /// <returns>Number of cells.</returns>
-        int Count { get; }
-
-        // Get a specific cells of the board.
-        /// <summary>
-        /// Get a specific cells of the board.
-        /// </summary>
-        /// <param name="index">Id of the cell.</param>
-        /// <returns>Cell with the specific ID</returns>
-        ICell this[int index] { get; }
 
         // Returns a specific house.
         /// <summary>
@@ -45,7 +30,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="houseType">Define the HouseType. There are 3 House-Types (Row, Col or Box)</param>
         /// <param name="houseID">House-Id of the House</param>
         /// <returns>House that matches the HouseType an HouseID</returns>
-        IHouse GetHouse(HouseType houseType, int houseID);
+        IHouse<C> GetHouse(HouseType houseType, int houseID);
 
         // Return true when Sudoku is completed.
         /// <summary>
@@ -76,12 +61,7 @@ namespace DE.Onnen.Sudoku
         /// Solve by backtracking (brute force) every Digit.
         /// </summary>
         /// <returns>Log information</returns>
-        SudokuLog Backtracking();  
-        
-        /// <summary>
-        /// Clears every Cell information and sets the Board to start values.
-        /// </summary>
-        void Clear();
+        SudokuLog Backtracking();
     }
 
     /// <summary>

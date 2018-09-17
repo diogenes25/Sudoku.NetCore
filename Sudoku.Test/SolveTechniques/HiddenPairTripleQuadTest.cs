@@ -7,8 +7,8 @@ namespace Sudoku.SolveTechniques
     [TestClass]
     public class HiddenPairTripleQuadTest
     {
-        private static ASolveTechnique[] solveTechniques;
-        private IBoard _board;
+        private static ASolveTechnique<Cell>[] solveTechniques;
+        private IBoard<Cell> _board;
 
         #region Additional test attributes
 
@@ -30,10 +30,10 @@ namespace Sudoku.SolveTechniques
 
         #endregion Additional test attributes
 
-        private static ASolveTechnique[] GetSolveTechniques()
+        private static ASolveTechnique<Cell>[] GetSolveTechniques()
         {
-            return new ASolveTechnique[] {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad()
+            return new ASolveTechnique<Cell>[] {
+                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>()
             };
         }
 

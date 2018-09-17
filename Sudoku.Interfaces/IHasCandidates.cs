@@ -1,6 +1,17 @@
-﻿namespace DE.Onnen.Sudoku
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICell.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+namespace DE.Onnen.Sudoku
 {
-    public interface ICellBase
+    /// <summary>
+    /// Contains candidates.
+    /// </summary>
+    /// <remarks>
+    /// A candidate is a pssible Digit.
+    /// </remarks>
+    public interface IHasCandidates
     {
         /// <summary>
         /// A bitmask of every candidate
@@ -30,5 +41,26 @@
         /// The boxes start counting with 0 on the leftmost corner on top.
         /// </remarks>
         int ID { get; }
+
+        /// <summary>
+        /// A list of every candidate.
+        /// </summary>
+        /// <remarks>
+        /// @see BaseValue
+        /// </remarks>
+        System.Collections.ObjectModel.ReadOnlyCollection<int> Candidates { get; }
+
+        /// <summary>
+        /// Reset all Cadidates to startvalue.
+        /// </summary>
+        void Clear();
+
+        /// <summary>
+        /// REmoves a possible candidate
+        /// </summary>
+        /// <param name="candidateToRemove">Candidate to remove</param>
+        /// <param name="sudokuResult">Some infos</param>
+        /// <returns>true == a possible candidate was removed</returns>
+        bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult);
     }
 }

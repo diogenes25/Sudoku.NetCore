@@ -20,29 +20,43 @@ namespace DE.Onnen.Sudoku
     /// http://www.sudocue.net/glossary.php
     /// http://walter.bislins.ch/projekte/index.asp?page=Sudoku
     /// </summary>
-    public class Board : ACellCollection, ICloneable, IBoard, IEquatable<Board>
+    public class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
         private const int ROW_CONTAINERTYPE = 0;
         private const int COL_CONTAINERTYPE = 1;
         private const int BLOCK_CONTAINERTYPE = 2;
 
         private List<SudokuHistoryItem> _history;
-        private readonly House[][] _container = new House[Consts.DimensionSquare][];
+        private readonly House<Cell>[][] _container = new House<Cell>[Consts.DimensionSquare][];
         private bool _keepGoingWithChecks;
         private double _solvePercentBase;
-        private ISolveTechnique[] _solveTechniques;
+        private ISolveTechnique<Cell>[] _solveTechniques;
 
         public ReadOnlyCollection<SudokuHistoryItem> History { get { return this._history.AsReadOnly(); } }
 
         /// <summary>
         /// Loaded solvetechniques.
         /// </summary>
-        public IList<ISolveTechnique> SolveTechniques { get { return this._solveTechniques.Select(x => (ISolveTechnique)x).ToList<ISolveTechnique>(); } }
+        public IList<ISolveTechnique<Cell>> SolveTechniques { get { return this._solveTechniques.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>(); } }
 
-        public IHouse GetHouse(HouseType houseType, int houseID)
+        public IHouse<Cell> GetHouse(HouseType houseType, int houseID)
         {
             return this._container[houseID][(int)houseType];
         }
+
+        protected Cell[] _cells;
+
+        public int Count
+        {
+            get { return this._cells.Count(); }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Cell this[int index] => this._cells[index];
 
         /// <summary>
         /// Changes in board
@@ -99,13 +113,13 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(params ISolveTechnique[] solveTechniques)
+        public Board(params ISolveTechnique<Cell>[] solveTechniques)
         {
             this._solveTechniques = solveTechniques;
             Init();
         }
 
-        public Board(IEnumerable<int> uniqueCellIDs, params ISolveTechnique[] solveTechniques)
+        public Board(IEnumerable<int> uniqueCellIDs, params ISolveTechnique<Cell>[] solveTechniques)
         {
             this._solveTechniques = solveTechniques;
             Init();
@@ -131,11 +145,11 @@ namespace DE.Onnen.Sudoku
 
             this._history = new List<SudokuHistoryItem>();
             this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
-            ICell[][][] fieldcontainer;
-            fieldcontainer = new ICell[3][][];
-            fieldcontainer[ROW_CONTAINERTYPE] = new ICell[Consts.DimensionSquare][]; // Row
-            fieldcontainer[COL_CONTAINERTYPE] = new ICell[Consts.DimensionSquare][]; // Col
-            fieldcontainer[BLOCK_CONTAINERTYPE] = new ICell[Consts.DimensionSquare][]; // Block
+            Cell[][][] fieldcontainer;
+            fieldcontainer = new Cell[3][][];
+            fieldcontainer[ROW_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Row
+            fieldcontainer[COL_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Col
+            fieldcontainer[BLOCK_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Block
 
             for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
             {
@@ -162,10 +176,10 @@ namespace DE.Onnen.Sudoku
                     }
                 }
 
-                this._container[containerIdx] = new House[3];
+                this._container[containerIdx] = new House<Cell>[3];
                 for (int containerType = 0; containerType < 3; containerType++)
                 {
-                    this._container[containerIdx][containerType] = new House(fieldcontainer[containerType][containerIdx], (HouseType)containerType, containerIdx);
+                    this._container[containerIdx][containerType] = new House<Cell>(fieldcontainer[containerType][containerIdx], (HouseType)containerType, containerIdx);
                     foreach (Cell f in fieldcontainer[containerType][containerIdx])
                     {
                         f._fieldcontainters[containerType] = this._container[containerIdx][containerType];
@@ -233,7 +247,7 @@ namespace DE.Onnen.Sudoku
         /// Set Cells from otherBoard to this Board.
         /// </summary>
         /// <param name="otherBoard">Another Board</param>
-        public void SetBoard(IBoard otherBoard)
+        public void SetBoard(IBoard<Cell> otherBoard)
         {
             if (otherBoard == null)
             {
@@ -265,7 +279,7 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         public int[] CreateSimpleBoard()
         {
-            return this.Select(x => ((Cell)x).GetUniqueID()).ToArray();
+            return this.Select(x => x.GetUniqueID()).ToArray();
         }
 
         public void SetHistory(int historyId)
@@ -321,7 +335,7 @@ namespace DE.Onnen.Sudoku
 
                         if (this._solveTechniques != null && this._solveTechniques.Length > 0)
                         {
-                            foreach (ISolveTechnique st in this._solveTechniques)
+                            foreach (ISolveTechnique<Cell> st in this._solveTechniques)
                             {
                                 if (st.IsActive)
                                 {
@@ -368,16 +382,20 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Reset Board.
         /// </summary>
-        public new void Clear()
+        public void Clear()
         {
+            for (int i = 0; i < this.Count; i++)
+            {
+                this._cells[i].Digit = 0;
+            }
+
             this._history.Clear();
-            base.Clear();
 
             for (int containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
             {
                 for (int containerType = 0; containerType < 3; containerType++)
                 {
-                    this._container[containerIdx][containerType].CandidateValue = (1 << Consts.DimensionSquare) - 1;
+                    this._container[containerIdx][containerType].Clear();
                 }
             }
         }
@@ -474,11 +492,11 @@ namespace DE.Onnen.Sudoku
                 return;
             }
 
-            this._solveTechniques = new ASolveTechnique[files.Count()];
+            this._solveTechniques = new ASolveTechnique<Cell>[files.Count()];
             int fileCount = 0;
             foreach (string file in files)
             {
-                ISolveTechnique st = SudokuSolveTechniqueLoader.LoadSolveTechnic(file);
+                ISolveTechnique<Cell> st = SudokuSolveTechniqueLoader<Cell>.LoadSolveTechnic(file);
                 this._solveTechniques[fileCount++] = st;
             }
         }
@@ -496,9 +514,9 @@ namespace DE.Onnen.Sudoku
         public override bool Equals(object obj)
         {
             bool retVal = false;
-            if (obj != null && obj is IBoard)
+            if (obj != null && obj is IBoard<Cell>)
             {
-                IBoard nb = (IBoard)obj;
+                IBoard<Cell> nb = (IBoard<Cell>)obj;
                 return Equals(nb);
             }
             return retVal;
@@ -514,7 +532,7 @@ namespace DE.Onnen.Sudoku
             return retHash;
         }
 
-        public bool Equals(IBoard other)
+        public bool Equals(IBoard<Cell> other)
         {
             bool retVal = true;
             if (other == null)
@@ -531,7 +549,25 @@ namespace DE.Onnen.Sudoku
 
         public bool Equals(Board other)
         {
-            return Equals((IBoard)other);
+            return Equals((IBoard<Cell>)other);
         }
+
+        #region IEnumerable<ICell> Members
+
+        public IEnumerator<Cell> GetEnumerator()
+        {
+            return this._cells.Select(x => (Cell)x).GetEnumerator();
+        }
+
+        #endregion IEnumerable<ICell> Members
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this._cells.GetEnumerator();
+        }
+
+        #endregion IEnumerable Members
     }
 }

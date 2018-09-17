@@ -23,7 +23,7 @@ namespace Soduko.Serialization
             return JsonConvert.SerializeObject(transfer, Formatting.Indented);
         }
 
-        public static Board ParseToBoard(string json, params ASolveTechnique[] solveTechniques)
+        public static Board ParseToBoard(string json, params ASolveTechnique<Cell>[] solveTechniques)
         {
             SudokuTransfer transfer = JsonConvert.DeserializeObject<SudokuTransfer>(json);
             Board board = new Board(transfer.Cells, solveTechniques);

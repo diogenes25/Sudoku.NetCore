@@ -1,13 +1,12 @@
-﻿using de.onnen.Sudoku.SudokuExternal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DE.Onnen.Sudoku
 {
-    public class ACellCollection : ICellCollection
+    public class ACellCollection<C> : ICellCollection<C> where C : Cell
     {
-        protected Cell[] _cells;
+        protected C[] _cells;
 
         /// <summary>
         /// Reset Board.
@@ -25,11 +24,11 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ICell this[int index] => this._cells[index];
+        public C this[int index] => this._cells[index];
 
         #region ICollection<ICell> Members
 
-        public bool Contains(ICell item)
+        public bool Contains(Cell item)
         {
             return this._cells.Contains(item);
         }
@@ -43,9 +42,9 @@ namespace DE.Onnen.Sudoku
 
         #region IEnumerable<ICell> Members
 
-        public IEnumerator<ICell> GetEnumerator()
+        public IEnumerator<C> GetEnumerator()
         {
-            return this._cells.Select(x => (ICell)x).GetEnumerator();
+            return this._cells.Select(x => (C)x).GetEnumerator();
         }
 
         #endregion IEnumerable<ICell> Members

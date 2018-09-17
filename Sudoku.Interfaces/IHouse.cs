@@ -29,8 +29,8 @@ namespace DE.Onnen.Sudoku
         /// Singe cell
         /// </summary>
         Cell = 3,
-    } 
-    
+    }
+
     /// <summary>
     /// A group of 9 cells.
     /// <remarks>
@@ -38,18 +38,8 @@ namespace DE.Onnen.Sudoku
     /// In standard sudoku, a house can be a row, a column or a box. There are 27 houses in a standard sudoku grid.
     /// </remarks>
     /// </summary>
-    public interface IHouse : ICellBase, System.Collections.Generic.IEnumerable<ICell>
+    public interface IHouse<C> : IHasCandidates, ICellCollection<C> where C : ICell
     {
-        /// <summary>
-        /// 9 cells of a House.
-        /// </summary>
-        /// <param name="index">Index of the cell in this House</param>
-        /// <returns>Cell of the House</returns>
-        ICell this[int index]
-        {
-            get;
-        }
-
         /// <summary>
         /// Checks a House that every cell in this House is set and each digit is only st once.
         /// </summary>

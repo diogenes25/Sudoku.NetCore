@@ -3,14 +3,19 @@ using System.Linq;
 
 namespace DE.Onnen.Sudoku
 {
-    public class House : ACellBase, IHouse
+    public class House<C> : AHasCandidates, IHouse<C>
+    where C : ICell
     {
-        private readonly ICell[] cells;
+        private readonly C[] cells;
 
         /// <summary>
         /// true = some cells
         /// </summary>
         internal bool ReCheck { set; get; }
+
+        public int Count => this.cells.Length;
+
+        C ICellCollection<C>.this[int index] => this.cells[index];
 
         /// <summary>
         /// Every Cell inside this House has a Digit.
@@ -19,13 +24,13 @@ namespace DE.Onnen.Sudoku
         {
             int retval = 0;
             int checkDigit = 0;
-            foreach (Cell c in this.cells)
+            foreach (C c in this.cells)
             {
                 retval |= c.CandidateValue;
                 checkDigit ^= (1 << (c.Digit - 1));
                 if ((c.CandidateValue == 0 && c.Digit == 0) || (c.CandidateValue > 0 && c.Digit != 0))
                 {
-                    throw new System.ArgumentException($"Cell{c.ID} in House {ID} has an invalid status: Digit: {c.Digit} / Candidate: {c.CandidateValue}");
+                    throw new System.ArgumentException($"Cell{c.ID} in House {this.ID} has an invalid status: Digit: {c.Digit} / Candidate: {c.CandidateValue}");
                 }
             }
             if (retval == 0 && checkDigit != Consts.BaseStart)
@@ -36,14 +41,12 @@ namespace DE.Onnen.Sudoku
             return retval == 0 && checkDigit == Consts.BaseStart;
         }
 
-        internal House(ICell[] cells, HouseType containerType, int containerIdx)
+        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerType)
         {
-            this.CandidateValue = Consts.BaseStart;
             this.cells = cells;
-            this.HType = containerType;
             this.ID = containerIdx;
             this.ReCheck = false;
-            foreach (ICell c in cells)
+            foreach (C c in cells)
             {
                 c.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
             }
@@ -78,7 +81,7 @@ namespace DE.Onnen.Sudoku
             bool ok = true;
             int newBaseValue = Consts.BaseStart;
             HashSet<int> m = new HashSet<int>();
-            foreach (ICell cell in this.cells)
+            foreach (C cell in this.cells)
             {
                 if (cell.Digit > 0)
                 {
@@ -115,7 +118,7 @@ namespace DE.Onnen.Sudoku
                 Value = digit,
             };
 
-            foreach (Cell cell in this.cells)
+            foreach (C cell in this.cells)
             {
                 cell.RemoveCandidate(digit, result);
             }
@@ -147,6 +150,11 @@ namespace DE.Onnen.Sudoku
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.cells.GetEnumerator();
+        }
+
+        IEnumerator<C> IEnumerable<C>.GetEnumerator()
+        {
+            return this.cells.ToList().GetEnumerator();
         }
 
         #endregion IEnumerable Members

@@ -11,28 +11,28 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// This technique is known as "naked pair" if two candidates are involved, "naked triplet" if three, or "naked quad" if four.
     /// </remarks>
     /// </summary>
-    public class NakedPairTrippleQuad : ASolveTechnique
+    public class NakedPairTrippleQuad<C> : ASolveTechnique<C> where C : ICell
     {
         public NakedPairTrippleQuad()
         {
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
         }
 
-        public override void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult)
+        public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             // Key = BaseValue, Anz Possible
-            Dictionary<int, List<ICell>> nakedMore = new Dictionary<int, List<ICell>>();
-            foreach (ICell c in house)
+            Dictionary<int, List<C>> nakedMore = new Dictionary<int, List<C>>();
+            foreach (C c in house)
             {
                 int val = c.CandidateValue;
                 if (!nakedMore.ContainsKey(val))
                 {
-                    nakedMore.Add(val, new List<ICell>());
+                    nakedMore.Add(val, new List<C>());
                 }
                 nakedMore[val].Add(c);
             }
 
-            foreach (KeyValuePair<int, List<ICell>> kv in nakedMore)
+            foreach (KeyValuePair<int, List<C>> kv in nakedMore)
             {
                 if (kv.Value.Count > 5)
                 {
@@ -52,7 +52,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         SolveTechnik = st,
                     };
                     bool found = false;
-                    foreach (ICell c in house)
+                    foreach (C c in house)
                     {
                         if (kv.Value.Contains(c))
                         {

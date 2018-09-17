@@ -11,12 +11,14 @@ namespace DE.Onnen.Sudoku.Extensions
     /// </remarks>
     public static class BoardExtensions
     {
-        public static void SetCellsFromString(this IBoard board, string line)
+        public static void SetCellsFromString<C>(this IBoard<C> board, string line)
+        where C : ICell
         {
             SetCellsFromString(board, line, '0');
         }
 
-        public static void SetCellsFromString(this IBoard board, string line, char zero)
+        public static void SetCellsFromString<C>(this IBoard<C> board, string line, char zero)
+        where C : ICell
         {
             board.Clear();
             int max = Consts.CountCell;
@@ -40,7 +42,8 @@ namespace DE.Onnen.Sudoku.Extensions
             }
         }
 
-        public static string Matrix(this IBoard board)
+        public static string Matrix<C>(this IBoard<C> board)
+        where C : ICell
         {
             return Matrix(board, false);
         }
@@ -68,7 +71,8 @@ namespace DE.Onnen.Sudoku.Extensions
         /// <param name="board"></param>
         /// <param name="onlyGiven"></param>
         /// <returns></returns>
-        public static string Matrix(this IBoard board, bool onlyGiven)
+        public static string Matrix<C>(this IBoard<C> board, bool onlyGiven)
+        where C : ICell
         {
             // ╔═╦═╗
             // ║ ║ ║
@@ -87,7 +91,6 @@ namespace DE.Onnen.Sudoku.Extensions
                     sb.Append(" ├───┼───┼───┤");
                     sb.Append(Environment.NewLine);
                 }
-                //IHouse house = board.GetHouse(HouseType.Row, i);
                 sb.Append((char)(i + 65));
                 for (int x = 0; x < Consts.DimensionSquare; x++)
                 {
@@ -117,7 +120,8 @@ namespace DE.Onnen.Sudoku.Extensions
             return sb.ToString();
         }
 
-        public static string MatrixWithCandidates(this IBoard board)
+        public static string MatrixWithCandidates<C>(this IBoard<C> board)
+        where C : ICell
         {
             StringBuilder sb = new StringBuilder();
             int LineID = 0;
@@ -177,12 +181,12 @@ namespace DE.Onnen.Sudoku.Extensions
             return sb.ToString();
         }
 
-        public static string ToHtmlTable(this IBoard board)
+        public static string ToHtmlTable<C>(this IBoard<C> board) where C : ICell
         {
             return ToHtmlTable(board, false);
         }
 
-        public static string ToHtmlTable(this IBoard board, bool onlyGiven)
+        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven) where C : ICell
         {
             StringBuilder sb = new StringBuilder();
             int id = 0;
@@ -225,7 +229,7 @@ namespace DE.Onnen.Sudoku.Extensions
         /// <param name="row">Row Range from 0-8 or 'A'-'I' or 'a'-'i'</param>
         /// <param name="col">Column</param>
         /// <param name="digit">Digit</param>
-        public static SudokuLog SetDigit(this IBoard board, int row, int col, int digit)
+        public static SudokuLog SetDigit<C>(this IBoard<C> board, int row, int col, int digit) where C : ICell
         {
             int cellid = 0;
             int currentRow = row;

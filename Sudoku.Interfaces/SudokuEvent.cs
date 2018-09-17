@@ -9,7 +9,7 @@ namespace DE.Onnen.Sudoku
         private int _value;
         private String _solveTechnik;
 
-        public ICellBase ChangedCellBase { get; set; }
+        public IHasCandidates ChangedCellBase { get; set; }
         public CellAction Action { get; set; }
         public int Value { private get { return this._value; } set { this._value = value; } }
         public String SolveTechnik { private get { return this._solveTechnik; } set { this._solveTechnik = value; } }

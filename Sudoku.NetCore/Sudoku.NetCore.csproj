@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ACellCollection.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
   </ItemGroup>
 

@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICell.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
+    using System;
+    using System.ComponentModel;
+
     /// <summary>
     /// Smallest element in a sudoku grid, capable of containing a single digit.
     /// </summary>
@@ -11,23 +15,15 @@ namespace DE.Onnen.Sudoku
     /// A cell is always a member of a single row, a single column and a single box.<br />
     /// There are 81 cells in a standard sudoku grid.
     /// </remarks>
-    public interface ICell : ICellBase, INotifyPropertyChanged, IEquatable<ICell>
+    public interface ICell : IHasCandidates, INotifyPropertyChanged, IEquatable<ICell>
     {
         /// <summary>
-        /// This Cell (Digit) is a given Digit.
+        /// Gets true if this Cell (Digit) is a given Digit.
         /// </summary>
         /// <remarks>
-        /// Digit was set by user and not by solving.
+        /// Digit was not set by solving.
         /// </remarks>
-        bool IsGiven { get; set; }
-
-        /// <summary>
-        /// A list of every candidate.
-        /// </summary>
-        /// <remarks>
-        /// @see BaseValue
-        /// </remarks>
-        ReadOnlyCollection<int> Candidates { get; }
+        bool IsGiven { get; }
 
         /// <summary>
         /// A numerical value between 1 and 9, which must be placed in the cells in order to complete the puzzle.

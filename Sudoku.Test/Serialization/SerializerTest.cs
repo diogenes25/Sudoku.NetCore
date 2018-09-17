@@ -11,7 +11,7 @@ namespace Sudoku.Test.Serialization
     [TestClass]
     public class SerializerTest
     {
-        private static ASolveTechnique[] _solveTechniques;
+        private static ASolveTechnique<Cell>[] _solveTechniques;
         private Board _board;
 
         [TestInitialize]
@@ -23,11 +23,11 @@ namespace Sudoku.Test.Serialization
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
         {
-            _solveTechniques = new ASolveTechnique[]
+            _solveTechniques = new ASolveTechnique<Cell>[]
                 {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(),
-                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(),
-                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad()
+                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>()
                 };
         }
 

@@ -14,8 +14,8 @@
     [TestClass]
     public class BoardTest
     {
-        private static ASolveTechnique[] _solveTechniques;
-        private IBoard _board;
+        private static ASolveTechnique<Cell>[] _solveTechniques;
+        private IBoard<Cell> _board;
 
         [TestInitialize]
         public void Initialize()
@@ -36,13 +36,13 @@
 
         #endregion Additional test attributes
 
-        private static ASolveTechnique[] GetSolveTechniques()
+        private static ASolveTechnique<Cell>[] GetSolveTechniques()
         {
-            ASolveTechnique[] st = new ASolveTechnique[]
+            ASolveTechnique<Cell>[] st = new ASolveTechnique<Cell>[]
             {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad(),
-                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates(),
-                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad()
+                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>(),
             };
             return st;
         }
@@ -154,11 +154,10 @@
         [TestMethod]
         public void SetDigitTest5_Test()
         {
-            Board tmpBoard = (Board)this._board;
-            tmpBoard.SetDigit(1, 4, 1);
-            tmpBoard.SetDigit(0, 6, 2);
-            tmpBoard.SetDigit(0, 7, 3);
-            SudokuLog result = tmpBoard.SetDigit(0, 8, 4);
+            _board.SetDigit(1, 4, 1);
+            _board.SetDigit(0, 6, 2);
+            _board.SetDigit(0, 7, 3);
+            SudokuLog result = _board.SetDigit(0, 8, 4);
             this._board.Solve(result);
             int block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, this._board[18].CandidateValue);
@@ -264,8 +263,8 @@
         [TestMethod]
         public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
         {
-            ASolveTechnique[] tempSolveTechniques = null;
-            IBoard tmpBoard = new Board(tempSolveTechniques);
+            ASolveTechnique<Cell>[] tempSolveTechniques = null;
+            IBoard<Cell> tmpBoard = new Board(tempSolveTechniques);
             CheckBoard(tmpBoard);
         }
 
@@ -274,7 +273,7 @@
             CheckBoard(this._board);
         }
 
-        private static void CheckBoard(IBoard target)
+        private static void CheckBoard(IBoard<Cell> target)
         {
             Assert.AreEqual(Consts.CountCell, ((Board)target).Count);
             foreach (ICell cell in target)
@@ -329,23 +328,6 @@
         }
 
         /// <summary>
-        ///A test for Clone
-        ///</summary>
-        [TestMethod]
-        public void Clone_Digit_and_Candidates_are_equal_to_clone_Test()
-        {
-            Board expected = new Board();
-            for (int i = 0; i < Consts.DimensionSquare; i++)
-            {
-                this._board.SetDigit(i, i, i + 1);
-                expected.SetDigit(i, i, i + 1);
-            }
-            object actual;
-            actual = ((Board)this._board).Clone();
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
         ///A test for CreateSimpleBoard
         ///</summary>
         [TestMethod]
@@ -377,28 +359,6 @@
             }
         }
 
-        [TestMethod]
-        public void Clone_Test()
-        {
-            Board recreatedBoard = (Board)((Board)this._board).Clone();
-            Assert.AreEqual(this._board, recreatedBoard);
-            Assert.AreEqual(3, recreatedBoard.SolveTechniques.Count);
-            Assert.AreEqual(3, ((Board)this._board).SolveTechniques.Count);
-            for (int i = 0; i < Consts.CountCell; i++)
-            {
-                Assert.AreEqual(i, recreatedBoard[i].ID);
-                Assert.AreEqual(this._board[i].CandidateValue, recreatedBoard[i].CandidateValue);
-                Assert.AreEqual(this._board[i].Digit, recreatedBoard[i].Digit);
-                Assert.AreEqual(this._board[i].ID, recreatedBoard[i].ID);
-            }
-
-            this._board.SetDigit(0, 1);
-            for (int ccc = 0; ccc < Consts.DimensionSquare - 1; ccc++)
-            {
-                Assert.AreEqual(this._board[1].Candidates[ccc], ccc + 2);
-            }
-        }
-
         /// <summary>
         ///A test for GetEnumerator
         ///</summary>
@@ -422,7 +382,7 @@
         public void GetHouse_House_Row_Test()
         {
             HouseType houseType = HouseType.Row;
-            IHouse actual;
+            IHouse<Cell> actual;
             for (int idx = 0; idx < Consts.DimensionSquare; idx++)
             {
                 actual = this._board.GetHouse(houseType, idx);
@@ -442,7 +402,7 @@
         public void GetHouse_House_Col_Test()
         {
             HouseType houseType = HouseType.Col;
-            IHouse actual;
+            IHouse<Cell> actual;
             for (int idx = 0; idx < Consts.DimensionSquare; idx++)
             {
                 actual = this._board.GetHouse(houseType, idx);
@@ -461,7 +421,7 @@
         [TestMethod]
         public void SetBoard_set_Digit_at_cell_0_Test()
         {
-            IBoard otherBoard = new Board();
+            IBoard<Cell> otherBoard = new Board();
             otherBoard.SetDigit(0, 1);
             Assert.AreEqual(0, this._board[0].Digit);
             ((Board)this._board).SetBoard(otherBoard);
@@ -569,18 +529,6 @@
             // Es ist möglich die 1 oder 2 in Zelle 3 zu setzen. Dies führt aber zu einem Fehler.
             SudokuLog log = this._board.SetDigit(3, 1);
             Assert.IsFalse(log.Successful);
-        }
-
-        [TestMethod]
-        public void Check_Equals_If_Cellvalue_Changes_Test()
-        {
-            IBoard otherBoard = new Board();
-            Assert.AreEqual(this._board, otherBoard);
-            Assert.AreEqual(this._board.GetHashCode(), otherBoard.GetHashCode());
-            SudokuLog log = otherBoard[0].SetDigit(1);
-            Assert.IsTrue(log.Successful);
-            Assert.AreNotEqual(this._board, otherBoard);
-            Assert.AreNotEqual(this._board.GetHashCode(), otherBoard.GetHashCode());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class IBoardTest
     {
-        private IBoard target;
+        private IBoard<Cell> target;
 
         [TestInitialize]
         public void Initialize()

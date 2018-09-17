@@ -1,8 +1,8 @@
 ﻿namespace DE.Onnen.Sudoku.SolveTechniques
 {
-    public interface ISolveTechnique
+    public interface ISolveTechnique<C> where C : ICell
     {
-        SolveTechniqueInfo Info { get; set; }
+        SolveTechniqueInfo Info { get; }
 
         bool IsActive { get; }
 
@@ -10,7 +10,7 @@
 
         void Deactivate();
 
-        void SolveHouse(IBoard board, IHouse house, SudokuLog sudokuResult);
+        void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
 
         ECellView CellView { get; }
     }
