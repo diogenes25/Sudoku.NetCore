@@ -41,10 +41,9 @@ namespace DE.Onnen.Sudoku
             return retval == 0 && checkDigit == Consts.BaseStart;
         }
 
-        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerType)
+        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerIdx, containerType)
         {
             this.cells = cells;
-            this.ID = containerIdx;
             this.ReCheck = false;
             foreach (C c in cells)
             {

@@ -29,6 +29,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 {
                     nakedMore.Add(val, new List<C>());
                 }
+
                 nakedMore[val].Add(c);
             }
 
@@ -48,7 +49,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     {
                         Value = 0,
                         ChangedCellBase = house,
-                        Action = CellAction.RemPoss,
+                        Action = CellAction.RemoveCandidate,
                         SolveTechnik = st,
                     };
                     bool found = false;
@@ -72,9 +73,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             }
         }
 
-        public new ECellView CellView
-        {
-            get { return ECellView.OnlyHouse; }
-        }
+        public override ECellView CellView => ECellView.OnlyHouse;
     }
 }

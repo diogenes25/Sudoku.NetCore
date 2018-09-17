@@ -4,15 +4,12 @@ using System.ComponentModel;
 
 namespace DE.Onnen.Sudoku
 {
-    public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged
+    public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged, System.IEquatable<AHasCandidates>
     {
         /// <summary>
         /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
         internal int _candidateValueInternal;
-
-        private int _id;
-        private HouseType _hType;
 
         /// <summary>
         /// Changes in CandidateValue and/or Digit.
@@ -22,19 +19,21 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public HouseType HType
         {
-            get => this._hType;
+            get;
+            private set;
         }
 
         /// <inheritdoc />
         public int ID
         {
-            get => this._id;
-            protected set => this._id = value;
+            get;
+            private set;
         }
 
-        protected AHasCandidates(HouseType ht)
+        protected AHasCandidates(int id, HouseType ht)
         {
-            this._hType = ht;
+            this.ID = id;
+            this.HType = ht;
             this.Clear();
         }
 
@@ -99,12 +98,32 @@ namespace DE.Onnen.Sudoku
                 return false;
             }
 
-            return this.ID == ((IHasCandidates)obj).ID;
+            return Equals((IHasCandidates)obj);
+        }
+
+        public bool Equals(AHasCandidates obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return Equals((IHasCandidates)obj);
+        }
+
+        public bool Equals(IHasCandidates obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return (this.ID == obj.ID) && this.HType == obj.HType;
         }
 
         public override int GetHashCode()
         {
-            return this.ID;
+            return this.ID + (((int)this.HType) * 100);
         }
 
         public void Clear()
@@ -131,7 +150,7 @@ namespace DE.Onnen.Sudoku
             SudokuEvent eventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
-                Action = CellAction.RemPoss,
+                Action = CellAction.RemoveCandidate,
                 SolveTechnik = "SetDigit",
                 Value = candidateToRemove,
             };
@@ -174,7 +193,7 @@ namespace DE.Onnen.Sudoku
                     {
                         Value = i + 1,
                         ChangedCellBase = this,
-                        Action = CellAction.RemPoss,
+                        Action = CellAction.RemoveCandidate,
                         SolveTechnik = "LastCandidate",
                     };
 

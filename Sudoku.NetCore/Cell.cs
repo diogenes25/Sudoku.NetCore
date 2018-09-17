@@ -61,9 +61,8 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        internal Cell(int id) : base(HouseType.Cell)
+        internal Cell(int id) : base(id, HouseType.Cell)
         {
-            this.ID = id;
         }
 
         public static Cell CreateCellFromUniqueID(int x)
@@ -173,6 +172,16 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public bool IsGiven { get; internal set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ICell))
+            {
+                return false;
+            }
+
+            return this.ID == ((ICell)obj).ID;
+        }
+
         public bool Equals(ICell othercell)
         {
             if (othercell == null)
@@ -185,6 +194,11 @@ namespace DE.Onnen.Sudoku
         public bool Equals(Cell other)
         {
             return this.Equals((ICell)other);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

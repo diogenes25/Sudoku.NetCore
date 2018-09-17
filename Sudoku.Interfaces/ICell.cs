@@ -18,7 +18,7 @@ namespace DE.Onnen.Sudoku
     public interface ICell : IHasCandidates, INotifyPropertyChanged, IEquatable<ICell>
     {
         /// <summary>
-        /// Gets true if this Cell (Digit) is a given Digit.
+        /// Gets a value indicating whether this Cell (Digit) is a given Digit.
         /// </summary>
         /// <remarks>
         /// Digit was not set by solving.
@@ -26,7 +26,7 @@ namespace DE.Onnen.Sudoku
         bool IsGiven { get; }
 
         /// <summary>
-        /// A numerical value between 1 and 9, which must be placed in the cells in order to complete the puzzle.
+        /// Gets a numerical value between 1 and 9, which must be placed in the cells in order to complete the puzzle.
         /// </summary>
         /// <remarks>
         /// For each digit, there must be 9 instances in the solution to satisfy all constraints.
@@ -39,16 +39,5 @@ namespace DE.Onnen.Sudoku
         /// <param name="digit">Digit to cell.</param>
         /// <returns>Log with every action that was done regarding this action.</returns>
         SudokuLog SetDigit(int digit);
-
-        /// <summary>
-        /// Removing a candidate from the grid, by means of logical deduction.
-        /// </summary>
-        /// <remarks>
-        /// Most advanced solving techniques result in one or more eliminations.
-        /// </remarks>
-        /// <param name="candidate">Candidate to be removed</param>
-        /// <param name="child"></param>
-        /// <returns>true = The candidate was succesful removed. false = candidate was no in the cell.</returns>
-        bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult);
     }
 }

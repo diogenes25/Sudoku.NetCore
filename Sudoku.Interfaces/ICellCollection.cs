@@ -1,23 +1,29 @@
-﻿using System.Collections.Generic;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICellCollection.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
-    public interface ICellCollection<T> : IEnumerable<T> where T : ICell
+    /// <summary>
+    /// Contains cells.
+    /// </summary>
+    /// <remarks>A Board has Cells and Houses contains Cells as well.</remarks>
+    /// <typeparam name="T">A Cell must be derived from ICell</typeparam>
+    public interface ICellCollection<out T> : System.Collections.Generic.IEnumerable<T> where T : ICell
     {
-        // Get a specific cells of the board.
+        /// <summary>
+        /// Gets the number of Cells
+        /// </summary>
+        /// <returns>Number of cells.</returns>
+        int Count { get; }
+
         /// <summary>
         /// Get a specific cells of the board.
         /// </summary>
         /// <param name="index">Id of the cell.</param>
         /// <returns>Cell with the specific ID</returns>
         T this[int index] { get; }
-
-        // Gets the number of Cells
-        /// <summary>
-        /// Gets the number of Cells
-        /// </summary>
-        /// <returns>Number of cells.</returns>
-        int Count { get; }
 
         /// <summary>
         /// Clears every Cell information and sets the Board to start values.

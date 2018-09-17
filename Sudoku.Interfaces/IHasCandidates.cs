@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ICell.cs" company="Onnen.de">
+// <copyright file="IHasCandidates.cs" company="Onnen.de">
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
@@ -9,12 +9,12 @@ namespace DE.Onnen.Sudoku
     /// Contains candidates.
     /// </summary>
     /// <remarks>
-    /// A candidate is a pssible Digit.
+    /// A candidate is a possible Digit.
     /// </remarks>
     public interface IHasCandidates
     {
         /// <summary>
-        /// A bitmask of every candidate
+        /// Gets a bitmask of every candidate
         /// </summary>
         /// <remarks>
         /// A possible solution for an unsolved cell.
@@ -22,17 +22,17 @@ namespace DE.Onnen.Sudoku
         /// Solving a sudoku puzzle is mainly done by elimination of candidates.
         /// When a cell contains a digit, the remaining values are no longer considered candidates for that cell.
         /// In addition, all peers of that cell lose their candidates for that digit, because each house can only contain one instance of each digit.
-        /// @see RemovePossibleDigit(int candidate, SudokuResult child)
+        /// @see RemoveCandidate(candidate, child)
         /// </remarks>
         int CandidateValue { get; }
 
         /// <summary>
-        /// The type of house (or cell).
+        /// Gets the type of house (or cell).
         /// </summary>
         HouseType HType { get; }
 
         /// <summary>
-        /// ID of the Cell/House.
+        /// Gets ID of the Cell/House.
         /// </summary>
         /// <remarks>
         /// There are 81 Cells and 9 horizontal rows, nine vertical columns, and nine 3 x 3 blocks (also called boxes).<br />
@@ -43,7 +43,7 @@ namespace DE.Onnen.Sudoku
         int ID { get; }
 
         /// <summary>
-        /// A list of every candidate.
+        /// Gets a list of every candidate.
         /// </summary>
         /// <remarks>
         /// @see BaseValue
@@ -51,16 +51,19 @@ namespace DE.Onnen.Sudoku
         System.Collections.ObjectModel.ReadOnlyCollection<int> Candidates { get; }
 
         /// <summary>
-        /// Reset all Cadidates to startvalue.
+        /// Reset all candidate to start value.
         /// </summary>
         void Clear();
 
         /// <summary>
-        /// REmoves a possible candidate
+        /// Removing a candidate from the grid, by means of logical deduction.
         /// </summary>
-        /// <param name="candidateToRemove">Candidate to remove</param>
-        /// <param name="sudokuResult">Some infos</param>
-        /// <returns>true == a possible candidate was removed</returns>
-        bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult);
+        /// <remarks>
+        /// Most advanced solving techniques result in one or more eliminations.
+        /// </remarks>
+        /// <param name="candidateToRemove">Candidate to be removed</param>
+        /// <param name="sudokuLog">Log information that stores all the steps that were necessary to perform the last solving run.</param>
+        /// <returns>true = The candidate was successful removed. false = candidate was no in the cell.</returns>
+        bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuLog);
     }
 }

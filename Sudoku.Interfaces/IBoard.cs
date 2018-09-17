@@ -9,21 +9,20 @@ namespace DE.Onnen.Sudoku
 
     /// <summary>
     /// Sudoku puzzle.
+    /// </summary>
     /// <remarks>
     /// It contains the 81 constituent cells, lined up in 9 rows and 9 columns, with a distinct border around the boxes.
     /// </remarks>
-    /// </summary>
+    /// <typeparam name="C">Cell must be derived from ICell</typeparam>
     public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>>
     where C : ICell
     {
-        // Gets the percentage solution progress
         /// <summary>
         /// Gets the percentage solution progress
         /// </summary>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }
 
-        // Returns a specific house.
         /// <summary>
         /// Returns a specific house.
         /// </summary>
@@ -32,14 +31,12 @@ namespace DE.Onnen.Sudoku
         /// <returns>House that matches the HouseType an HouseID</returns>
         IHouse<C> GetHouse(HouseType houseType, int houseID);
 
-        // Return true when Sudoku is completed.
         /// <summary>
         /// Return true when Sudoku is completed.
         /// </summary>
         /// <returns>true == Board is completely solved.</returns>
         bool IsComplete();
 
-        // Set a digit at cell.
         /// <summary>
         /// Set a digit at cell.
         /// </summary>
@@ -48,7 +45,6 @@ namespace DE.Onnen.Sudoku
         /// <returns>Log-Information of the action that were performed after this digit was set.</returns>
         SudokuLog SetDigit(int cellID, int digitToSet);
 
-        // Solves Sudoku with SolveTechniques (no Backtracking).
         /// <summary>
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
@@ -56,7 +52,6 @@ namespace DE.Onnen.Sudoku
         /// <returns>true == No Errors while trying to solve. It does not mean the Sudoku was solved completely</returns>
         bool Solve(SudokuLog sudokuResult);
 
-        // Solve by backtracking (brute force) every Digit.
         /// <summary>
         /// Solve by backtracking (brute force) every Digit.
         /// </summary>
@@ -69,7 +64,6 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public static class Consts
     {
-        // Edge length of a box.<br />
         /// <summary>
         /// Edge length of a box.<br />
         /// </summary>
@@ -79,7 +73,6 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         public static readonly int Dimension = 3;
 
-        // Total edge length of the sudoku.<br />
         /// <summary>
         /// Total edge length of the sudoku.<br />
         /// </summary>
@@ -88,7 +81,6 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         public static readonly int DimensionSquare = Dimension * Dimension;
 
-        // Initial value of every candidate as a  Bitmask.
         /// <summary>
         /// Initial value of every candidate as a  Bitmask.
         /// </summary>
@@ -97,11 +89,15 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         public static readonly int BaseStart = (1 << Consts.DimensionSquare) - 1;
 
-        // Number of cells total.
         /// <summary>
         /// Number of cells total.
         /// </summary>
         /// <returns>In a normal sudoku it should be 81 ((3*3) * (3*3))</returns>
         public static readonly int CountCell = Consts.DimensionSquare * Consts.DimensionSquare;
+
+        /// <summary>
+        /// Number of possible candidates.
+        /// </summary>
+        public static readonly double SolvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
     }
 }

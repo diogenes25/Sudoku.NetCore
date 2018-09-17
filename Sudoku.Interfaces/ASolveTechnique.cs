@@ -1,15 +1,19 @@
-﻿namespace DE.Onnen.Sudoku.SolveTechniques
+﻿//-----------------------------------------------------------------------
+// <copyright file="ASolveTechnique.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+namespace DE.Onnen.Sudoku.SolveTechniques
 {
-    public enum ECellView
-    {
-        OnlyHouse,
-        GlobalView,
-    }
-
+    /// <summary>
+    /// A Simple core implementation of the Interface ISolveTechnique.
+    /// </summary>
+    /// <typeparam name="C">Type of Cell</typeparam>
     public abstract class ASolveTechnique<C> : ISolveTechnique<C> where C : ICell
     {
-        private bool isActive = true;
-
+        /// <summary>
+        /// Initializes a new instance of the ASolveTechnique class.
+        /// </summary>
         protected ASolveTechnique()
         {
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
@@ -17,33 +21,23 @@
 
         #region ISolveTechnic Members
 
-        public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
+        /// <inheritdoc />
+        public bool IsActive { get; private set; } = true;
 
+        /// <inheritdoc />
         public SolveTechniqueInfo Info { get; protected set; }
 
-        public void Activate()
-        {
-            this.IsActive = true;
-        }
+        /// <inheritdoc />
+        public virtual ECellView CellView => ECellView.OnlyHouse;
 
-        public void Deactivate()
-        {
-            this.IsActive = false;
-        }
+        /// <inheritdoc />
+        public void Activate() => this.IsActive = true;
 
-        public bool IsActive
-        {
-            get { return this.isActive; }
-            private set
-            {
-                this.isActive = value;
-            }
-        }
+        /// <inheritdoc />
+        public void Deactivate() => this.IsActive = false;
 
-        public virtual ECellView CellView
-        {
-            get { return ECellView.GlobalView; }
-        }
+        /// <inheritdoc />
+        public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
 
         #endregion ISolveTechnic Members
     }

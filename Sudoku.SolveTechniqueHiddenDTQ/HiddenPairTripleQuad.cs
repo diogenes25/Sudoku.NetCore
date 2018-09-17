@@ -110,7 +110,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     cresult.EventInfoInResult = new SudokuEvent
                     {
                         ChangedCellBase = house,
-                        Action = CellAction.RemPoss,
+                        Action = CellAction.RemoveCandidate,
                         Value = 999999999,
                         SolveTechnik = st,
                     };
@@ -136,9 +136,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             }
         }
 
-        public new ECellView CellView
-        {
-            get { return ECellView.OnlyHouse; }
-        }
+        public override ECellView CellView => ECellView.OnlyHouse;
     }
 }

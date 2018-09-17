@@ -33,11 +33,12 @@ namespace DE.Onnen.Sudoku
 
     /// <summary>
     /// A group of 9 cells.
+    /// </summary>
     /// <remarks>
     /// Each cell must contain a different digit in the solution.
     /// In standard sudoku, a house can be a row, a column or a box. There are 27 houses in a standard sudoku grid.
     /// </remarks>
-    /// </summary>
+    /// <typeparam name="C">Cell must be derived from ICell</typeparam>
     public interface IHouse<C> : IHasCandidates, ICellCollection<C> where C : ICell
     {
         /// <summary>

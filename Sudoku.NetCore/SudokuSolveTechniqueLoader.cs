@@ -14,7 +14,7 @@ namespace DE.Onnen.Sudoku
             SolveTechniqueInfo info;
             if (solveTechnic is ISolveTechnique<C>)
             {
-                info = ((ISolveTechnique<C>)solveTechnic).Info;
+                info = solveTechnic.Info;
             }
             else
             {

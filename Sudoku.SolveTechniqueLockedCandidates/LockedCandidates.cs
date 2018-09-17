@@ -2,6 +2,8 @@
 {
     public class LockedCandidates<C> : ASolveTechnique<C> where C : ICell
     {
+        public override ECellView CellView => ECellView.GlobalView;
+
         public LockedCandidates()
         {
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
@@ -88,7 +90,7 @@
                             child.EventInfoInResult = new SudokuEvent
                             {
                                 ChangedCellBase = resultContainer,
-                                Action = CellAction.RemPoss,
+                                Action = CellAction.RemoveCandidate,
                                 SolveTechnik = solveTechnik,
                                 Value = dc + 1,
                             };

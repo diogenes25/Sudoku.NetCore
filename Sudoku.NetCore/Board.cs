@@ -29,7 +29,6 @@ namespace DE.Onnen.Sudoku
         private List<SudokuHistoryItem> _history;
         private readonly House<Cell>[][] _container = new House<Cell>[Consts.DimensionSquare][];
         private bool _keepGoingWithChecks;
-        private double _solvePercentBase;
         private ISolveTechnique<Cell>[] _solveTechniques;
 
         public ReadOnlyCollection<SudokuHistoryItem> History { get { return this._history.AsReadOnly(); } }
@@ -74,9 +73,15 @@ namespace DE.Onnen.Sudoku
                 double currSolvePercent = 0;
                 foreach (Cell c in this._cells)
                 {
-                    currSolvePercent += (Consts.DimensionSquare - c.Candidates.Count);
+                    for (int i = 0; i < Consts.DimensionSquare; i++)
+                    {
+                        if (((1 << i) & c.CandidateValue) > 0)
+                        {
+                            currSolvePercent++;
+                        }
+                    }
                 }
-                return (currSolvePercent / this._solvePercentBase) * 100;
+                return 100 - ((currSolvePercent / Consts.SolvePercentBase) * 100);
             }
         }
 
@@ -144,7 +149,7 @@ namespace DE.Onnen.Sudoku
             }
 
             this._history = new List<SudokuHistoryItem>();
-            this._solvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
+
             Cell[][][] fieldcontainer;
             fieldcontainer = new Cell[3][][];
             fieldcontainer[ROW_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Row
@@ -525,7 +530,7 @@ namespace DE.Onnen.Sudoku
         public override int GetHashCode()
         {
             int retHash = 0;
-            foreach (ICell c in this)
+            foreach (Cell c in this)
             {
                 retHash += (c.Digit + (1 << (c.ID % 9)));
             }
