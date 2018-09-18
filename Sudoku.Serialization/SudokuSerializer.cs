@@ -3,7 +3,7 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Soduko.Serialization
+namespace DE.Onnen.Sudoku.Serialization
 {
     using DE.Onnen.Sudoku;
     using DE.Onnen.Sudoku.SolveTechniques;

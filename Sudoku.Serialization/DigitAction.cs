@@ -3,7 +3,7 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Soduko.Serialization
+namespace DE.Onnen.Sudoku.Serialization
 {
     /// <summary>
     /// Digits set by the user.

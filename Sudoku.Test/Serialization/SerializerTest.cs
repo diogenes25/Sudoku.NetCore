@@ -4,9 +4,9 @@
 namespace Sudoku.Test.Serialization
 {
     using DE.Onnen.Sudoku;
+    using DE.Onnen.Sudoku.Serialization;
     using DE.Onnen.Sudoku.SolveTechniques;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Soduko.Serialization;
 
     [TestClass]
     public class SerializerTest

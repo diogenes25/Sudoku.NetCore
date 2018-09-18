@@ -3,7 +3,7 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
-namespace Soduko.Serialization
+namespace DE.Onnen.Sudoku.Serialization
 {
     using System.Collections.ObjectModel;
 
