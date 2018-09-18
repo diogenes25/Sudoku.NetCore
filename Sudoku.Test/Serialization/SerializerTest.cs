@@ -1,7 +1,4 @@
-﻿/// <summary>
-///
-/// </summary>
-namespace Sudoku.Test.Serialization
+﻿namespace Sudoku.Test.Serialization
 {
     using DE.Onnen.Sudoku;
     using DE.Onnen.Sudoku.Serialization;
