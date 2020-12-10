@@ -68,9 +68,9 @@ namespace DE.Onnen.Sudoku
         public static Cell CreateCellFromUniqueID(int x)
         {
             int mask = ((1 << 7) - 1);
-            int tmpId = 0;
             int tmpCandidates = 0;
             int tmpDigit = 0;
+            int tmpId;
             if (x < 0)
             {
                 tmpId = (x * -1) & mask;
@@ -91,16 +91,14 @@ namespace DE.Onnen.Sudoku
 
         public int GetUniqueID()
         {
-            int retVal = 0;
             if (this.Digit == 0)
             {
-                retVal = (this.CandidateValue << 7) + this.ID;
+                return (this.CandidateValue << 7) + this.ID;
             }
             else
             {
-                retVal = CreateUniqueID(this.ID, this.Digit);
+                return CreateUniqueID(this.ID, this.Digit);
             }
-            return retVal;
         }
 
         public static int CreateUniqueID(int id, int digit)

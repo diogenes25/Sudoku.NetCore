@@ -107,15 +107,14 @@ namespace DE.Onnen.Sudoku
             Cell target = new Cell(0);
             SudokuLog sudokuResult = null;
             bool expected = false;
-            bool actual = false; target.CheckLastDigit(sudokuResult);
-            int newBaseValue = 0;
+            target.CheckLastDigit(sudokuResult);
             for (int x = 0; x < Consts.DimensionSquare - 3; x++)
             {
                 for (int y = x + 1; y < Consts.DimensionSquare - 2; y++)
                 {
-                    newBaseValue = (1 << x) | (1 << y);
+                    int newBaseValue = (1 << x) | (1 << y);
                     target.CandidateValue = newBaseValue;
-                    actual = target.CheckLastDigit(sudokuResult);
+                    bool actual = target.CheckLastDigit(sudokuResult);
                     Assert.AreEqual(expected, actual);
                 }
             }

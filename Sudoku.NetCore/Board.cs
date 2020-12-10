@@ -47,7 +47,7 @@ namespace DE.Onnen.Sudoku
 
         public int Count
         {
-            get { return this._cells.Count(); }
+            get { return this._cells.Length; }
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace DE.Onnen.Sudoku
 
         private bool BacktrackingContinue(Board board)
         {
-            bool isComplete = false;
+            bool isComplete;
             try
             {
                 isComplete = board.IsComplete();
@@ -492,12 +492,12 @@ namespace DE.Onnen.Sudoku
             }
 
             string[] files = Directory.GetFiles(filePath, "*.dll");
-            if (files.Count() < 1)
+            if (files.Length < 1)
             {
                 return;
             }
 
-            this._solveTechniques = new ASolveTechnique<Cell>[files.Count()];
+            this._solveTechniques = new ASolveTechnique<Cell>[files.Length];
             int fileCount = 0;
             foreach (string file in files)
             {
@@ -518,13 +518,12 @@ namespace DE.Onnen.Sudoku
 
         public override bool Equals(object obj)
         {
-            bool retVal = false;
-            if (obj != null && obj is IBoard<Cell>)
+            if (obj is not null and IBoard<Cell> board)
             {
-                IBoard<Cell> nb = (IBoard<Cell>)obj;
+                IBoard<Cell> nb = board;
                 return Equals(nb);
             }
-            return retVal;
+            return false;
         }
 
         public override int GetHashCode()

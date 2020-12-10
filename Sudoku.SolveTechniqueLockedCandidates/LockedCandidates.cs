@@ -25,9 +25,10 @@
             {
                 if (valueOnlyInOnePart[x] > 0)
                 {
-                    int houseIdx = 0;
-                    HouseType cellInContainertype = house.HType;
+                    _ = house.HType;
                     string st = "LockedCandidatesClaiming";
+                    int houseIdx;
+                    HouseType cellInContainertype;
                     switch (house.HType)
                     {
                         case HouseType.Row:
