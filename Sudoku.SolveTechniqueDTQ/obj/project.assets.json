@@ -1,0 +1,95 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "Sudoku.Interfaces/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Sudoku.Interfaces.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Sudoku.Interfaces.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Sudoku.Interfaces/1.0.0": {
+      "type": "project",
+      "path": "../Sudoku.Interfaces/Sudoku.Interfaces.csproj",
+      "msbuildProject": "../Sudoku.Interfaces/Sudoku.Interfaces.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "Sudoku.Interfaces >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\TOnnen\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.SolveTechniqueDTQ\\Sudoku.SolveTechniqueDTQ.csproj",
+      "projectName": "Sudoku.SolveTechniqueDTQ",
+      "projectPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.SolveTechniqueDTQ\\Sudoku.SolveTechniqueDTQ.csproj",
+      "packagesPath": "C:\\Users\\TOnnen\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.SolveTechniqueDTQ\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\TOnnen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {
+            "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj": {
+              "projectPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
