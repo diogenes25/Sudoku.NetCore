@@ -11,42 +11,8 @@ namespace DE.Onnen.Sudoku.Extensions
     /// </remarks>
     public static class BoardExtensions
     {
-        public static void SetCellsFromString<C>(this IBoard<C> board, string line)
-        where C : ICell
-        {
-            SetCellsFromString(board, line, '0');
-        }
-
-        public static void SetCellsFromString<C>(this IBoard<C> board, string line, char zero)
-        where C : ICell
-        {
-            board.Clear();
-            int max = Consts.CountCell;
-            if (line.Length < max)
-            {
-                throw new ArgumentOutOfRangeException("string is to short");
-            }
-
-            for (int x = 0; x < max; x++)
-            {
-                char currChar = line[x];
-                if (!currChar.Equals(zero))
-                {
-                    int digit = Convert.ToInt32(currChar) - 48;
-                    SudokuLog result = board.SetDigit(x, digit);
-                    if (!result.Successful)
-                    {
-                        throw new InvalidOperationException("Digit : " + digit + " could not be set");
-                    }
-                }
-            }
-        }
-
         public static string Matrix<C>(this IBoard<C> board)
-        where C : ICell
-        {
-            return Matrix(board, false);
-        }
+        where C : ICell => Matrix(board, false);
 
         /// <summary>
         /// Nice Output.
@@ -78,13 +44,13 @@ namespace DE.Onnen.Sudoku.Extensions
             // ║ ║ ║
             // ╠═╬═╣
             // ╚═╩═╝
-            StringBuilder sb = new StringBuilder();
-            int id = 0;
+            var sb = new StringBuilder();
+            var id = 0;
             sb.Append("  123 456 789");
             sb.Append(Environment.NewLine);
             sb.Append(" ┌───┬───┬───┐");
             sb.Append(Environment.NewLine);
-            for (int i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DimensionSquare; i++)
             {
                 if (i > 0 && i % 3 == 0)
                 {
@@ -92,11 +58,11 @@ namespace DE.Onnen.Sudoku.Extensions
                     sb.Append(Environment.NewLine);
                 }
                 sb.Append((char)(i + 65));
-                for (int x = 0; x < Consts.DimensionSquare; x++)
+                for (var x = 0; x < Consts.DimensionSquare; x++)
                 {
                     if (x % 3 == 0)
                     {
-                        sb.Append("│");
+                        sb.Append('│');
                     }
                     if (onlyGiven)
                     {
@@ -108,7 +74,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     }
                     id++;
                 }
-                sb.Append("│");
+                sb.Append('│');
                 sb.Append(Environment.NewLine);
             }
             sb.Append(" └───┴───┴───┘");
@@ -123,27 +89,27 @@ namespace DE.Onnen.Sudoku.Extensions
         public static string MatrixWithCandidates<C>(this IBoard<C> board)
         where C : ICell
         {
-            StringBuilder sb = new StringBuilder();
-            int LineID = 0;
-            for (int boxX = 0; boxX < 3; boxX++)
+            var sb = new StringBuilder();
+            var lineID = 0;
+            for (var boxX = 0; boxX < 3; boxX++)
             {
                 sb.Append("┌───┬───┬───┐┌───┬───┬───┐┌───┬───┬───┐");
                 sb.Append(Environment.NewLine);
-                for (int boxY = 0; boxY < 3; boxY++)
+                for (var boxY = 0; boxY < 3; boxY++)
                 {
-                    int cellIDY = 0;
+                    var cellIDY = 0;
                     for (int l = 0, m = (Consts.Dimension); l < m; l++)
                     {
                         for (int line = 0, maxline = (Consts.Dimension); line < maxline; line++)
                         {
-                            sb.Append("│");
+                            sb.Append('│');
                             for (int partX = 0, maxpartX = (Consts.Dimension); partX < maxpartX; partX++)
                             {
                                 for (int part = 0, maxpart = (Consts.Dimension); part < maxpart; part++)
                                 {
-                                    int digit = part + (cellIDY * 3) + 1;
-                                    int cellID = (LineID * Consts.DimensionSquare) + partX + (line * 3);
-                                    string v = String.Empty;
+                                    var digit = part + (cellIDY * 3) + 1;
+                                    var cellID = (lineID * Consts.DimensionSquare) + partX + (line * 3);
+                                    string v;
                                     if (digit == 5 && board[cellID].Digit > 0)
                                     {
                                         v = board[cellID].Digit.ToString();
@@ -154,13 +120,13 @@ namespace DE.Onnen.Sudoku.Extensions
                                     }
                                     sb.Append(v);
                                 }
-                                sb.Append("│");
+                                sb.Append('│');
                             }
                         }
                         sb.Append(Environment.NewLine);
                         cellIDY++;
                     }
-                    LineID++;
+                    lineID++;
                     if (boxY < 2)
                     {
                         sb.Append("├───┼───┼───┤├───┼───┼───┤├───┼───┼───┤");
@@ -181,46 +147,32 @@ namespace DE.Onnen.Sudoku.Extensions
             return sb.ToString();
         }
 
-        public static string ToHtmlTable<C>(this IBoard<C> board) where C : ICell
-        {
-            return ToHtmlTable(board, false);
-        }
+        public static void SetCellsFromString<C>(this IBoard<C> board, string line)
+                                where C : ICell => SetCellsFromString(board, line, '0');
 
-        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven) where C : ICell
+        public static void SetCellsFromString<C>(this IBoard<C> board, string line, char zero)
+        where C : ICell
         {
-            StringBuilder sb = new StringBuilder();
-            int id = 0;
-            sb.Append("<table class=\"sudokutbl\">");
-            sb.Append(Environment.NewLine);
-            for (int i = 0; i < Consts.DimensionSquare; i++)
+            board.Clear();
+            var max = Consts.CountCell;
+            if (line.Length < max)
             {
-                sb.Append(Environment.NewLine);
-                sb.Append("<tr class=\"sudokurow\">");
-                sb.Append(Environment.NewLine);
-                sb.Append("\t");
-                for (int x = 0; x < Consts.DimensionSquare; x++)
-                {
-                    sb.Append($"<td class=\"{((board[id].IsGiven) ? "sudokucell_given" : "sudokucell")}\" id=\"cell[");
-                    sb.Append(id);
-                    sb.Append("]\" >");
-                    if (onlyGiven)
-                    {
-                        sb.Append(((board[id].IsGiven) ? board[id].Digit.ToString() : "&nbsp;"));
-                    }
-                    else
-                    {
-                        sb.Append(((board[id].Digit > 0) ? board[id].Digit.ToString() : "[" + String.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue));
-                    }
-                    sb.Append("</td>");
-                    id++;
-                }
-                sb.Append(Environment.NewLine);
-                sb.Append("</tr>");
+                throw new ArgumentOutOfRangeException("string is to short");
             }
-            sb.Append(Environment.NewLine);
-            sb.Append("</table>");
-            sb.Append(Environment.NewLine);
-            return sb.ToString();
+
+            for (var x = 0; x < max; x++)
+            {
+                var currChar = line[x];
+                if (!currChar.Equals(zero))
+                {
+                    var digit = Convert.ToInt32(currChar) - 48;
+                    var result = board.SetDigit(x, digit);
+                    if (!result.Successful)
+                    {
+                        throw new InvalidOperationException("Digit : " + digit + " could not be set");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -231,16 +183,15 @@ namespace DE.Onnen.Sudoku.Extensions
         /// <param name="digit">Digit</param>
         public static SudokuLog SetDigit<C>(this IBoard<C> board, int row, int col, int digit) where C : ICell
         {
-            int cellid = 0;
-            int currentRow = row;
-            int lowRow = (int)'A'; // 65
+            var currentRow = row;
+            var lowRow = (int)'A'; // 65
             if (row >= lowRow) // If row is greater or equal than 65 (ASCII of 'A') the row-value could be a char instead of an int.
             {
-                currentRow = (int)Char.ToUpper((char)row);
+                currentRow = (int)char.ToUpper((char)row);
                 currentRow -= lowRow;
             }
 
-            SudokuLog sudokuResult = new SudokuLog
+            var sudokuResult = new SudokuLog
             {
                 EventInfoInResult = new SudokuEvent
                 {
@@ -271,9 +222,46 @@ namespace DE.Onnen.Sudoku.Extensions
                 return sudokuResult;
             }
 
-            cellid = (currentRow * Consts.DimensionSquare) + col;
+            return board.SetDigit((currentRow * Consts.DimensionSquare) + col, digit);
+        }
 
-            return board.SetDigit(cellid, digit);
+        public static string ToHtmlTable<C>(this IBoard<C> board) where C : ICell => ToHtmlTable(board, false);
+
+        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven) where C : ICell
+        {
+            var sb = new StringBuilder();
+            var id = 0;
+            sb.Append("<table class=\"sudokutbl\">");
+            sb.Append(Environment.NewLine);
+            for (var i = 0; i < Consts.DimensionSquare; i++)
+            {
+                sb.Append(Environment.NewLine);
+                sb.Append("<tr class=\"sudokurow\">");
+                sb.Append(Environment.NewLine);
+                sb.Append('\t');
+                for (var x = 0; x < Consts.DimensionSquare; x++)
+                {
+                    sb.Append($"<td class=\"{((board[id].IsGiven) ? "sudokucell_given" : "sudokucell")}\" id=\"cell[");
+                    sb.Append(id);
+                    sb.Append("]\" >");
+                    if (onlyGiven)
+                    {
+                        sb.Append(((board[id].IsGiven) ? board[id].Digit.ToString() : "&nbsp;"));
+                    }
+                    else
+                    {
+                        sb.Append(((board[id].Digit > 0) ? board[id].Digit.ToString() : "[" + string.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue));
+                    }
+                    sb.Append("</td>");
+                    id++;
+                }
+                sb.Append(Environment.NewLine);
+                sb.Append("</tr>");
+            }
+            sb.Append(Environment.NewLine);
+            sb.Append("</table>");
+            sb.Append(Environment.NewLine);
+            return sb.ToString();
         }
     }
 }

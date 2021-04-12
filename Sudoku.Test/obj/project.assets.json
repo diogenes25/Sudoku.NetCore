@@ -5884,7 +5884,9 @@
     "net5.0": [
       "MSTest.TestAdapter >= 2.2.3",
       "MSTest.TestFramework >= 2.2.3",
+      "Microsoft.CodeCoverage >= 16.9.4",
       "Microsoft.NET.Test.Sdk >= 16.9.4",
+      "Newtonsoft.Json >= 13.0.1",
       "Sudoku.Extensions >= 1.0.0",
       "Sudoku.Interfaces >= 1.0.0",
       "Sudoku.NetCore >= 1.0.0",
@@ -5968,9 +5970,17 @@
             "target": "Package",
             "version": "[2.2.3, )"
           },
+          "Microsoft.CodeCoverage": {
+            "target": "Package",
+            "version": "[16.9.4, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[16.9.4, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           }
         },
         "imports": [
