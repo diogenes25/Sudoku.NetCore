@@ -5,12 +5,12 @@
 //-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku
 {
-    using DE.Onnen.Sudoku.Extensions;
-    using global::Sudoku.Test;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DE.Onnen.Sudoku.Extensions;
+    using global::Sudoku.Test;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Test some real world examples.
@@ -26,15 +26,15 @@ namespace DE.Onnen.Sudoku
         {
             IBoard<Cell> board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>());
 
-            string source = TestRessources.top95;
-            int i = 0;
+            var source = TestRessources.top95;
+            var i = 0;
             for (i = 0; i < 2; i++)
             {
                 IList<string> boards = source.Split('\n');
 
-                int[] emh = new int[3];
-                int total = 0;
-                foreach (string line in boards)
+                var emh = new int[3];
+                var total = 0;
+                foreach (var line in boards)
                 {
                     if (line.Length < 81)
                     {
@@ -42,7 +42,7 @@ namespace DE.Onnen.Sudoku
                     }
 
                     total++;
-                    string currentLine = "---";
+                    var currentLine = "---";
 
                     try
                     {
@@ -61,7 +61,7 @@ namespace DE.Onnen.Sudoku
                     }
                     else
                     {
-                        SudokuLog result = new SudokuLog();
+                        var result = new SudokuLog();
                         board.Solve(result);
                         if (board.IsComplete())
                         {

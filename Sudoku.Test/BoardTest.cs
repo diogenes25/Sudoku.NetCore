@@ -1,11 +1,11 @@
 ﻿namespace DE.Onnen.Sudoku
 {
-    using DE.Onnen.Sudoku.Extensions;
-    using DE.Onnen.Sudoku.SolveTechniques;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using DE.Onnen.Sudoku.Extensions;
+    using DE.Onnen.Sudoku.SolveTechniques;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// This is a test class for BoardTest and is intended
@@ -17,64 +17,238 @@
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
 
-        [TestInitialize]
-        public void Initialize()
-        {
-            this._board = new Board(_solveTechniques);
-        }
-
-        #region Additional test attributes
-
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
-        public static void MyClassInitialize(TestContext testContext)
-        {
-            _solveTechniques = GetSolveTechniques();
-        }
+        public static void MyClassInitialize(TestContext testContext) => _solveTechniques = GetSolveTechniques();
 
-        #endregion Additional test attributes
-
-        private static ASolveTechnique<Cell>[] GetSolveTechniques()
+        /// <summary>
+        ///A test for Backtracking
+        ///</summary>
+        [TestMethod]
+        public void Backtracking_solve_without_any_digit_Test()
         {
-            ASolveTechnique<Cell>[] st = new ASolveTechnique<Cell>[]
+            var log = _board.Backtracking();
+            Assert.IsTrue(_board.IsComplete());
+            Assert.IsTrue(log.Successful);
+            for (var i = 0; i < Consts.DimensionSquare; i++)
             {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
-                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
-                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>(),
-            };
-            return st;
+                Assert.AreEqual((i + 1), _board[i].Digit);
+            }
         }
 
         /// <summary>
-        /// A test for SetDigit
-        /// </summary>
+        ///A test for Board Constructor
+        ///</summary>
         [TestMethod]
-        public void SetDigit_with_coordinates_Test()
+        public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
         {
-            int row = 8;
-            int col = 8;
-            int digit = 9;
-            Assert.AreEqual(0, this._board[80].Digit);
-            this._board.SetDigit(row, col, digit);
-            Assert.AreEqual(9, this._board[80].Digit);
-            Assert.AreEqual(0, this._board[80].CandidateValue);
+            ASolveTechnique<Cell>[] tempSolveTechniques = null;
+            IBoard<Cell> tmpBoard = new Board(tempSolveTechniques);
+            CheckBoard(tmpBoard);
         }
 
+        public void BoardConstructor_whith_techniques_cells_must_be_set() => CheckBoard(_board);
+
+        /// <summary>
+        ///A test for Clear
+        ///</summary>
         [TestMethod]
-        public void SetDigit_with_Alpha_Row_Coordinates_Test()
+        public void Clear_not_digit_is_set_Test()
         {
-            ICell firstCell = this._board[1];
-            Assert.AreEqual(0, firstCell.Digit, "Just to be sure that this value is 0 at first.");
-            SudokuLog result = this._board.SetDigit('a', 1, 5);
-            Assert.IsTrue(result.Successful);
-            firstCell = this._board[1];
-            Assert.AreEqual(5, firstCell.Digit, "Cell A/1  is same as 0/1 is same as id=1 and must be set to 5");
-            result = this._board.SetDigit('B', 1, 6);
-            Assert.IsTrue(result.Successful);
-            firstCell = this._board[10];
-            Assert.AreEqual(6, firstCell.Digit, "Cell B/1 must be set to 6");
+            for (var i = 0; i < Consts.DimensionSquare; i++)
+            {
+                _board.SetDigit(i, i, i + 1);
+                Assert.AreEqual(i + 1, _board[i + (i * Consts.DimensionSquare)].Digit);
+            }
+            _board.Clear();
+            for (var i = 0; i < Consts.DimensionSquare; i++)
+            {
+                Assert.AreEqual(0, _board[i].Digit);
+                Assert.AreEqual(0, _board[i + (i * Consts.DimensionSquare)].Digit);
+                Assert.AreEqual(0, _board[Consts.DimensionSquare - (i + (Consts.DimensionSquare - (i * Consts.DimensionSquare)))].Digit);
+            }
+        }
+
+        /// <summary>
+        ///A test for Board Constructor
+        ///</summary>
+        [TestMethod]
+        public void Constructor_empty_cells_must_be_set_Test() => CheckBoard(_board);
+
+        /// <summary>
+        ///A test for Count
+        ///</summary>
+        [TestMethod]
+        public void Count_is_length_of_cells_Test()
+        {
+            int actual;
+            actual = _board.Count;
+            Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, actual);
+            Assert.AreEqual(Consts.CountCell, actual);
+        }
+
+        /// <summary>
+        ///A test for CreateSimpleBoard
+        ///</summary>
+        [TestMethod]
+        public void CreateSimpleBoard_creates_int_with_Test()
+        {
+            for (var i = 0; i < Consts.DimensionSquare; i++)
+            {
+                _board.SetDigit(i, i + 1);
+            }
+            int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            var actual = ((Board)_board).CreateSimpleBoard();
+            Assert.AreEqual(expected.Length, actual.Length);
+            for (var i = 0; i < Consts.CountCell; i++)
+            {
+                var c = Cell.CreateCellFromUniqueID(actual[i]);
+                Assert.AreEqual(_board[i].CandidateValue, c.CandidateValue);
+                Assert.AreEqual(i, c.ID);
+                Assert.AreEqual(_board[i].Digit, expected[i]);
+                Assert.AreEqual(_board[i].Digit, c.Digit);
+            }
+
+            var recreatedBoard = new Board(actual);
+            for (var i = 0; i < Consts.CountCell; i++)
+            {
+                Assert.AreEqual(i, recreatedBoard[i].ID);
+                Assert.AreEqual(_board[i].CandidateValue, recreatedBoard[i].CandidateValue);
+                Assert.AreEqual(_board[i].Digit, recreatedBoard[i].Digit);
+                Assert.AreEqual(_board[i].ID, recreatedBoard[i].ID);
+            }
+        }
+
+        /// <summary>
+        ///A test for GetEnumerator
+        ///</summary>
+        [TestMethod]
+        public void GetEnumeratorTest_Test()
+        {
+            IEnumerator<ICell> actual;
+            actual = _board.GetEnumerator();
+            var i = 0;
+            while (actual.MoveNext())
+            {
+                Assert.AreEqual(actual.Current, _board[i++]);
+            }
+        }
+
+        /// <summary>
+        ///A test for GetHouse
+        ///</summary>
+        [TestMethod]
+        public void GetHouse_House_Col_Test()
+        {
+            var houseType = HouseType.Col;
+            IHouse<Cell> actual;
+            for (var idx = 0; idx < Consts.DimensionSquare; idx++)
+            {
+                actual = _board.GetHouse(houseType, idx);
+                for (var r = 0; r < Consts.DimensionSquare; r++)
+                {
+                    ICell expected = actual[r];
+                    ICell cellRow = _board[idx + (r * Consts.DimensionSquare)];
+                    Assert.AreEqual(cellRow, expected);
+                }
+            }
+        }
+
+        /// <summary>
+        ///A test for GetHouse
+        ///</summary>
+        [TestMethod]
+        public void GetHouse_House_Row_Test()
+        {
+            var houseType = HouseType.Row;
+            IHouse<Cell> actual;
+            for (var idx = 0; idx < Consts.DimensionSquare; idx++)
+            {
+                actual = _board.GetHouse(houseType, idx);
+                for (var r = 0; r < Consts.DimensionSquare; r++)
+                {
+                    ICell expected = actual[r];
+                    ICell cellRow = _board[r + (idx * Consts.DimensionSquare)];
+                    Assert.AreEqual(cellRow, expected);
+                }
+            }
+        }
+
+        [TestInitialize]
+        public void Initialize() => _board = new Board(_solveTechniques);
+
+        /// <summary>
+        ///A test for IsComplete
+        ///</summary>
+        [TestMethod]
+        public void IsComplete_board_is_false_at_first_Test()
+        {
+            bool actual;
+            actual = _board.IsComplete();
+            Assert.IsFalse(actual);
+        }
+
+        /// <summary>
+        ///A test for Givens
+        ///</summary>
+        [TestMethod]
+        public void IsGiven_Test()
+        {
+            var actual = _board.Where(x => x.IsGiven);
+            Assert.AreEqual(0, actual.Count());
+            _board.SetDigit(1, 1);
+            actual = _board.Where(x => x.IsGiven);
+            Assert.AreEqual(1, actual.Count());
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod]
+        public void ItemTest_Test()
+        {
+            var index = 0;
+            ICell actual;
+            actual = _board[index];
+            Assert.AreEqual(0, actual.ID);
+        }
+
+        /// <summary>
+        ///A test for SetBoard
+        ///</summary>
+        [TestMethod]
+        public void SetBoard_set_Digit_at_cell_0_Test()
+        {
+            IBoard<Cell> otherBoard = new Board();
+            otherBoard.SetDigit(0, 1);
+            Assert.AreEqual(0, _board[0].Digit);
+            ((Board)_board).SetBoard(otherBoard);
+            Assert.AreEqual(1, _board[0].Digit);
+        }
+
+        /// <summary>
+        /// Produce an error.
+        /// </summary>
+        /// <remarks>
+        /// 003X0000
+        /// 456000000
+        /// 789000000
+        /// 000000000
+        /// 000000000
+        /// 000000000
+        /// 000000000
+        /// 000000000
+        /// 000000000
+        /// </remarks>
+        [TestMethod]
+        public void SetDigit_LastDigit_produce_an_error_Test()
+        {
+            _board.SetCellsFromString("003000000456000000789000000000000000000000000000000000000000000000000000000000000");
+            // Es ist möglich die 1 oder 2 in Zelle 3 zu setzen. Dies führt aber zu einem Fehler.
+            var log = _board.SetDigit(3, 1);
+            Assert.IsFalse(log.Successful);
         }
 
         /// <summary>
@@ -83,23 +257,53 @@
         [TestMethod]
         public void SetDigit_set_digit_when_only_one_candidate_left_Test()
         {
-            this._board.SetDigit(0, 1);
-            this._board.SetDigit(1, 2);
-            this._board.SetDigit(2, 3);
+            _board.SetDigit(0, 1);
+            _board.SetDigit(1, 2);
+            _board.SetDigit(2, 3);
 
-            this._board.SetDigit(9, 4);
-            this._board.SetDigit(10, 5);
-            this._board.SetDigit(11, 6);
+            _board.SetDigit(9, 4);
+            _board.SetDigit(10, 5);
+            _board.SetDigit(11, 6);
 
-            this._board.SetDigit(18, 7);
-            Assert.AreEqual(0, this._board[20].Digit);
-            Assert.AreEqual(((1 << 7) + (1 << 8)), this._board[20].CandidateValue);
+            _board.SetDigit(18, 7);
+            Assert.AreEqual(0, _board[20].Digit);
+            Assert.AreEqual(((1 << 7) + (1 << 8)), _board[20].CandidateValue);
 
             // Now Last
-            this._board.SetDigit(19, 8);
+            _board.SetDigit(19, 8);
 
-            Assert.AreEqual(9, this._board[20].Digit);
-            Assert.AreEqual(0, this._board[20].CandidateValue);
+            Assert.AreEqual(9, _board[20].Digit);
+            Assert.AreEqual(0, _board[20].CandidateValue);
+        }
+
+        [TestMethod]
+        public void SetDigit_with_Alpha_Row_Coordinates_Test()
+        {
+            ICell firstCell = _board[1];
+            Assert.AreEqual(0, firstCell.Digit, "Just to be sure that this value is 0 at first.");
+            var result = _board.SetDigit('a', 1, 5);
+            Assert.IsTrue(result.Successful);
+            firstCell = _board[1];
+            Assert.AreEqual(5, firstCell.Digit, "Cell A/1  is same as 0/1 is same as id=1 and must be set to 5");
+            result = _board.SetDigit('B', 1, 6);
+            Assert.IsTrue(result.Successful);
+            firstCell = _board[10];
+            Assert.AreEqual(6, firstCell.Digit, "Cell B/1 must be set to 6");
+        }
+
+        /// <summary>
+        /// A test for SetDigit
+        /// </summary>
+        [TestMethod]
+        public void SetDigit_with_coordinates_Test()
+        {
+            var row = 8;
+            var col = 8;
+            var digit = 9;
+            Assert.AreEqual(0, _board[80].Digit);
+            _board.SetDigit(row, col, digit);
+            Assert.AreEqual(9, _board[80].Digit);
+            Assert.AreEqual(0, _board[80].CandidateValue);
         }
 
         /// <summary>
@@ -108,47 +312,47 @@
         [TestMethod]
         public void SetDigitTest3_Test()
         {
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
-                this._board.SetDigit(i, i + 1);
+                _board.SetDigit(i, i + 1);
                 if (i == 0)
                 {
                     continue;
                 }
 
-                this._board.SetDigit((i * 9), 9 - i);
+                _board.SetDigit((i * 9), 9 - i);
             }
-            Assert.AreEqual(9, this._board[8].Digit);
-            Assert.AreEqual(0, this._board[8].CandidateValue);
-            Assert.AreEqual(9, this._board[72].Digit);
-            Assert.AreEqual(0, this._board[72].CandidateValue);
+            Assert.AreEqual(9, _board[8].Digit);
+            Assert.AreEqual(0, _board[8].CandidateValue);
+            Assert.AreEqual(9, _board[72].Digit);
+            Assert.AreEqual(0, _board[72].CandidateValue);
         }
 
         [TestMethod]
         public void SetDigitTest4_Test()
         {
-            this._board.SetDigit(0, 0, 1);
-            this._board.SetDigit(0, 1, 2);
-            this._board.SetDigit(0, 2, 3);
-            this._board.SetDigit(1, 0, 4);
-            this._board.SetDigit(1, 1, 5);
-            this._board.SetDigit(1, 3, 7);
-            this._board.SetDigit(1, 4, 8);
-            SudokuLog result = this._board.SetDigit(1, 5, 9);
-            Assert.AreEqual(6, this._board[11].Digit);
-            int block0Value = (1 << 6) | (1 << 7) | (1 << 8);
-            Assert.AreEqual(block0Value, this._board[18].CandidateValue);
-            Assert.AreEqual(block0Value, this._board[19].CandidateValue);
-            Assert.AreEqual(block0Value, this._board[20].CandidateValue);
-            int block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);
-            Assert.AreEqual(block1r2Value, this._board[21].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[22].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[23].CandidateValue);
-            this._board.Solve(result);
-            int block1r2ValueSolve = (1 << 0) | (1 << 1) | (1 << 2);
-            Assert.AreEqual(block1r2ValueSolve, this._board[21].CandidateValue);
-            Assert.AreEqual(block1r2ValueSolve, this._board[22].CandidateValue);
-            Assert.AreEqual(block1r2ValueSolve, this._board[23].CandidateValue);
+            _board.SetDigit(0, 0, 1);
+            _board.SetDigit(0, 1, 2);
+            _board.SetDigit(0, 2, 3);
+            _board.SetDigit(1, 0, 4);
+            _board.SetDigit(1, 1, 5);
+            _board.SetDigit(1, 3, 7);
+            _board.SetDigit(1, 4, 8);
+            var result = _board.SetDigit(1, 5, 9);
+            Assert.AreEqual(6, _board[11].Digit);
+            var block0Value = (1 << 6) | (1 << 7) | (1 << 8);
+            Assert.AreEqual(block0Value, _board[18].CandidateValue);
+            Assert.AreEqual(block0Value, _board[19].CandidateValue);
+            Assert.AreEqual(block0Value, _board[20].CandidateValue);
+            var block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);
+            Assert.AreEqual(block1r2Value, _board[21].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[22].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[23].CandidateValue);
+            _board.Solve(result);
+            var block1r2ValueSolve = (1 << 0) | (1 << 1) | (1 << 2);
+            Assert.AreEqual(block1r2ValueSolve, _board[21].CandidateValue);
+            Assert.AreEqual(block1r2ValueSolve, _board[22].CandidateValue);
+            Assert.AreEqual(block1r2ValueSolve, _board[23].CandidateValue);
         }
 
         [TestMethod]
@@ -157,34 +361,34 @@
             _board.SetDigit(1, 4, 1);
             _board.SetDigit(0, 6, 2);
             _board.SetDigit(0, 7, 3);
-            SudokuLog result = _board.SetDigit(0, 8, 4);
-            this._board.Solve(result);
-            int block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
-            Assert.AreEqual(block1r2Value, this._board[18].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[19].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[20].CandidateValue);
+            var result = _board.SetDigit(0, 8, 4);
+            _board.Solve(result);
+            var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
+            Assert.AreEqual(block1r2Value, _board[18].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[19].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[20].CandidateValue);
         }
 
         [TestMethod]
         public void SetDigitTest6_Test()
         {
-            Board tmpBoard = (Board)this._board;
+            var tmpBoard = (Board)_board;
             tmpBoard.SetDigit(4, 1, 1);
             tmpBoard.SetDigit(6, 0, 2);
             tmpBoard.SetDigit(7, 0, 3);
-            SudokuLog result = tmpBoard.SetDigit(8, 0, 4);
-            this._board.Solve(result);
-            int block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
-            Assert.AreEqual(block1r2Value, this._board[2].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[11].CandidateValue);
-            Assert.AreEqual(block1r2Value, this._board[20].CandidateValue);
+            var result = tmpBoard.SetDigit(8, 0, 4);
+            _board.Solve(result);
+            var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
+            Assert.AreEqual(block1r2Value, _board[2].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[11].CandidateValue);
+            Assert.AreEqual(block1r2Value, _board[20].CandidateValue);
         }
 
         [TestMethod]
         public void Solve_Sudoku_solved_with_3_solvetechniques_and_without_backtracking_Test()
         {
-            Board board = new Board(_solveTechniques);
-            string simpleSudoku = @"030050040
+            var board = new Board(_solveTechniques);
+            var simpleSudoku = @"030050040
 008010500
 460000012
 070502080
@@ -194,24 +398,24 @@
 001020600
 080060020";
 
-            string[] lines = simpleSudoku.Split('\n');
-            for (int y = 0; y < 9; y++)
+            var lines = simpleSudoku.Split('\n');
+            for (var y = 0; y < 9; y++)
             {
-                string line = lines[y];
+                var line = lines[y];
 
-                for (int x = 0; x < 9; x++)
+                for (var x = 0; x < 9; x++)
                 {
-                    char currChar = line[x];
+                    var currChar = line[x];
                     if (currChar.Equals('0'))
                     {
                         continue;
                     }
 
-                    SudokuLog result = board.SetDigit(y, x, Convert.ToInt32(currChar) - 48);
+                    var result = board.SetDigit(y, x, Convert.ToInt32(currChar) - 48);
                     Assert.IsTrue(result.Successful);
                 }
             }
-            SudokuLog sudokuResult = new SudokuLog();
+            var sudokuResult = new SudokuLog();
             Assert.IsFalse(board.IsComplete());
             Assert.IsTrue(sudokuResult.Successful);
             board.Solve(sudokuResult);
@@ -220,12 +424,32 @@
         }
 
         /// <summary>
+        ///A test for SolvePercent
+        ///</summary>
+        [TestMethod]
+        public void SolvePercent_is_0_at_first_Test()
+        {
+            double actual;
+            actual = _board.SolvePercent;
+            Assert.AreEqual(0.0, actual);
+        }
+
+        [TestMethod]
+        public void SolvePercent_is_greater_than_0_Test()
+        {
+            double actual;
+            _board.SetDigit(0, 1);
+            actual = _board.SolvePercent;
+            Assert.IsTrue(actual > 0.0);
+        }
+
+        /// <summary>
         ///A test for Solve
         ///</summary>
         [TestMethod]
         public void SolveTest_Test()
         {
-            Board tmpBoard = (Board)this._board;
+            var tmpBoard = (Board)_board;
             tmpBoard.SetDigit(1, 0, 2);
             tmpBoard.SetDigit(1, 2, 3);
             tmpBoard.SetDigit(1, 3, 6);
@@ -252,25 +476,20 @@
             tmpBoard.SetDigit(7, 6, 5);
             tmpBoard.SetDigit(7, 8, 7);
 
-            SudokuLog result = tmpBoard.SetDigit(0, 0, 6);
-            this._board.Solve(result);
-            Assert.AreEqual(2, this._board[80].Digit);
+            var result = tmpBoard.SetDigit(0, 0, 6);
+            _board.Solve(result);
+            Assert.AreEqual(2, _board[80].Digit);
         }
 
         /// <summary>
-        ///A test for Board Constructor
+        ///A test for ToString
         ///</summary>
         [TestMethod]
-        public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
+        public void ToString_is_string_with_every_digit_Test()
         {
-            ASolveTechnique<Cell>[] tempSolveTechniques = null;
-            IBoard<Cell> tmpBoard = new Board(tempSolveTechniques);
-            CheckBoard(tmpBoard);
-        }
-
-        public void BoardConstructor_whith_techniques_cells_must_be_set()
-        {
-            CheckBoard(this._board);
+            var expected = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+            var actual = _board.ToString();
+            Assert.AreEqual(expected, actual);
         }
 
         private static void CheckBoard(IBoard<Cell> target)
@@ -283,252 +502,15 @@
             }
         }
 
-        /// <summary>
-        ///A test for Board Constructor
-        ///</summary>
-        [TestMethod]
-        public void Constructor_empty_cells_must_be_set_Test()
+        private static ASolveTechnique<Cell>[] GetSolveTechniques()
         {
-            CheckBoard(this._board);
-        }
-
-        /// <summary>
-        ///A test for Backtracking
-        ///</summary>
-        [TestMethod]
-        public void Backtracking_solve_without_any_digit_Test()
-        {
-            SudokuLog log = this._board.Backtracking();
-            Assert.IsTrue(this._board.IsComplete());
-            Assert.IsTrue(log.Successful);
-            for (int i = 0; i < Consts.DimensionSquare; i++)
+            var st = new ASolveTechnique<Cell>[]
             {
-                Assert.AreEqual((i + 1), this._board[i].Digit);
-            }
-        }
-
-        /// <summary>
-        ///A test for Clear
-        ///</summary>
-        [TestMethod]
-        public void Clear_not_digit_is_set_Test()
-        {
-            for (int i = 0; i < Consts.DimensionSquare; i++)
-            {
-                this._board.SetDigit(i, i, i + 1);
-                Assert.AreEqual(i + 1, this._board[i + (i * Consts.DimensionSquare)].Digit);
-            }
-            this._board.Clear();
-            for (int i = 0; i < Consts.DimensionSquare; i++)
-            {
-                Assert.AreEqual(0, this._board[i].Digit);
-                Assert.AreEqual(0, this._board[i + (i * Consts.DimensionSquare)].Digit);
-                Assert.AreEqual(0, this._board[Consts.DimensionSquare - (i + (Consts.DimensionSquare - (i * Consts.DimensionSquare)))].Digit);
-            }
-        }
-
-        /// <summary>
-        ///A test for CreateSimpleBoard
-        ///</summary>
-        [TestMethod]
-        public void CreateSimpleBoard_creates_int_with_Test()
-        {
-            for (int i = 0; i < Consts.DimensionSquare; i++)
-            {
-                this._board.SetDigit(i, i + 1);
-            }
-            int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            int[] actual = ((Board)this._board).CreateSimpleBoard();
-            Assert.AreEqual(expected.Length, actual.Length);
-            for (int i = 0; i < Consts.CountCell; i++)
-            {
-                Cell c = Cell.CreateCellFromUniqueID(actual[i]);
-                Assert.AreEqual(this._board[i].CandidateValue, c.CandidateValue);
-                Assert.AreEqual(i, c.ID);
-                Assert.AreEqual(this._board[i].Digit, expected[i]);
-                Assert.AreEqual(this._board[i].Digit, c.Digit);
-            }
-
-            Board recreatedBoard = new Board(actual);
-            for (int i = 0; i < Consts.CountCell; i++)
-            {
-                Assert.AreEqual(i, recreatedBoard[i].ID);
-                Assert.AreEqual(this._board[i].CandidateValue, recreatedBoard[i].CandidateValue);
-                Assert.AreEqual(this._board[i].Digit, recreatedBoard[i].Digit);
-                Assert.AreEqual(this._board[i].ID, recreatedBoard[i].ID);
-            }
-        }
-
-        /// <summary>
-        ///A test for GetEnumerator
-        ///</summary>
-        [TestMethod]
-        public void GetEnumeratorTest_Test()
-        {
-            IEnumerator<ICell> actual;
-            actual = this._board.GetEnumerator();
-            int i = 0;
-            while (actual.MoveNext())
-            {
-                ICell c = actual.Current;
-                Assert.AreEqual(c, this._board[i++]);
-            }
-        }
-
-        /// <summary>
-        ///A test for GetHouse
-        ///</summary>
-        [TestMethod]
-        public void GetHouse_House_Row_Test()
-        {
-            HouseType houseType = HouseType.Row;
-            IHouse<Cell> actual;
-            for (int idx = 0; idx < Consts.DimensionSquare; idx++)
-            {
-                actual = this._board.GetHouse(houseType, idx);
-                for (int r = 0; r < Consts.DimensionSquare; r++)
-                {
-                    ICell expected = actual[r];
-                    ICell cellRow = this._board[r + (idx * Consts.DimensionSquare)];
-                    Assert.AreEqual(cellRow, expected);
-                }
-            }
-        }
-
-        /// <summary>
-        ///A test for GetHouse
-        ///</summary>
-        [TestMethod]
-        public void GetHouse_House_Col_Test()
-        {
-            HouseType houseType = HouseType.Col;
-            IHouse<Cell> actual;
-            for (int idx = 0; idx < Consts.DimensionSquare; idx++)
-            {
-                actual = this._board.GetHouse(houseType, idx);
-                for (int r = 0; r < Consts.DimensionSquare; r++)
-                {
-                    ICell expected = actual[r];
-                    ICell cellRow = this._board[idx + (r * Consts.DimensionSquare)];
-                    Assert.AreEqual(cellRow, expected);
-                }
-            }
-        }
-
-        /// <summary>
-        ///A test for SetBoard
-        ///</summary>
-        [TestMethod]
-        public void SetBoard_set_Digit_at_cell_0_Test()
-        {
-            IBoard<Cell> otherBoard = new Board();
-            otherBoard.SetDigit(0, 1);
-            Assert.AreEqual(0, this._board[0].Digit);
-            ((Board)this._board).SetBoard(otherBoard);
-            Assert.AreEqual(1, this._board[0].Digit);
-        }
-
-        /// <summary>
-        ///A test for ToString
-        ///</summary>
-        [TestMethod]
-        public void ToString_is_string_with_every_digit_Test()
-        {
-            string expected = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-            string actual;
-            actual = this._board.ToString();
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for Count
-        ///</summary>
-        [TestMethod]
-        public void Count_is_length_of_cells_Test()
-        {
-            int actual;
-            actual = this._board.Count;
-            Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, actual);
-            Assert.AreEqual(Consts.CountCell, actual);
-        }
-
-        /// <summary>
-        ///A test for Givens
-        ///</summary>
-        [TestMethod]
-        public void IsGiven_Test()
-        {
-            var actual = this._board.Where(x => x.IsGiven);
-            Assert.AreEqual(0, actual.Count());
-            this._board.SetDigit(1, 1);
-            actual = this._board.Where(x => x.IsGiven);
-            Assert.AreEqual(1, actual.Count());
-        }
-
-        /// <summary>
-        ///A test for IsComplete
-        ///</summary>
-        [TestMethod]
-        public void IsComplete_board_is_false_at_first_Test()
-        {
-            bool actual;
-            actual = this._board.IsComplete();
-            Assert.IsFalse(actual);
-        }
-
-        /// <summary>
-        ///A test for Item
-        ///</summary>
-        [TestMethod]
-        public void ItemTest_Test()
-        {
-            int index = 0;
-            ICell actual;
-            actual = this._board[index];
-            Assert.AreEqual(0, actual.ID);
-        }
-
-        /// <summary>
-        ///A test for SolvePercent
-        ///</summary>
-        [TestMethod]
-        public void SolvePercent_is_0_at_first_Test()
-        {
-            double actual;
-            actual = this._board.SolvePercent;
-            Assert.AreEqual(0.0, actual);
-        }
-
-        [TestMethod]
-        public void SolvePercent_is_greater_than_0_Test()
-        {
-            double actual;
-            this._board.SetDigit(0, 1);
-            actual = this._board.SolvePercent;
-            Assert.IsTrue(actual > 0.0);
-        }
-
-        /// <summary>
-        /// Produce an error.
-        /// </summary>
-        /// <remarks>
-        /// 003X0000
-        /// 456000000
-        /// 789000000
-        /// 000000000
-        /// 000000000
-        /// 000000000
-        /// 000000000
-        /// 000000000
-        /// 000000000
-        /// </remarks>
-        [TestMethod]
-        public void SetDigit_LastDigit_produce_an_error_Test()
-        {
-            this._board.SetCellsFromString("003000000456000000789000000000000000000000000000000000000000000000000000000000000");
-            // Es ist möglich die 1 oder 2 in Zelle 3 zu setzen. Dies führt aber zu einem Fehler.
-            SudokuLog log = this._board.SetDigit(3, 1);
-            Assert.IsFalse(log.Successful);
+                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
+                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>(),
+            };
+            return st;
         }
     }
 }

@@ -7,35 +7,15 @@ namespace Sudoku.SolveTechniques
     [TestClass]
     public class HiddenPairTripleQuadTest
     {
-        private static ASolveTechnique<Cell>[] solveTechniques;
+        private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
-
-        #region Additional test attributes
-
-        [TestInitialize]
-        public void Initialize()
-        {
-            this._board = new Board(solveTechniques);
-        }
 
         //
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
-        public static void MyClassInitialize(TestContext testContext)
-        {
-            solveTechniques = GetSolveTechniques();
-        }
-
-        #endregion Additional test attributes
-
-        private static ASolveTechnique<Cell>[] GetSolveTechniques()
-        {
-            return new ASolveTechnique<Cell>[] {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>()
-            };
-        }
+        public static void MyClassInitialize(TestContext testContext) => _solveTechniques = GetSolveTechniques();
 
         /// <summary>
         ///A test for Backtracking
@@ -43,13 +23,20 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Backtracking_solve_without_any_digit_and_HiddenPairTripleQuad_Test()
         {
-            SudokuLog log = this._board.Backtracking();
+            var log = _board.Backtracking();
             Assert.IsTrue(log.Successful);
-            Assert.IsTrue(this._board.IsComplete());
-            for (int i = 0; i < Consts.DimensionSquare; i++)
+            Assert.IsTrue(_board.IsComplete());
+            for (var i = 0; i < Consts.DimensionSquare; i++)
             {
-                Assert.AreEqual((i + 1), this._board[i].Digit);
+                Assert.AreEqual((i + 1), _board[i].Digit);
             }
         }
+
+        [TestInitialize]
+        public void Initialize() => _board = new Board(_solveTechniques);
+
+        private static ASolveTechnique<Cell>[] GetSolveTechniques() => new ASolveTechnique<Cell>[] {
+                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>()
+            };
     }
 }
