@@ -29,7 +29,7 @@ namespace DE.Onnen.Sudoku
             get
             {
                 var retInt = new List<int>();
-                for (var i = 0; i < Consts.DimensionSquare; i++)
+                for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
                 {
                     if (((1 << i) & CandidateValue) > 0)
                     {
@@ -44,7 +44,7 @@ namespace DE.Onnen.Sudoku
         public int CandidateValue
         {
             get => _candidateValueInternal;
-            internal set => _ = SetField(ref _candidateValueInternal, value, nameof(CandidateValue));
+            internal set => SetField(ref _candidateValueInternal, value, nameof(CandidateValue));
         }
 
         /// <inheritdoc />
@@ -61,7 +61,7 @@ namespace DE.Onnen.Sudoku
             private set;
         }
 
-        public void Clear() => _candidateValueInternal = Consts.BaseStart;
+        public void Clear() => _candidateValueInternal = Consts.BASESTART;
 
         public override bool Equals(object other)
         {
@@ -104,7 +104,7 @@ namespace DE.Onnen.Sudoku
                 tmpSudokuResult = new SudokuLog();
             }
 
-            if (candidateToRemove < 1 || candidateToRemove > Consts.DimensionSquare || (CandidateValue & (1 << (candidateToRemove - 1))) == 0)
+            if (candidateToRemove < 1 || candidateToRemove > Consts.DIMENSIONSQUARE || (CandidateValue & (1 << (candidateToRemove - 1))) == 0)
             {
                 return false;
             }
@@ -142,7 +142,7 @@ namespace DE.Onnen.Sudoku
         internal bool CheckLastDigit(SudokuLog sudokuResult)
         {
             // Check every possible Digit
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 // convert Digit to BitMask (example: 4 => (1 << 4 ) = (Byte)00001000
                 // Whenn BitMask & CandidateValue still Candidate Value then must the Digit the last Candidate (or bit)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -7,6 +6,36 @@ namespace DE.Onnen.Sudoku.Extensions
 {
     public static class SudokuHelper
     {
+        public static string PrintSudokuResult(SudokuLog sudokuResult)
+        {
+            var sb = new StringBuilder();
+            PrintSudokuResult(sudokuResult, sb, "");
+            return sb.ToString();
+        }
+
+        public static IList<string> ReadBoardFromFile(string file)
+        {
+            IList<string> retList = new List<string>();
+            TextReader tr = new StreamReader(file);
+            while (true)
+            {
+                tr.ReadLine();
+                var sb = new StringBuilder();
+                for (var y = 0; y < Consts.DIMENSIONSQUARE; y++)
+                {
+                    var line = tr.ReadLine();
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        tr.Close();
+                        return retList;
+                    }
+                    sb.Append(line);
+                }
+                var sudokuLine = sb.ToString().Replace('.', '0');
+                retList.Add(sudokuLine);
+            }
+        }
+
         /// <summary>
         /// Read Sudokus from file.
         /// </summary>
@@ -22,53 +51,23 @@ namespace DE.Onnen.Sudoku.Extensions
             string line;
             while ((line = tr.ReadLine()) != null)
             {
-                if (line.Length < Consts.CountCell)
+                if (line.Length < Consts.COUNTCELL)
                 {
                     continue;
                 }
 
-                string sudokuLine = line.Replace('.', '0');
+                var sudokuLine = line.Replace('.', '0');
                 retList.Add(sudokuLine);
             }
             tr.Close();
             return retList;
         }
 
-        public static IList<string> ReadBoardFromFile(string file)
-        {
-            IList<string> retList = new List<string>();
-            TextReader tr = new StreamReader(file);
-            while (true)
-            {
-                tr.ReadLine();
-                StringBuilder sb = new StringBuilder();
-                for (int y = 0; y < Consts.DimensionSquare; y++)
-                {
-                    string line = tr.ReadLine();
-                    if (String.IsNullOrWhiteSpace(line))
-                    {
-                        tr.Close();
-                        return retList;
-                    }
-                    sb.Append(line);
-                }
-                string sudokuLine = sb.ToString().Replace('.', '0');
-                retList.Add(sudokuLine);
-            }
-        }
-
-        public static string PrintSudokuResult(SudokuLog sudokuResult)
-        {
-            StringBuilder sb = new StringBuilder();
-            PrintSudokuResult(sudokuResult, sb, "");
-            return sb.ToString();
-        }
-
         private static void PrintSudokuResult(SudokuLog sudokuResult, StringBuilder sb, string cap)
         {
             sb.Append(cap);
             sb.Append(sudokuResult.ToString());
-            foreach (SudokuLog sr in sudokuResult.ChildSudokuResult)
+            foreach (var sr in sudokuResult.ChildSudokuResult)
             {
                 PrintSudokuResult(sr, sb, cap + " ");
             }

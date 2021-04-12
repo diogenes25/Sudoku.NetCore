@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DE.Onnen.Sudoku.SolveTechniques
@@ -16,23 +15,22 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// </remarks>
     public class HiddenPairTripleQuad<C> : ASolveTechnique<C> where C : ICell
     {
-        public HiddenPairTripleQuad()
-        {
-            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Hidden TwinTripleQuad", descr: "This technique is very similar to naked subsets, but instead of affecting other cells with the same row, column or block, candidates are eliminated from the cells that hold the subset. If there are N cells, with N candidates between them that don't appear elsewhere in the same row, column or block, then any other candidates for those cells can be eliminated.");
-        }
+        public HiddenPairTripleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Hidden TwinTripleQuad", descr: "This technique is very similar to naked subsets, but instead of affecting other cells with the same row, column or block, candidates are eliminated from the cells that hold the subset. If there are N cells, with N candidates between them that don't appear elsewhere in the same row, column or block, then any other candidates for those cells can be eliminated.");
+
+        public override ECellView CellView => ECellView.OnlyHouse;
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             // Digit 1:n Cell (contains Digit)
             // Key = Digit - Value = Alle Zellen die dieses Enthalten
-            Dictionary<int, List<ICell>> digitInCell = new Dictionary<int, List<ICell>>();
+            var digitInCell = new Dictionary<int, List<ICell>>();
 
-            for (int i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 if (house[i].Digit == 0)
                 {
-                    ReadOnlyCollection<int> posDigit = house[i].Candidates;
-                    foreach (int num in posDigit)
+                    var posDigit = house[i].Candidates;
+                    foreach (var num in posDigit)
                     {
                         if (!digitInCell.ContainsKey(num))
                         {
@@ -44,13 +42,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             }
 
             // Key = Anzahl der Zellen Value = Liste der Zellen Key = Digit
-            Dictionary<int, Dictionary<int, List<ICell>>> countDigitInCell = new Dictionary<int, Dictionary<int, List<ICell>>>();
-            foreach (KeyValuePair<int, List<ICell>> kv in digitInCell)
+            var countDigitInCell = new Dictionary<int, Dictionary<int, List<ICell>>>();
+            foreach (var kv in digitInCell)
             {
                 // Wenn ein Key/Digit nur in eine einzigen Zelle enthalten ist, muss dieses Digit gesetzt werden.
                 if (kv.Value.Count == 1 && kv.Value.First().CandidateValue > 0)
                 {
-                    SudokuLog cresult = kv.Value.First().SetDigit(kv.Key);
+                    var cresult = kv.Value.First().SetDigit(kv.Key);
                     if (sudokuResult.Successful)
                     {
                         sudokuResult.ChildSudokuResult.Add(cresult);
@@ -71,33 +69,31 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 }
             }
 
-            foreach (KeyValuePair<int, Dictionary<int, List<ICell>>> kv in countDigitInCell)
+            foreach (var kv in countDigitInCell)
             {
-                int countCells = kv.Key; // Anzahl der Zellen in denen ein Digit enthalten ist
+                var countCells = kv.Key; // Anzahl der Zellen in denen ein Digit enthalten ist
                 if (kv.Value.Count < 2 || kv.Value.Count != countCells)
                 {
                     continue;
                 }
 
-                string st;
-                switch (countCells)
+                var st = countCells switch
                 {
-                    case 2: st = "Hidden2"; break;
-                    case 3: st = "Hidden3"; break;
-                    case 4: st = "Hidden4"; break;
-                    default: st = "--No HiddenFiled possible ---"; break;
-                }
-
-                bool eq = true;
+                    2 => "Hidden2",
+                    3 => "Hidden3",
+                    4 => "Hidden4",
+                    _ => "--No HiddenFiled possible ---",
+                };
+                var eq = true;
                 List<ICell> last = null;
-                foreach (KeyValuePair<int, List<ICell>> kv2 in kv.Value)
+                foreach (var kv2 in kv.Value)
                 {
                     if (last == null)
                     {
                         last = kv2.Value;
                         continue;
                     }
-                    for (int i = 0; i < kv.Key; i++)
+                    for (var i = 0; i < kv.Key; i++)
                     {
                         eq &= last[i].Equals(kv2.Value[i]);
                     }
@@ -106,7 +102,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
 
                 if (eq)
                 {
-                    SudokuLog cresult = sudokuResult.CreateChildResult();
+                    var cresult = sudokuResult.CreateChildResult();
                     cresult.EventInfoInResult = new SudokuEvent
                     {
                         ChangedCellBase = house,
@@ -114,11 +110,11 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         Value = 999999999,
                         SolveTechnik = st,
                     };
-                    bool found = false;
-                    List<ICell> cc = kv.Value.Values.First();
-                    foreach (ICell c in cc)
+                    var found = false;
+                    var cc = kv.Value.Values.First();
+                    foreach (var c in cc)
                     {
-                        for (int i = 1; i < Consts.DimensionSquare + 1; i++)
+                        for (var i = 1; i < Consts.DIMENSIONSQUARE + 1; i++)
                         {
                             if (kv.Value.Keys.Contains(i))
                             {
@@ -135,7 +131,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 }
             }
         }
-
-        public override ECellView CellView => ECellView.OnlyHouse;
     }
 }

@@ -18,20 +18,20 @@ namespace DE.Onnen.Sudoku
     public interface ICell : IHasCandidates, INotifyPropertyChanged, IEquatable<ICell>
     {
         /// <summary>
-        /// Gets a value indicating whether this Cell (Digit) is a given Digit.
-        /// </summary>
-        /// <remarks>
-        /// Digit was not set by solving.
-        /// </remarks>
-        bool IsGiven { get; }
-
-        /// <summary>
         /// Gets a numerical value between 1 and 9, which must be placed in the cells in order to complete the puzzle.
         /// </summary>
         /// <remarks>
         /// For each digit, there must be 9 instances in the solution to satisfy all constraints.
         /// </remarks>
         int Digit { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this Cell (Digit) is a given Digit.
+        /// </summary>
+        /// <remarks>
+        /// Digit was not set by solving.
+        /// </remarks>
+        bool IsGiven { get; }
 
         /// <summary>
         /// Set the digit and removes candidates in nested Houses (col, row and box).

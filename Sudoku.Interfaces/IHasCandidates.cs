@@ -14,6 +14,14 @@ namespace DE.Onnen.Sudoku
     public interface IHasCandidates
     {
         /// <summary>
+        /// Gets a list of every candidate.
+        /// </summary>
+        /// <remarks>
+        /// @see BaseValue
+        /// </remarks>
+        System.Collections.ObjectModel.ReadOnlyCollection<int> Candidates { get; }
+
+        /// <summary>
         /// Gets a bitmask of every candidate
         /// </summary>
         /// <remarks>
@@ -41,14 +49,6 @@ namespace DE.Onnen.Sudoku
         /// The boxes start counting with 0 on the leftmost corner on top.
         /// </remarks>
         int ID { get; }
-
-        /// <summary>
-        /// Gets a list of every candidate.
-        /// </summary>
-        /// <remarks>
-        /// @see BaseValue
-        /// </remarks>
-        System.Collections.ObjectModel.ReadOnlyCollection<int> Candidates { get; }
 
         /// <summary>
         /// Reset all candidate to start value.

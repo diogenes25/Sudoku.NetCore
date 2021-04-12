@@ -6,58 +6,60 @@ namespace DE.Onnen.Sudoku
     public class House<C> : AHasCandidates, IHouse<C>
     where C : ICell
     {
-        private readonly C[] cells;
+        private readonly C[] _cells;
+
+        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerIdx, containerType)
+        {
+            _cells = cells;
+            ReCheck = false;
+            foreach (var c in cells)
+            {
+                c.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
+            }
+        }
+
+        public int Count => _cells.Length;
 
         /// <summary>
         /// true = some cells
         /// </summary>
         internal bool ReCheck { set; get; }
 
-        public int Count => this.cells.Length;
+        C ICellCollection<C>.this[int index] => _cells[index];
 
-        C ICellCollection<C>.this[int index] => this.cells[index];
+        public ICell this[int index] => _cells[index];
+
+        public IEnumerator<ICell> GetEnumerator() => _cells.Select(x => (ICell)x).GetEnumerator();
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _cells.GetEnumerator();
+
+        IEnumerator<C> IEnumerable<C>.GetEnumerator() => _cells.ToList().GetEnumerator();
 
         /// <summary>
         /// Every Cell inside this House has a Digit.
         /// </summary>
         public bool IsComplete()
         {
-            int retval = 0;
-            int checkDigit = 0;
-            foreach (C c in this.cells)
+            var retval = 0;
+            var checkDigit = 0;
+            foreach (var c in _cells)
             {
                 retval |= c.CandidateValue;
                 checkDigit ^= (1 << (c.Digit - 1));
                 if ((c.CandidateValue == 0 && c.Digit == 0) || (c.CandidateValue > 0 && c.Digit != 0))
                 {
-                    throw new System.ArgumentException($"Cell{c.ID} in House {this.ID} has an invalid status: Digit: {c.Digit} / Candidate: {c.CandidateValue}");
+                    throw new System.ArgumentException($"Cell{c.ID} in House {ID} has an invalid status: Digit: {c.Digit} / Candidate: {c.CandidateValue}");
                 }
             }
-            if (retval == 0 && checkDigit != Consts.BaseStart)
+            if (retval == 0 && checkDigit != Consts.BASESTART)
             {
                 throw new System.ArgumentException("House is invalid");
             }
 
-            return retval == 0 && checkDigit == Consts.BaseStart;
+            return retval == 0 && checkDigit == Consts.BASESTART;
         }
 
-        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerIdx, containerType)
-        {
-            this.cells = cells;
-            this.ReCheck = false;
-            foreach (C c in cells)
-            {
-                c.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
-            }
-        }
-
-        private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Digit"))
-            {
-                this.ReCheck = true;
-            }
-        }
+        public override string ToString() => $"{HType} ({ID}) {CandidateValue}";
 
         /// <summary>
         /// A Digit in one of his peers is set.
@@ -70,17 +72,17 @@ namespace DE.Onnen.Sudoku
         /// <returns></returns>
         internal override bool SetDigit(int digit, SudokuLog sudokuResult)
         {
-            SudokuEvent sudokuEvent = new SudokuEvent
+            var sudokuEvent = new SudokuEvent
             {
                 Value = digit,
                 SolveTechnik = "SetDigit",
                 ChangedCellBase = this,
                 Action = CellAction.SetDigitInt
             };
-            bool ok = true;
-            int newBaseValue = Consts.BaseStart;
-            HashSet<int> m = new HashSet<int>();
-            foreach (C cell in this.cells)
+            var ok = true;
+            var newBaseValue = Consts.BASESTART;
+            var m = new HashSet<int>();
+            foreach (var cell in _cells)
             {
                 if (cell.Digit > 0)
                 {
@@ -99,16 +101,16 @@ namespace DE.Onnen.Sudoku
 
             if (!ok)
             {
-                SudokuLog resultError = sudokuResult.CreateChildResult();
+                var resultError = sudokuResult.CreateChildResult();
                 resultError.EventInfoInResult = sudokuEvent;
                 resultError.Successful = false;
                 resultError.ErrorMessage = "Digit " + digit + " is in CellContainer not possible";
                 return true;
             }
 
-            this._candidateValueInternal = newBaseValue;
+            _candidateValueInternal = newBaseValue;
 
-            SudokuLog result = sudokuResult.CreateChildResult();
+            var result = sudokuResult.CreateChildResult();
             result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
@@ -117,7 +119,7 @@ namespace DE.Onnen.Sudoku
                 Value = digit,
             };
 
-            foreach (C cell in this.cells)
+            foreach (var cell in _cells)
             {
                 cell.RemoveCandidate(digit, result);
             }
@@ -125,37 +127,12 @@ namespace DE.Onnen.Sudoku
             return true;
         }
 
-        public override string ToString()
+        private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            return this.HType + "(" + this.ID + ") " + this.CandidateValue;
+            if (e.PropertyName.Equals("Digit"))
+            {
+                ReCheck = true;
+            }
         }
-
-        public ICell this[int index]
-        {
-            get { return this.cells[index]; }
-        }
-
-        #region IEnumerable<ICell> Members
-
-        public IEnumerator<ICell> GetEnumerator()
-        {
-            return this.cells.Select(x => (ICell)x).GetEnumerator();
-        }
-
-        #endregion IEnumerable<ICell> Members
-
-        #region IEnumerable Members
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.cells.GetEnumerator();
-        }
-
-        IEnumerator<C> IEnumerable<C>.GetEnumerator()
-        {
-            return this.cells.ToList().GetEnumerator();
-        }
-
-        #endregion IEnumerable Members
     }
 }

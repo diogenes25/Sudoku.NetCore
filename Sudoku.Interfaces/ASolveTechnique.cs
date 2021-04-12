@@ -19,16 +19,14 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
         }
 
-        #region ISolveTechnic Members
-
         /// <inheritdoc />
-        public bool IsActive { get; private set; } = true;
+        public virtual ECellView CellView => ECellView.OnlyHouse;
 
         /// <inheritdoc />
         public SolveTechniqueInfo Info { get; protected set; }
 
         /// <inheritdoc />
-        public virtual ECellView CellView => ECellView.OnlyHouse;
+        public bool IsActive { get; private set; } = true;
 
         /// <inheritdoc />
         public void Activate() => this.IsActive = true;
@@ -38,7 +36,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
 
         /// <inheritdoc />
         public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
-
-        #endregion ISolveTechnic Members
     }
 }

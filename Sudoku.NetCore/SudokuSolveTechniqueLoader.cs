@@ -1,8 +1,8 @@
-﻿using DE.Onnen.Sudoku.SolveTechniques;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using DE.Onnen.Sudoku.SolveTechniques;
 
 namespace DE.Onnen.Sudoku
 {
@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
     {
         public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
         {
-            ISolveTechnique<C> solveTechnic = LoadSolveTechnic(fileName);
+            var solveTechnic = LoadSolveTechnic(fileName);
             SolveTechniqueInfo info;
             if (solveTechnic is ISolveTechnique<C>)
             {
@@ -26,17 +26,17 @@ namespace DE.Onnen.Sudoku
 
         public static ISolveTechnique<C> LoadSolveTechnic(string fileName)
         {
-            if (String.IsNullOrWhiteSpace(fileName))
+            if (string.IsNullOrWhiteSpace(fileName))
             {
                 throw new ArgumentNullException(nameof(fileName), "the parameter filename cannot be null");
             }
 
-            Assembly solvetechnic = Assembly.LoadFrom(fileName);
-            string typeName = typeof(ISolveTechnique<C>).ToString();
-            Type[] types = solvetechnic.GetTypes();
-            List<Type> mytype = new List<Type>();
-            bool typeFound = false;
-            foreach (Type t in types)
+            var solvetechnic = Assembly.LoadFrom(fileName);
+            var typeName = typeof(ISolveTechnique<C>).ToString();
+            var types = solvetechnic.GetTypes();
+            var mytype = new List<Type>();
+            var typeFound = false;
+            foreach (var t in types)
             {
                 if (t.BaseType != null && t.BaseType.FullName == typeName)
                 {
@@ -50,17 +50,16 @@ namespace DE.Onnen.Sudoku
                 throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file{1}", typeName, fileName));
             }
 
-            List<ISolveTechnique<C>> result = new List<ISolveTechnique<C>>();
-            foreach (Type type in mytype)
+            var result = new List<ISolveTechnique<C>>();
+            foreach (var type in mytype)
             {
                 try
                 {
-                    object obj = Activator.CreateInstance(type);
+                    var obj = Activator.CreateInstance(type);
                     result.Add((ISolveTechnique<C>)obj);
                 }
                 catch
                 {
-                    continue;
                 }
             }
 

@@ -19,10 +19,9 @@ namespace DE.Onnen.Sudoku
         {
             var id = 0;
             var target = new Cell(id);
-            ReadOnlyCollection<int> actual;
-            actual = target.Candidates;
-            Assert.AreEqual(Consts.DimensionSquare, actual.Count);
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            var actual = target.Candidates;
+            Assert.AreEqual(Consts.DIMENSIONSQUARE, actual.Count);
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual(actual[i], i + 1);
             }
@@ -39,8 +38,8 @@ namespace DE.Onnen.Sudoku
             ReadOnlyCollection<int> actual;
             target.RemoveCandidate(3, new SudokuLog());
             actual = target.Candidates;
-            Assert.AreEqual(Consts.DimensionSquare - 1, actual.Count);
-            for (var i = 1; i <= Consts.DimensionSquare; i++)
+            Assert.AreEqual(Consts.DIMENSIONSQUARE - 1, actual.Count);
+            for (var i = 1; i <= Consts.DIMENSIONSQUARE; i++)
             {
                 if (i != 3)
                 {
@@ -120,9 +119,9 @@ namespace DE.Onnen.Sudoku
             SudokuLog sudokuResult = null;
             var expected = false;
             target.CheckLastDigit(sudokuResult);
-            for (var x = 0; x < Consts.DimensionSquare - 3; x++)
+            for (var x = 0; x < Consts.DIMENSIONSQUARE - 3; x++)
             {
-                for (var y = x + 1; y < Consts.DimensionSquare - 2; y++)
+                for (var y = x + 1; y < Consts.DIMENSIONSQUARE - 2; y++)
                 {
                     var newBaseValue = (1 << x) | (1 << y);
                     target.CandidateValue = newBaseValue;
@@ -140,7 +139,7 @@ namespace DE.Onnen.Sudoku
         {
             var id = 0;
             var target = new Cell(id);
-            var expected = Consts.BaseStart;
+            var expected = Consts.BASESTART;
             var actual = target.CandidateValue;
             Assert.AreEqual(expected, actual);
         }
@@ -161,7 +160,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Constructor_id_is_ID_Property_Test()
         {
-            for (var id = 0; id < Consts.DimensionSquare; id++)
+            for (var id = 0; id < Consts.DIMENSIONSQUARE; id++)
             {
                 var target = new Cell(id);
                 Assert.AreEqual(id, target.ID);
@@ -282,14 +281,14 @@ namespace DE.Onnen.Sudoku
             target._fieldcontainters[1] = new House<Cell>(col, HouseType.Col, 1);
             target._fieldcontainters[2] = new House<Cell>(box, HouseType.Box, 1);
 
-            var expected = Consts.BaseStart;
+            var expected = Consts.BASESTART;
             for (var i = 0; i < 10; i++)
             {
                 Assert.AreEqual(expected, row[i].CandidateValue);
                 Assert.AreEqual(expected, col[i].CandidateValue);
                 Assert.AreEqual(expected, box[i].CandidateValue);
             }
-            expected = Consts.BaseStart - 1;
+            expected = Consts.BASESTART - 1;
             target.SetDigit(1);
             for (var i = 0; i < 10; i++)
             {
@@ -350,15 +349,15 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void GetHashCode_is_always_unique_Test()
         {
-            var cells = new Cell[Consts.CountCell];
-            for (var id = 0; id < Consts.CountCell; id++)
+            var cells = new Cell[Consts.COUNTCELL];
+            for (var id = 0; id < Consts.COUNTCELL; id++)
             {
                 cells[id] = new Cell(id);
             }
 
-            for (var id = 0; id < Consts.CountCell; id++)
+            for (var id = 0; id < Consts.COUNTCELL; id++)
             {
-                for (var id2 = 0; id2 < Consts.CountCell; id2++)
+                for (var id2 = 0; id2 < Consts.COUNTCELL; id2++)
                 {
                     if (id == id2)
                     {

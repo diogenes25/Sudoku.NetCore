@@ -26,7 +26,7 @@ namespace DE.Onnen.Sudoku
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
         private const int ROW_CONTAINERTYPE = 0;
-        private readonly House<Cell>[][] _container = new House<Cell>[Consts.DimensionSquare][];
+        private readonly House<Cell>[][] _container = new House<Cell>[Consts.DIMENSIONSQUARE][];
         private List<SudokuHistoryItem> _history;
         private bool _keepGoingWithChecks;
         private ISolveTechnique<Cell>[] _solveTechniques;
@@ -79,7 +79,7 @@ namespace DE.Onnen.Sudoku
                 double currSolvePercent = 0;
                 foreach (var c in _cells)
                 {
-                    for (var i = 0; i < Consts.DimensionSquare; i++)
+                    for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
                     {
                         if (((1 << i) & c.CandidateValue) > 0)
                         {
@@ -87,7 +87,7 @@ namespace DE.Onnen.Sudoku
                         }
                     }
                 }
-                return 100 - ((currSolvePercent / Consts.SolvePercentBase) * 100);
+                return 100 - ((currSolvePercent / Consts.SOLVEPERCENTBASE) * 100);
             }
         }
 
@@ -128,7 +128,7 @@ namespace DE.Onnen.Sudoku
 
             _history.Clear();
 
-            for (var containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
+            for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
             {
                 for (var containerType = 0; containerType < 3; containerType++)
                 {
@@ -173,7 +173,7 @@ namespace DE.Onnen.Sudoku
                 return false;
             }
 
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 retVal &= this[i].Digit == other[i].Digit;
             }
@@ -202,7 +202,7 @@ namespace DE.Onnen.Sudoku
         public bool IsComplete()
         {
             var containerType = 0;
-            for (var containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
+            for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
             {
                 if (!_container[containerIdx][containerType].IsComplete())
                 {
@@ -223,7 +223,7 @@ namespace DE.Onnen.Sudoku
                 return;
             }
 
-            for (var i = 0; i < Consts.CountCell; i++)
+            for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 if (otherBoard[i].Digit > 0)
                 {
@@ -300,7 +300,6 @@ namespace DE.Onnen.Sudoku
                     }
                     catch
                     {
-                        continue;
                     }
                 }
                 else
@@ -325,7 +324,7 @@ namespace DE.Onnen.Sudoku
             do
             {
                 _keepGoingWithChecks = false;
-                for (var containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
+                for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
                 {
                     for (var containerType = 0; containerType < 3; containerType++)
                     {
@@ -452,9 +451,9 @@ namespace DE.Onnen.Sudoku
 
         private void Init()
         {
-            _cells = new Cell[Consts.CountCell];
+            _cells = new Cell[Consts.COUNTCELL];
 
-            for (var i = 0; i < Consts.CountCell; i++)
+            for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 _cells[i] = new Cell(i);
                 _cells[i].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
@@ -464,31 +463,31 @@ namespace DE.Onnen.Sudoku
 
             Cell[][][] fieldcontainer;
             fieldcontainer = new Cell[3][][];
-            fieldcontainer[ROW_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Row
-            fieldcontainer[COL_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Col
-            fieldcontainer[BLOCK_CONTAINERTYPE] = new Cell[Consts.DimensionSquare][]; // Block
+            fieldcontainer[ROW_CONTAINERTYPE] = new Cell[Consts.DIMENSIONSQUARE][]; // Row
+            fieldcontainer[COL_CONTAINERTYPE] = new Cell[Consts.DIMENSIONSQUARE][]; // Col
+            fieldcontainer[BLOCK_CONTAINERTYPE] = new Cell[Consts.DIMENSIONSQUARE][]; // Block
 
-            for (var containerIdx = 0; containerIdx < Consts.DimensionSquare; containerIdx++)
+            for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
             {
-                fieldcontainer[ROW_CONTAINERTYPE][containerIdx] = new Cell[Consts.DimensionSquare];
-                fieldcontainer[COL_CONTAINERTYPE][containerIdx] = new Cell[Consts.DimensionSquare];
-                fieldcontainer[BLOCK_CONTAINERTYPE][containerIdx] = new Cell[Consts.DimensionSquare];
+                fieldcontainer[ROW_CONTAINERTYPE][containerIdx] = new Cell[Consts.DIMENSIONSQUARE];
+                fieldcontainer[COL_CONTAINERTYPE][containerIdx] = new Cell[Consts.DIMENSIONSQUARE];
+                fieldcontainer[BLOCK_CONTAINERTYPE][containerIdx] = new Cell[Consts.DIMENSIONSQUARE];
 
-                for (var t = 0; t < Consts.DimensionSquare; t++)
+                for (var t = 0; t < Consts.DIMENSIONSQUARE; t++)
                 {
                     // Row 0,1,2,3,4,5,6,7,8
-                    fieldcontainer[ROW_CONTAINERTYPE][containerIdx][t] = _cells[t + (containerIdx * Consts.DimensionSquare)];
+                    fieldcontainer[ROW_CONTAINERTYPE][containerIdx][t] = _cells[t + (containerIdx * Consts.DIMENSIONSQUARE)];
                     // Col 0,9,18,27,36
-                    fieldcontainer[COL_CONTAINERTYPE][containerIdx][t] = _cells[(t * Consts.DimensionSquare) + containerIdx];
+                    fieldcontainer[COL_CONTAINERTYPE][containerIdx][t] = _cells[(t * Consts.DIMENSIONSQUARE) + containerIdx];
                 }
 
                 // Block 0,1,2, 9,10,11, 18,19,20
                 var blockCounter = 0;
-                for (var zr = 0; zr < Consts.Dimension; zr++)
+                for (var zr = 0; zr < Consts.DIMENSION; zr++)
                 {
-                    for (var zc = 0; zc < Consts.Dimension; zc++)
+                    for (var zc = 0; zc < Consts.DIMENSION; zc++)
                     {
-                        var b = (containerIdx * Consts.Dimension) + (zc + (zr * Consts.DimensionSquare)) + ((containerIdx / Consts.Dimension) * Consts.DimensionSquare * 2);
+                        var b = (containerIdx * Consts.DIMENSION) + (zc + (zr * Consts.DIMENSIONSQUARE)) + ((containerIdx / Consts.DIMENSION) * Consts.DIMENSIONSQUARE * 2);
                         fieldcontainer[BLOCK_CONTAINERTYPE][containerIdx][blockCounter++] = _cells[b];
                     }
                 }

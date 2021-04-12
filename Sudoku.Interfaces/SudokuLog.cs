@@ -7,7 +7,18 @@ namespace DE.Onnen.Sudoku
     {
         private bool _successful = true;
 
+        public SudokuLog()
+        {
+            this.ChildSudokuResult = new List<SudokuLog>();
+        }
+
+        public List<SudokuLog> ChildSudokuResult { get; set; }
+
+        public string ErrorMessage { get; set; }
+
         public SudokuEvent EventInfoInResult { get; set; }
+
+        public SudokuLog ParentSudokuResult { get; set; }
 
         public bool Successful
         {
@@ -21,17 +32,6 @@ namespace DE.Onnen.Sudoku
                 return result;
             }
             set { this._successful = value; }
-        }
-
-        public string ErrorMessage { get; set; }
-
-        public SudokuLog ParentSudokuResult { get; set; }
-
-        public List<SudokuLog> ChildSudokuResult { get; set; }
-
-        public SudokuLog()
-        {
-            this.ChildSudokuResult = new List<SudokuLog>();
         }
 
         public SudokuLog CreateChildResult()

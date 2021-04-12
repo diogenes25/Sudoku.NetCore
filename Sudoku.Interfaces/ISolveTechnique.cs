@@ -29,11 +29,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     public interface ISolveTechnique<C> where C : ICell
     {
         /// <summary>
-        /// Gets solveTechniqueInfo that describes the technique.
-        /// </summary>
-        SolveTechniqueInfo Info { get; }
-
-        /// <summary>
         /// Gets cell-view.
         /// </summary>
         /// <remarks>
@@ -41,6 +36,11 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// or for each house (ECellView.OnlyHouse).
         /// </remarks>
         ECellView CellView { get; }
+
+        /// <summary>
+        /// Gets solveTechniqueInfo that describes the technique.
+        /// </summary>
+        SolveTechniqueInfo Info { get; }
 
         /// <summary>
         /// Gets a value indicating whether the Technique is active.

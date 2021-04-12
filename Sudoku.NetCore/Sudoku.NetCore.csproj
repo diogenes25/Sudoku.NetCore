@@ -8,15 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SolveTechniques\**" />
+    <EmbeddedResource Remove="SolveTechniques\**" />
+    <None Remove="SolveTechniques\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="ACellCollection.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SolveTechniques\" />
   </ItemGroup>
 
 </Project>

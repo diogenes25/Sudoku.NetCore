@@ -29,7 +29,7 @@ namespace Sudoku.SolveTechniques
             var log = target.Backtracking();
             Assert.IsTrue(log.Successful);
             Assert.IsTrue(target.IsComplete());
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual((i + 1), target[i].Digit);
             }
@@ -56,14 +56,14 @@ namespace Sudoku.SolveTechniques
             IBoard<Cell> board = new Board(_solveTechniques);
             board.SetCellsFromString("123000000456000000700000000000000000000000000000000000000000000000000000000000000");
             // 8,9 sind in der Row[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(8));
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(9));
             }
             board.Solve(new SudokuLog());
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsFalse(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(8));
                 Assert.IsFalse(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(9));
@@ -91,14 +91,14 @@ namespace Sudoku.SolveTechniques
             IBoard<Cell> board = new Board(_solveTechniques);
             board.SetCellsFromString("123000000056000000089000000000000000000000000000000000000000000000000000000000000");
             // 4,7 sind in der Col[1] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(4));
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(7));
             }
             board.Solve(new SudokuLog());
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsFalse(board.GetHouse(HouseType.Col, 0)[i].Candidates.Contains(4));
                 Assert.IsFalse(board.GetHouse(HouseType.Col, 0)[i].Candidates.Contains(7));
@@ -127,7 +127,7 @@ namespace Sudoku.SolveTechniques
             board.SetCellsFromString("123456700000000000000000000000000000000000000000000000000000000000000000000000000");
             var block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 7) | (1 << 8);
             // 8,9 sind in der Box[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 7 und 8 sein können.
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsTrue(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(8));
                 Assert.IsTrue(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(9));
@@ -137,7 +137,7 @@ namespace Sudoku.SolveTechniques
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
 
             block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);
-            for (var i = 3; i < Consts.DimensionSquare; i++)
+            for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.IsFalse(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(8));
                 Assert.IsFalse(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(9));

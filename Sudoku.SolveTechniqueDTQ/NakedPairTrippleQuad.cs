@@ -18,6 +18,8 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
         }
 
+        public override ECellView CellView => ECellView.OnlyHouse;
+
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             // Key = BaseValue, Anz Possible
@@ -72,7 +74,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 }
             }
         }
-
-        public override ECellView CellView => ECellView.OnlyHouse;
     }
 }

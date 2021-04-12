@@ -41,7 +41,7 @@ namespace Sudoku.Test
         public void Clone_Digit_and_Candidates_are_equal_to_clone_Test()
         {
             var expected = new Board();
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 _board.SetDigit(i, i, i + 1);
                 expected.SetDigit(i, i, i + 1);
@@ -58,7 +58,7 @@ namespace Sudoku.Test
             Assert.AreEqual(_board, recreatedBoard);
             Assert.AreEqual(3, recreatedBoard.SolveTechniques.Count);
             Assert.AreEqual(3, ((Board)_board).SolveTechniques.Count);
-            for (var i = 0; i < Consts.CountCell; i++)
+            for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 Assert.AreEqual(i, recreatedBoard[i].ID);
                 Assert.AreEqual(_board[i].CandidateValue, recreatedBoard[i].CandidateValue);
@@ -67,7 +67,7 @@ namespace Sudoku.Test
             }
 
             _board.SetDigit(0, 1);
-            for (var ccc = 0; ccc < Consts.DimensionSquare - 1; ccc++)
+            for (var ccc = 0; ccc < Consts.DIMENSIONSQUARE - 1; ccc++)
             {
                 Assert.AreEqual(_board[1].Candidates[ccc], ccc + 2);
             }

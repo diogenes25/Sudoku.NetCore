@@ -50,7 +50,7 @@ namespace DE.Onnen.Sudoku.Extensions
             sb.Append(Environment.NewLine);
             sb.Append(" ┌───┬───┬───┐");
             sb.Append(Environment.NewLine);
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 if (i > 0 && i % 3 == 0)
                 {
@@ -58,7 +58,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     sb.Append(Environment.NewLine);
                 }
                 sb.Append((char)(i + 65));
-                for (var x = 0; x < Consts.DimensionSquare; x++)
+                for (var x = 0; x < Consts.DIMENSIONSQUARE; x++)
                 {
                     if (x % 3 == 0)
                     {
@@ -98,17 +98,17 @@ namespace DE.Onnen.Sudoku.Extensions
                 for (var boxY = 0; boxY < 3; boxY++)
                 {
                     var cellIDY = 0;
-                    for (int l = 0, m = (Consts.Dimension); l < m; l++)
+                    for (int l = 0, m = (Consts.DIMENSION); l < m; l++)
                     {
-                        for (int line = 0, maxline = (Consts.Dimension); line < maxline; line++)
+                        for (int line = 0, maxline = (Consts.DIMENSION); line < maxline; line++)
                         {
                             sb.Append('│');
-                            for (int partX = 0, maxpartX = (Consts.Dimension); partX < maxpartX; partX++)
+                            for (int partX = 0, maxpartX = (Consts.DIMENSION); partX < maxpartX; partX++)
                             {
-                                for (int part = 0, maxpart = (Consts.Dimension); part < maxpart; part++)
+                                for (int part = 0, maxpart = (Consts.DIMENSION); part < maxpart; part++)
                                 {
                                     var digit = part + (cellIDY * 3) + 1;
-                                    var cellID = (lineID * Consts.DimensionSquare) + partX + (line * 3);
+                                    var cellID = (lineID * Consts.DIMENSIONSQUARE) + partX + (line * 3);
                                     string v;
                                     if (digit == 5 && board[cellID].Digit > 0)
                                     {
@@ -154,7 +154,7 @@ namespace DE.Onnen.Sudoku.Extensions
         where C : ICell
         {
             board.Clear();
-            var max = Consts.CountCell;
+            var max = Consts.COUNTCELL;
             if (line.Length < max)
             {
                 throw new ArgumentOutOfRangeException("string is to short");
@@ -201,28 +201,28 @@ namespace DE.Onnen.Sudoku.Extensions
                 }
             };
 
-            if (currentRow < 0 || currentRow > Consts.DimensionSquare)
+            if (currentRow < 0 || currentRow > Consts.DIMENSIONSQUARE)
             {
                 sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"row must be between 1 and {Consts.DimensionSquare} or between 'a' and '{((char)(lowRow + Consts.DimensionSquare))}'";
+                sudokuResult.ErrorMessage = $"row must be between 1 and {Consts.DIMENSIONSQUARE} or between 'a' and '{((char)(lowRow + Consts.DIMENSIONSQUARE))}'";
                 return sudokuResult;
             }
 
-            if (col < 0 || col > Consts.DimensionSquare)
+            if (col < 0 || col > Consts.DIMENSIONSQUARE)
             {
                 sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"col must be between 0 and '{Consts.DimensionSquare - 1}'";
+                sudokuResult.ErrorMessage = $"col must be between 0 and '{Consts.DIMENSIONSQUARE - 1}'";
                 return sudokuResult;
             }
 
-            if (digit < 1 || digit > Consts.DimensionSquare)
+            if (digit < 1 || digit > Consts.DIMENSIONSQUARE)
             {
                 sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = $"digit must be between 0 and '{Consts.DimensionSquare - 1}'";
+                sudokuResult.ErrorMessage = $"digit must be between 0 and '{Consts.DIMENSIONSQUARE - 1}'";
                 return sudokuResult;
             }
 
-            return board.SetDigit((currentRow * Consts.DimensionSquare) + col, digit);
+            return board.SetDigit((currentRow * Consts.DIMENSIONSQUARE) + col, digit);
         }
 
         public static string ToHtmlTable<C>(this IBoard<C> board) where C : ICell => ToHtmlTable(board, false);
@@ -233,13 +233,13 @@ namespace DE.Onnen.Sudoku.Extensions
             var id = 0;
             sb.Append("<table class=\"sudokutbl\">");
             sb.Append(Environment.NewLine);
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 sb.Append(Environment.NewLine);
                 sb.Append("<tr class=\"sudokurow\">");
                 sb.Append(Environment.NewLine);
                 sb.Append('\t');
-                for (var x = 0; x < Consts.DimensionSquare; x++)
+                for (var x = 0; x < Consts.DIMENSIONSQUARE; x++)
                 {
                     sb.Append($"<td class=\"{((board[id].IsGiven) ? "sudokucell_given" : "sudokucell")}\" id=\"cell[");
                     sb.Append(id);

@@ -23,19 +23,16 @@ namespace DE.Onnen.Sudoku.Serialization
         /// Initializes a new instance of the <see cref="SudokuTransfer" /> class.
         /// </summary>
         /// <param name="board">Board to convert</param>
-        public SudokuTransfer(Board board)
-        {
-            this.Cells = new ReadOnlyCollection<int>(board.CreateSimpleBoard());
-        }
-
-        /// <summary>
-        /// Gets or sets the cell information that represent a board.
-        /// </summary>
-        public ReadOnlyCollection<int> Cells { get; set; }
+        public SudokuTransfer(Board board) => Cells = new ReadOnlyCollection<int>(board.CreateSimpleBoard());
 
         /// <summary>
         /// Gets or sets the action that set a digit by the user.
         /// </summary>
         public ReadOnlyCollection<DigitAction> Action { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cell information that represent a board.
+        /// </summary>
+        public ReadOnlyCollection<int> Cells { get; set; }
     }
 }

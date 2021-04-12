@@ -26,7 +26,7 @@ namespace Sudoku.SolveTechniques
             var log = _board.Backtracking();
             Assert.IsTrue(log.Successful);
             Assert.IsTrue(_board.IsComplete());
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual((i + 1), _board[i].Digit);
             }

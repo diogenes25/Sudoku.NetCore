@@ -24,6 +24,12 @@ namespace DE.Onnen.Sudoku
         double SolvePercent { get; }
 
         /// <summary>
+        /// Solve by backtracking (brute force) every Digit.
+        /// </summary>
+        /// <returns>Log information</returns>
+        SudokuLog Backtracking();
+
+        /// <summary>
         /// Returns a specific house.
         /// </summary>
         /// <param name="houseType">Define the HouseType. There are 3 House-Types (Row, Col or Box)</param>
@@ -51,12 +57,6 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">g-Information of the action that were performed during the solve process.</param>
         /// <returns>true == No Errors while trying to solve. It does not mean the Sudoku was solved completely</returns>
         bool Solve(SudokuLog sudokuResult);
-
-        /// <summary>
-        /// Solve by backtracking (brute force) every Digit.
-        /// </summary>
-        /// <returns>Log information</returns>
-        SudokuLog Backtracking();
     }
 
     /// <summary>
@@ -65,13 +65,27 @@ namespace DE.Onnen.Sudoku
     public static class Consts
     {
         /// <summary>
+        /// Initial value of every candidate as a  Bitmask.
+        /// </summary>
+        /// <remarks>
+        /// In normal sudoku = (9 Bit) = 2^9 = 511
+        /// </remarks>
+        public const int BASESTART = (1 << Consts.DIMENSIONSQUARE) - 1;
+
+        /// <summary>
+        /// Number of cells total.
+        /// </summary>
+        /// <returns>In a normal sudoku it should be 81 ((3*3) * (3*3))</returns>
+        public const int COUNTCELL = Consts.DIMENSIONSQUARE * Consts.DIMENSIONSQUARE;
+
+        /// <summary>
         /// Edge length of a box.<br />
         /// </summary>
         /// <remarks>
         /// In a normal sudoku t is 3.<br />
         /// Ultimately, all other terms are based on this value.
         /// </remarks>
-        public static readonly int Dimension = 3;
+        public const int DIMENSION = 3;
 
         /// <summary>
         /// Total edge length of the sudoku.<br />
@@ -79,25 +93,11 @@ namespace DE.Onnen.Sudoku
         /// <remarks>
         /// In normal sudoku = 9 (3*3).
         /// </remarks>
-        public static readonly int DimensionSquare = Dimension * Dimension;
-
-        /// <summary>
-        /// Initial value of every candidate as a  Bitmask.
-        /// </summary>
-        /// <remarks>
-        /// In normal sudoku = (9 Bit) = 2^9 = 511
-        /// </remarks>
-        public static readonly int BaseStart = (1 << Consts.DimensionSquare) - 1;
-
-        /// <summary>
-        /// Number of cells total.
-        /// </summary>
-        /// <returns>In a normal sudoku it should be 81 ((3*3) * (3*3))</returns>
-        public static readonly int CountCell = Consts.DimensionSquare * Consts.DimensionSquare;
+        public const int DIMENSIONSQUARE = DIMENSION * DIMENSION;
 
         /// <summary>
         /// Number of possible candidates.
         /// </summary>
-        public static readonly double SolvePercentBase = Math.Pow(Consts.DimensionSquare, 3.0);
+        public const double SOLVEPERCENTBASE = DIMENSIONSQUARE * DIMENSIONSQUARE * DIMENSIONSQUARE;
     }
 }

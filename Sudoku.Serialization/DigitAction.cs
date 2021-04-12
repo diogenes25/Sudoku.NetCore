@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku.Serialization
     /// <summary>
     /// Digits set by the user.
     /// </summary>
-    public class DigitAction
+    public record DigitAction
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DigitAction" /> class.
@@ -24,8 +24,8 @@ namespace DE.Onnen.Sudoku.Serialization
         /// <param name="digit">Digit to set</param>
         public DigitAction(int cellId, int digit)
         {
-            this.CellId = cellId;
-            this.Digit = digit;
+            CellId = cellId;
+            Digit = digit;
         }
 
         /// <summary>

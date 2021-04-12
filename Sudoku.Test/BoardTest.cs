@@ -32,7 +32,7 @@
             var log = _board.Backtracking();
             Assert.IsTrue(_board.IsComplete());
             Assert.IsTrue(log.Successful);
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual((i + 1), _board[i].Digit);
             }
@@ -57,17 +57,17 @@
         [TestMethod]
         public void Clear_not_digit_is_set_Test()
         {
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 _board.SetDigit(i, i, i + 1);
-                Assert.AreEqual(i + 1, _board[i + (i * Consts.DimensionSquare)].Digit);
+                Assert.AreEqual(i + 1, _board[i + (i * Consts.DIMENSIONSQUARE)].Digit);
             }
             _board.Clear();
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual(0, _board[i].Digit);
-                Assert.AreEqual(0, _board[i + (i * Consts.DimensionSquare)].Digit);
-                Assert.AreEqual(0, _board[Consts.DimensionSquare - (i + (Consts.DimensionSquare - (i * Consts.DimensionSquare)))].Digit);
+                Assert.AreEqual(0, _board[i + (i * Consts.DIMENSIONSQUARE)].Digit);
+                Assert.AreEqual(0, _board[Consts.DIMENSIONSQUARE - (i + (Consts.DIMENSIONSQUARE - (i * Consts.DIMENSIONSQUARE)))].Digit);
             }
         }
 
@@ -85,8 +85,8 @@
         {
             int actual;
             actual = _board.Count;
-            Assert.AreEqual(Consts.DimensionSquare * Consts.DimensionSquare, actual);
-            Assert.AreEqual(Consts.CountCell, actual);
+            Assert.AreEqual(Consts.DIMENSIONSQUARE * Consts.DIMENSIONSQUARE, actual);
+            Assert.AreEqual(Consts.COUNTCELL, actual);
         }
 
         /// <summary>
@@ -95,14 +95,14 @@
         [TestMethod]
         public void CreateSimpleBoard_creates_int_with_Test()
         {
-            for (var i = 0; i < Consts.DimensionSquare; i++)
+            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 _board.SetDigit(i, i + 1);
             }
             int[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             var actual = ((Board)_board).CreateSimpleBoard();
             Assert.AreEqual(expected.Length, actual.Length);
-            for (var i = 0; i < Consts.CountCell; i++)
+            for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 var c = Cell.CreateCellFromUniqueID(actual[i]);
                 Assert.AreEqual(_board[i].CandidateValue, c.CandidateValue);
@@ -112,7 +112,7 @@
             }
 
             var recreatedBoard = new Board(actual);
-            for (var i = 0; i < Consts.CountCell; i++)
+            for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 Assert.AreEqual(i, recreatedBoard[i].ID);
                 Assert.AreEqual(_board[i].CandidateValue, recreatedBoard[i].CandidateValue);
@@ -144,13 +144,13 @@
         {
             var houseType = HouseType.Col;
             IHouse<Cell> actual;
-            for (var idx = 0; idx < Consts.DimensionSquare; idx++)
+            for (var idx = 0; idx < Consts.DIMENSIONSQUARE; idx++)
             {
                 actual = _board.GetHouse(houseType, idx);
-                for (var r = 0; r < Consts.DimensionSquare; r++)
+                for (var r = 0; r < Consts.DIMENSIONSQUARE; r++)
                 {
                     ICell expected = actual[r];
-                    ICell cellRow = _board[idx + (r * Consts.DimensionSquare)];
+                    ICell cellRow = _board[idx + (r * Consts.DIMENSIONSQUARE)];
                     Assert.AreEqual(cellRow, expected);
                 }
             }
@@ -164,13 +164,13 @@
         {
             var houseType = HouseType.Row;
             IHouse<Cell> actual;
-            for (var idx = 0; idx < Consts.DimensionSquare; idx++)
+            for (var idx = 0; idx < Consts.DIMENSIONSQUARE; idx++)
             {
                 actual = _board.GetHouse(houseType, idx);
-                for (var r = 0; r < Consts.DimensionSquare; r++)
+                for (var r = 0; r < Consts.DIMENSIONSQUARE; r++)
                 {
                     ICell expected = actual[r];
-                    ICell cellRow = _board[r + (idx * Consts.DimensionSquare)];
+                    ICell cellRow = _board[r + (idx * Consts.DIMENSIONSQUARE)];
                     Assert.AreEqual(cellRow, expected);
                 }
             }
@@ -494,10 +494,10 @@
 
         private static void CheckBoard(IBoard<Cell> target)
         {
-            Assert.AreEqual(Consts.CountCell, ((Board)target).Count);
+            Assert.AreEqual(Consts.COUNTCELL, ((Board)target).Count);
             foreach (ICell cell in target)
             {
-                Assert.AreEqual(Consts.BaseStart, cell.CandidateValue);
+                Assert.AreEqual(Consts.BASESTART, cell.CandidateValue);
                 Assert.AreEqual(0, cell.Digit);
             }
         }

@@ -14,16 +14,20 @@ namespace DE.Onnen.Sudoku
 
         internal House<Cell>[] _fieldcontainters = new House<Cell>[3];
 
+        internal Cell(int id) : base(id, HouseType.Cell)
+        {
+        }
+
         /// <inheritdoc />
         public new int CandidateValue
         {
-            get { return base.CandidateValue; }
+            get => base.CandidateValue;
             internal set
             {
                 base.CandidateValue = value;
-                if (base.CandidateValue > 0 && this.Digit > 0 && value > 0)
+                if (base.CandidateValue > 0 && Digit > 0 && value > 0)
                 {
-                    this._digit = 0;
+                    _digit = 0;
                 }
             }
         }
@@ -31,26 +35,26 @@ namespace DE.Onnen.Sudoku
         /// <inheritdoc />
         public int Digit
         {
-            get { return this._digit; }
+            get => _digit;
             internal set
             {
                 if (value == 0)
                 {
-                    this._digit = 0;
-                    this.CandidateValue = Consts.BaseStart;
+                    _digit = 0;
+                    CandidateValue = Consts.BASESTART;
                 }
                 else
                 {
-                    if (this._digit == value)
+                    if (_digit == value)
                     {
                         return;
                     }
 
-                    if (value > 0 && value <= Consts.DimensionSquare && this._digit < 1 && (this.CandidateValue & (1 << (value - 1))) == (1 << (value - 1)))
+                    if (value > 0 && value <= Consts.DIMENSIONSQUARE && _digit < 1 && (CandidateValue & (1 << (value - 1))) == (1 << (value - 1)))
                     {
-                        if (SetField(ref this._digit, value, nameof(this.Digit)))
+                        if (SetField(ref _digit, value, nameof(Digit)))
                         {
-                            this.CandidateValue = 0;
+                            CandidateValue = 0;
                         }
                     }
                     else
@@ -61,15 +65,14 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        internal Cell(int id) : base(id, HouseType.Cell)
-        {
-        }
+        /// <inheritdoc />
+        public bool IsGiven { get; internal set; }
 
         public static Cell CreateCellFromUniqueID(int x)
         {
-            int mask = ((1 << 7) - 1);
-            int tmpCandidates = 0;
-            int tmpDigit = 0;
+            var mask = ((1 << 7) - 1);
+            var tmpCandidates = 0;
+            var tmpDigit = 0;
             int tmpId;
             if (x < 0)
             {
@@ -81,7 +84,7 @@ namespace DE.Onnen.Sudoku
                 tmpId = x & mask;
                 tmpCandidates = x >> 7;
             }
-            Cell retVAl = new Cell(tmpId)
+            var retVAl = new Cell(tmpId)
             {
                 _candidateValueInternal = tmpCandidates,
                 _digit = tmpDigit
@@ -89,39 +92,65 @@ namespace DE.Onnen.Sudoku
             return retVAl;
         }
 
+        public static int CreateUniqueID(int id, int digit) => ((digit << 7) + id) * -1;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ICell))
+            {
+                return false;
+            }
+
+            return ID == ((ICell)obj).ID;
+        }
+
+        public bool Equals(ICell othercell)
+        {
+            if (othercell == null)
+            {
+                return false;
+            }
+            return ID == othercell.ID;
+        }
+
+        public bool Equals(Cell other) => Equals((ICell)other);
+
+        public override int GetHashCode() => base.GetHashCode();
+
         public int GetUniqueID()
         {
-            if (this.Digit == 0)
+            if (Digit == 0)
             {
-                return (this.CandidateValue << 7) + this.ID;
+                return (CandidateValue << 7) + ID;
             }
             else
             {
-                return CreateUniqueID(this.ID, this.Digit);
+                return CreateUniqueID(ID, Digit);
             }
-        }
-
-        public static int CreateUniqueID(int id, int digit)
-        {
-            return ((digit << 7) + id) * -1;
         }
 
         /// <inheritdoc />
         public SudokuLog SetDigit(int digitToSet)
         {
-            SudokuLog sudokuLog = new SudokuLog();
+            var sudokuLog = new SudokuLog();
             SetDigit(digitToSet, sudokuLog);
             return sudokuLog;
         }
 
+        /// <summary>
+        /// Every Cell-information.
+        /// </summary>
+        /// <returns>String that contains every cell-information.</returns>
+        public override string ToString() => HType + "(" + ID + ") [" + ((char)(int)((ID / Consts.DIMENSIONSQUARE) + 65)) + "" + ((ID % Consts.DIMENSIONSQUARE) + 1) + "] " + _digit;
+
         internal override bool SetDigit(int digitFromOutside, SudokuLog sudokuResult)
         {
-            if (this._digit == digitFromOutside)
+            if (_digit == digitFromOutside)
             {
                 return false;
             }
 
-            SudokuLog result = sudokuResult.CreateChildResult();
+            var result = sudokuResult.CreateChildResult();
             result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
@@ -132,7 +161,7 @@ namespace DE.Onnen.Sudoku
 
             try
             {
-                this.Digit = digitFromOutside;
+                Digit = digitFromOutside;
             }
             catch (Exception e)
             {
@@ -141,62 +170,21 @@ namespace DE.Onnen.Sudoku
                 return true;
             }
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
-                if (this._fieldcontainters[i] == null)
+                if (_fieldcontainters[i] == null)
                 {
                     continue;
                 }
-                this._fieldcontainters[i].SetDigit(digitFromOutside, sudokuResult);
+                _fieldcontainters[i].SetDigit(digitFromOutside, sudokuResult);
                 if (!sudokuResult.Successful)
                 {
-                    sudokuResult.ErrorMessage = "Digit " + digitFromOutside + " is in Cell (FieldContainer) " + this.ID + " not possible";
+                    sudokuResult.ErrorMessage = "Digit " + digitFromOutside + " is in Cell (FieldContainer) " + ID + " not possible";
                     return true;
                 }
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Every Cell-information.
-        /// </summary>
-        /// <returns>String that contains every cell-information.</returns>
-        public override string ToString()
-        {
-            return this.HType + "(" + this.ID + ") [" + ((char)(int)((this.ID / Consts.DimensionSquare) + 65)) + "" + ((this.ID % Consts.DimensionSquare) + 1) + "] " + this._digit;
-        }
-
-        /// <inheritdoc />
-        public bool IsGiven { get; internal set; }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || !(obj is ICell))
-            {
-                return false;
-            }
-
-            return this.ID == ((ICell)obj).ID;
-        }
-
-        public bool Equals(ICell othercell)
-        {
-            if (othercell == null)
-            {
-                return false;
-            }
-            return this.ID == othercell.ID;
-        }
-
-        public bool Equals(Cell other)
-        {
-            return this.Equals((ICell)other);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

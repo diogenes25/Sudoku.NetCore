@@ -21,24 +21,24 @@ namespace DE.Onnen.Sudoku
         {
             if (cell == null)
             {
-                this.CellID = -1;
-                this.Digit = -1;
+                CellID = -1;
+                Digit = -1;
             }
             else
             {
-                this.CellID = cell.ID;
-                this.Digit = cell.Digit;
+                CellID = cell.ID;
+                Digit = cell.Digit;
             }
 
-            this.SudokuResults = sudokuResult;
+            SudokuResults = sudokuResult;
             if (board == null)
             {
-                this.Percent = 0;
+                Percent = 0;
             }
             else
             {
-                this.BoardInt = new System.Collections.ObjectModel.ReadOnlyCollection<int>(board.CreateSimpleBoard());
-                this.Percent = board.SolvePercent;
+                BoardInt = new System.Collections.ObjectModel.ReadOnlyCollection<int>(board.CreateSimpleBoard());
+                Percent = board.SolvePercent;
             }
         }
 
@@ -58,29 +58,26 @@ namespace DE.Onnen.Sudoku
         public int Digit { get; private set; }
 
         /// <summary>
-        /// Gets Last result.
-        /// </summary>
-        public SudokuLog SudokuResults { get; private set; }
-
-        /// <summary>
         /// Gets percentage solution progress
         /// </summary>
         public double Percent { get; private set; }
 
         /// <summary>
+        /// Gets Last result.
+        /// </summary>
+        public SudokuLog SudokuResults { get; private set; }
+
+        /// <summary>
         /// Info about the work, that had been done.
         /// </summary>
         /// <returns>Information of this step.</returns>
-        public override string ToString()
-        {
-            return string.Format(
+        public override string ToString() => string.Format(
                 System.Globalization.CultureInfo.CurrentCulture,
                 "Cell({0}) [{1}{2}] {3} {4}%",
-                 this.CellID,
-                 (char)(int)((this.CellID / Consts.DimensionSquare) + 65),
-                 (this.CellID % Consts.DimensionSquare) + 1,
-                 this.Digit,
-                 string.Format("{0:0.00}", this.Percent));
-        }
+                 CellID,
+                 (char)(int)((CellID / Consts.DIMENSIONSQUARE) + 65),
+                 (CellID % Consts.DIMENSIONSQUARE) + 1,
+                 Digit,
+                 string.Format("{0:0.00}", Percent));
     }
 }

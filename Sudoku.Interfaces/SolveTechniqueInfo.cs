@@ -15,6 +15,16 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
+        /// Short title like a headline.
+        /// </summary>
+        public string Caption { get; private set; }
+
+        /// <summary>
+        /// Gets a description of the solving technique
+        /// </summary>
+        public string Description { get; private set; }
+
+        /// <summary>
         /// Creates an information instance
         /// </summary>
         /// <param name="caption">Short title like a headline</param>
@@ -28,15 +38,5 @@ namespace DE.Onnen.Sudoku
                 Description = descr
             };
         }
-
-        /// <summary>
-        /// Short title like a headline.
-        /// </summary>
-        public string Caption { get; private set; }
-
-        /// <summary>
-        /// Gets a description of the solving technique
-        /// </summary>
-        public string Description { get; private set; }
     }
 }

@@ -29,14 +29,14 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_box_Test()
         {
-            var baseValue = (1 << Consts.DimensionSquare) - 1;
+            var baseValue = (1 << Consts.DIMENSIONSQUARE) - 1;
             var expected = baseValue - (1 << 0);
             var containerIdx = 0;
-            for (var zr = 0; zr < Consts.Dimension; zr++)
+            for (var zr = 0; zr < Consts.DIMENSION; zr++)
             {
-                for (var zc = 0; zc < Consts.Dimension; zc++)
+                for (var zc = 0; zc < Consts.DIMENSION; zc++)
                 {
-                    var b = (containerIdx * Consts.Dimension) + (zc + (zr * Consts.DimensionSquare)) + ((containerIdx / Consts.Dimension) * Consts.DimensionSquare * 2);
+                    var b = (containerIdx * Consts.DIMENSION) + (zc + (zr * Consts.DIMENSIONSQUARE)) + ((containerIdx / Consts.DIMENSION) * Consts.DIMENSIONSQUARE * 2);
                     if (b == 0)
                     {
                         continue;
@@ -50,7 +50,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_col_Test()
         {
-            var baseValue = (1 << Consts.DimensionSquare) - 1;
+            var baseValue = (1 << Consts.DIMENSIONSQUARE) - 1;
             var expected = baseValue - (1 << 0);
             for (var i = 1; i < 9; i++)
             {
@@ -62,7 +62,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_peer_row_Test()
         {
-            var baseValue = (1 << Consts.DimensionSquare) - 1;
+            var baseValue = (1 << Consts.DIMENSIONSQUARE) - 1;
             var expected = baseValue - (1 << 0);
 
             for (var i = 1; i < 9; i++)
@@ -75,7 +75,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_Digit_removed_as_candidate_in_row_Test()
         {
-            var baseValue = (1 << Consts.DimensionSquare) - 1;
+            var baseValue = (1 << Consts.DIMENSIONSQUARE) - 1;
             var expected = baseValue - (1 << 0);
             for (var i = 1; i < 9; i++)
             {
