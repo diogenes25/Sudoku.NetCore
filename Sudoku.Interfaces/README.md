@@ -1,5 +1,5 @@
 ﻿# Public Interface to develop a Solve-Technique
-## In order to keep the core implementation closed, this project contains all necessary information for developing a solve technique. 
+## In order to keep the core implementation closed, this project contains all necessary information for developing a solve technique
 
 Originally this project was used to develop own solving techniques for solving sudokus.
 
