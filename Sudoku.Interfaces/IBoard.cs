@@ -70,13 +70,13 @@ namespace DE.Onnen.Sudoku
         /// <remarks>
         /// In normal sudoku = (9 Bit) = 2^9 = 511
         /// </remarks>
-        public const int BASESTART = (1 << Consts.DIMENSIONSQUARE) - 1;
+        public const int BASESTART = (1 << DIMENSIONSQUARE) - 1;
 
         /// <summary>
         /// Number of cells total.
         /// </summary>
         /// <returns>In a normal sudoku it should be 81 ((3*3) * (3*3))</returns>
-        public const int COUNTCELL = Consts.DIMENSIONSQUARE * Consts.DIMENSIONSQUARE;
+        public const int COUNTCELL = DIMENSIONSQUARE * DIMENSIONSQUARE;
 
         /// <summary>
         /// Edge length of a box.<br />

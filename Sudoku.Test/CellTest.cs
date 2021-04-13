@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DE.Onnen.Sudoku
@@ -17,9 +16,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Candidates_are_9_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
-            var actual = target.Candidates;
+            var actual = new Cell(0).Candidates;
             Assert.AreEqual(Consts.DIMENSIONSQUARE, actual.Count);
             for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
@@ -33,11 +30,9 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Candidates_changes_with_removePossibleDigit_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
-            ReadOnlyCollection<int> actual;
+            var target = new Cell(0);
             target.RemoveCandidate(3, new SudokuLog());
-            actual = target.Candidates;
+            var actual = target.Candidates;
             Assert.AreEqual(Consts.DIMENSIONSQUARE - 1, actual.Count);
             for (var i = 1; i <= Consts.DIMENSIONSQUARE; i++)
             {
@@ -51,8 +46,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void CandidateValue_Digit_is_0_when_BaseValue_was_set_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 0;
             int actual;
             target.Digit = 1;
@@ -66,8 +60,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void CandidateValue_fire_OnPropertyChanged_event_when_value_changes_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 3;
             int actual;
             var propertyChangeWasDone = false;
@@ -137,8 +130,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Constructor_BaseValue_is_Consts_BaseStart_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = Consts.BASESTART;
             var actual = target.CandidateValue;
             Assert.AreEqual(expected, actual);
@@ -147,8 +139,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Constructor_HType_eq_HouseType_Cell_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = HouseType.Cell;
             var actual = target.HType;
             Assert.AreEqual(expected, actual);
@@ -173,8 +164,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_does_not_set_Digit_when_not_in_range_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 0;
             int actual;
             try
@@ -196,7 +186,7 @@ namespace DE.Onnen.Sudoku
         public void Digit_fire_OnPropertyChanged_event_when_Digit_changes_twice_Test()
         {
             var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 3;
             int actual;
             var propertyChangeCandidateWasDone = false;
@@ -230,8 +220,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_changes_BaseValue_to_0_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 0;
             int actual;
             target.Digit = 3;
@@ -242,8 +231,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_removes_Candidates_in_Houses_and_check_single_candidate_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var row = new Cell[2];
             var col = new Cell[2];
             var box = new Cell[2];
@@ -266,8 +254,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_removes_Candidates_in_Houses_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var row = new Cell[10];
             var col = new Cell[10];
             var box = new Cell[10];
@@ -304,8 +291,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var expected = 1;
             int actual;
             target.Digit = expected;
@@ -319,8 +305,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Equal_is_false_when_compare_with_null_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             object obj = null;
             var expected = false;
             bool actual;
@@ -334,13 +319,9 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Equal_is_true_when_ID_is_equal_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
-            object obj = new Cell(id);
-            var expected = true;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            var target = new Cell(0);
+            object obj = new Cell(0);
+            Assert.IsTrue(target.Equals(obj));
         }
 
         /// <summary>
@@ -377,8 +358,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void RemoveCandidate_BaseValue_changes_when_candidate_removes_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var digit = 1;
             var sudokuResult = new SudokuLog();
             var expected = true;
@@ -420,8 +400,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_changes_Digit_peoperty_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var digit = 1;
             SudokuLog actual;
             actual = target.SetDigit(digit);
@@ -435,8 +414,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_return_true_when_digit_was_set_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var digitFromOutside = 1;
             var sudokuResult = new SudokuLog();
             var expected = true;
@@ -451,8 +429,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void SetDigit_set_BaseValue_to_0_Test()
         {
-            var id = 0;
-            var target = new Cell(id);
+            var target = new Cell(0);
             var digit = 1;
             SudokuLog actual;
             actual = target.SetDigit(digit);
@@ -466,8 +443,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void ToStringTest_Test()
         {
-            var id = 0; // TODO: Initialize to an appropriate value
-            var target = new Cell(id); // TODO: Initialize to an appropriate value
+            var target = new Cell(0); // TODO: Initialize to an appropriate value
             var expected = "Cell(0) [A1] 0";
             string actual;
             actual = target.ToString();

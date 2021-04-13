@@ -21,7 +21,7 @@
         //
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
-        public static void MyClassInitialize(TestContext testContext) => _solveTechniques = GetSolveTechniques();
+        public static void BoardTestInitialize(TestContext testContext) => _solveTechniques = GetSolveTechniques();
 
         /// <summary>
         ///A test for Backtracking
@@ -29,9 +29,9 @@
         [TestMethod]
         public void Backtracking_solve_without_any_digit_Test()
         {
-            var log = _board.Backtracking();
+            Assert.IsFalse(_board.IsComplete());
+            Assert.IsTrue(_board.Backtracking().Successful);
             Assert.IsTrue(_board.IsComplete());
-            Assert.IsTrue(log.Successful);
             for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 Assert.AreEqual((i + 1), _board[i].Digit);
@@ -83,10 +83,8 @@
         [TestMethod]
         public void Count_is_length_of_cells_Test()
         {
-            int actual;
-            actual = _board.Count;
-            Assert.AreEqual(Consts.DIMENSIONSQUARE * Consts.DIMENSIONSQUARE, actual);
-            Assert.AreEqual(Consts.COUNTCELL, actual);
+            Assert.AreEqual(Consts.DIMENSIONSQUARE * Consts.DIMENSIONSQUARE, 81);
+            Assert.AreEqual(Consts.COUNTCELL, _board.Count);
         }
 
         /// <summary>
@@ -207,13 +205,7 @@
         ///A test for Item
         ///</summary>
         [TestMethod]
-        public void ItemTest_Test()
-        {
-            var index = 0;
-            ICell actual;
-            actual = _board[index];
-            Assert.AreEqual(0, actual.ID);
-        }
+        public void ItemTest_Test() => Assert.AreEqual(0, _board[0].ID);
 
         /// <summary>
         ///A test for SetBoard
@@ -281,7 +273,7 @@
         {
             ICell firstCell = _board[1];
             Assert.AreEqual(0, firstCell.Digit, "Just to be sure that this value is 0 at first.");
-            var result = _board.SetDigit('a', 1, 5);
+            var result = _board.SetDigit(row: 'a', col: 1, digit: 5);
             Assert.IsTrue(result.Successful);
             firstCell = _board[1];
             Assert.AreEqual(5, firstCell.Digit, "Cell A/1  is same as 0/1 is same as id=1 and must be set to 5");
@@ -297,11 +289,8 @@
         [TestMethod]
         public void SetDigit_with_coordinates_Test()
         {
-            var row = 8;
-            var col = 8;
-            var digit = 9;
             Assert.AreEqual(0, _board[80].Digit);
-            _board.SetDigit(row, col, digit);
+            _board.SetDigit(row: 8, col: 8, digit: 9);
             Assert.AreEqual(9, _board[80].Digit);
             Assert.AreEqual(0, _board[80].CandidateValue);
         }
@@ -361,8 +350,8 @@
             _board.SetDigit(1, 4, 1);
             _board.SetDigit(0, 6, 2);
             _board.SetDigit(0, 7, 3);
-            var result = _board.SetDigit(0, 8, 4);
-            _board.Solve(result);
+            var log = _board.SetDigit(0, 8, 4);
+            _board.Solve(log);
             var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, _board[18].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[19].CandidateValue);
@@ -427,20 +416,13 @@
         ///A test for SolvePercent
         ///</summary>
         [TestMethod]
-        public void SolvePercent_is_0_at_first_Test()
-        {
-            double actual;
-            actual = _board.SolvePercent;
-            Assert.AreEqual(0.0, actual);
-        }
+        public void SolvePercent_is_0_at_first_Test() => Assert.AreEqual(0.0, _board.SolvePercent);
 
         [TestMethod]
         public void SolvePercent_is_greater_than_0_Test()
         {
-            double actual;
             _board.SetDigit(0, 1);
-            actual = _board.SolvePercent;
-            Assert.IsTrue(actual > 0.0);
+            Assert.IsTrue(_board.SolvePercent > 0.0);
         }
 
         /// <summary>
@@ -488,8 +470,7 @@
         public void ToString_is_string_with_every_digit_Test()
         {
             var expected = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-            var actual = _board.ToString();
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, _board.ToString());
         }
 
         private static void CheckBoard(IBoard<Cell> target)
