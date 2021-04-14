@@ -11,9 +11,7 @@ namespace DE.Onnen.Sudoku
         public void Initialize()
         {
             _target = new Board();
-            var digit = 1;
-            var cell = 0;
-            _target.SetDigit(cell, digit);
+            _target.SetDigit(cellID: 0, digitToSet: 1);
         }
 
         /// <summary>

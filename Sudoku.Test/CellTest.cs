@@ -166,7 +166,6 @@ namespace DE.Onnen.Sudoku
         {
             var target = new Cell(0);
             var expected = 0;
-            int actual;
             try
             {
                 target.Digit = -1;
@@ -177,18 +176,15 @@ namespace DE.Onnen.Sudoku
             }
             finally
             {
-                actual = target.Digit;
-                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expected, target.Digit);
             }
         }
 
         [TestMethod]
         public void Digit_fire_OnPropertyChanged_event_when_Digit_changes_twice_Test()
         {
-            var id = 0;
             var target = new Cell(0);
             var expected = 3;
-            int actual;
             var propertyChangeCandidateWasDone = false;
             var propertyChangeDigitWasDone = false;
             target.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler((sender, e) =>
@@ -207,8 +203,7 @@ namespace DE.Onnen.Sudoku
                 }
             });
             target.Digit = expected;
-            actual = target.Digit;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, target.Digit);
             Assert.AreEqual(0, target.CandidateValue);
             Assert.IsTrue(propertyChangeCandidateWasDone);
             Assert.IsTrue(propertyChangeDigitWasDone);
@@ -220,12 +215,11 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_changes_BaseValue_to_0_Test()
         {
-            var target = new Cell(0);
-            var expected = 0;
-            int actual;
-            target.Digit = 3;
-            actual = target.CandidateValue;
-            Assert.AreEqual(expected, actual);
+            var target = new Cell(0)
+            {
+                Digit = 3
+            };
+            Assert.AreEqual(0, target.CandidateValue, "When a Digit ist set, no Candidates should be there");
         }
 
         [TestMethod]
@@ -291,12 +285,11 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void Digit_set_Digit_Test()
         {
-            var target = new Cell(0);
-            var expected = 1;
-            int actual;
-            target.Digit = expected;
-            actual = target.Digit;
-            Assert.AreEqual(expected, actual);
+            var target = new Cell(0)
+            {
+                Digit = 1
+            };
+            Assert.AreEqual(1, target.Digit, "Digit must set to 1");
         }
 
         /// <summary>
@@ -306,11 +299,7 @@ namespace DE.Onnen.Sudoku
         public void Equal_is_false_when_compare_with_null_Test()
         {
             var target = new Cell(0);
-            object obj = null;
-            var expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(target.Equals(null));
         }
 
         /// <summary>
