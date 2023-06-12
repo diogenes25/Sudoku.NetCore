@@ -5,27 +5,29 @@
 //-----------------------------------------------------------------------
 namespace DE.Onnen.Sudoku.Serialization
 {
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
+    using System.Text.Json;
     using DE.Onnen.Sudoku;
     using DE.Onnen.Sudoku.SolveTechniques;
-    using Newtonsoft.Json;
 
     public static class SudokuSerializer
     {
+        #region Public Methods
+
         public static string GetJson(this Board board, params DigitAction[] digActions)
         {
             var transfer = new SudokuTransfer
             {
-                Cells = new ReadOnlyCollection<int>(board.CreateSimpleBoard()),
-                Action = new ReadOnlyCollection<DigitAction>(digActions),
+                Cells = new List<int>(board.CreateSimpleBoard()),
+                Action = new List<DigitAction>(digActions),
             };
 
-            return JsonConvert.SerializeObject(transfer, Formatting.Indented);
+            return JsonSerializer.Serialize(transfer);
         }
 
         public static Board ParseToBoard(string json, params ASolveTechnique<Cell>[] solveTechniques)
         {
-            var transfer = JsonConvert.DeserializeObject<SudokuTransfer>(json);
+            var transfer = JsonSerializer.Deserialize<SudokuTransfer>(json);
             var board = new Board(transfer.Cells, solveTechniques);
             foreach (var boardAction in transfer.Action)
             {
@@ -33,5 +35,7 @@ namespace DE.Onnen.Sudoku.Serialization
             }
             return board;
         }
+
+        #endregion Public Methods
     }
 }

@@ -8,8 +8,14 @@
     [TestClass]
     public class SerializerTest
     {
+        #region Private Fields
+
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private Board _board;
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext) => _solveTechniques = new ASolveTechnique<Cell>[]
@@ -26,9 +32,17 @@
         public void Serialize_Board_Test()
         {
             _board.SetDigit(0, 1);
-            var json = _board.GetJson(new DigitAction(1, 2));
+            var json = _board.GetJson(new DigitAction()
+            {
+                CellId = 1,
+                Digit = 2
+            });
+            Assert.IsNotNull(json);
+            Assert.IsTrue(json.Length > 10);
             var tmpBoard = SudokuSerializer.ParseToBoard(json);
             Assert.AreEqual(1, tmpBoard[0].Digit);
         }
+
+        #endregion Public Methods
     }
 }

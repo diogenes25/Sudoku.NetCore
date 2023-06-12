@@ -3,39 +3,24 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
+
 namespace DE.Onnen.Sudoku.Serialization
 {
     /// <summary>
     /// Digits set by the user.
     /// </summary>
+    [Serializable]
     public record DigitAction
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DigitAction" /> class.
-        /// </summary>
-        public DigitAction()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DigitAction" /> class.
-        /// </summary>
-        /// <param name="cellId">ID of the Cell</param>
-        /// <param name="digit">Digit to set</param>
-        public DigitAction(int cellId, int digit)
-        {
-            CellId = cellId;
-            Digit = digit;
-        }
-
-        /// <summary>
         /// Gets or sets Digit-Id of the Cell.
         /// </summary>
-        public int CellId { get; set; }
+        public int CellId { get; init; }
 
         /// <summary>
         /// Gets or sets the digit that will be set.
         /// </summary>
-        public int Digit { get; set; }
+        public int Digit { get; init; }
     }
 }
