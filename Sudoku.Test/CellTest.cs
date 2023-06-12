@@ -10,6 +10,8 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class CellTest
     {
+        #region Public Methods
+
         /// <summary>
         ///A test for Candidates
         ///</summary>
@@ -46,11 +48,12 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void CandidateValue_Digit_is_0_when_BaseValue_was_set_Test()
         {
-            var target = new Cell(0);
+            var target = new Cell(0)
+            {
+                Digit = 1,
+            };
             var expected = 0;
-            int actual;
-            target.Digit = 1;
-            actual = target.CandidateValue;
+            var actual = target.CandidateValue;
             Assert.AreEqual(expected, actual);
             target.CandidateValue = 3;
             actual = target.Digit;
@@ -62,7 +65,6 @@ namespace DE.Onnen.Sudoku
         {
             var target = new Cell(0);
             var expected = 3;
-            int actual;
             var propertyChangeWasDone = false;
             target.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler((sender, e) =>
             {
@@ -72,7 +74,7 @@ namespace DE.Onnen.Sudoku
                 propertyChangeWasDone = true;
             });
             target.CandidateValue = expected;
-            actual = target.CandidateValue;
+            var actual = target.CandidateValue;
             Assert.AreEqual(expected, actual);
             Assert.IsTrue(propertyChangeWasDone);
         }
@@ -88,8 +90,8 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for CheckLastDigit
-        ///</summary>
+        /// A test for CheckLastDigit
+        /// </summary>
         [TestMethod]
         [DeploymentItem("Sudoku.exe")]
         public void CheckLastDigit_returns_false_when_not_last_candidate_after_create_Test()
@@ -102,8 +104,8 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for CheckLastDigit
-        ///</summary>
+        /// A test for CheckLastDigit
+        /// </summary>
         [TestMethod]
         [DeploymentItem("Sudoku.exe")]
         public void CheckLastDigit_returns_false_when_not_last_candidate_Test()
@@ -125,8 +127,8 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for BaseValue
-        ///</summary>
+        /// A test for BaseValue
+        /// </summary>
         [TestMethod]
         public void Constructor_BaseValue_is_Consts_BaseStart_Test()
         {
@@ -146,8 +148,8 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for Cell Constructor
-        ///</summary>
+        /// A test for Cell Constructor
+        /// </summary>
         [TestMethod]
         public void Constructor_id_is_ID_Property_Test()
         {
@@ -159,8 +161,8 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        ///A test for Digit
-        ///</summary>
+        /// A test for Digit
+        /// </summary>
         [TestMethod]
         public void Digit_does_not_set_Digit_when_not_in_range_Test()
         {
@@ -438,5 +440,7 @@ namespace DE.Onnen.Sudoku
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion Public Methods
     }
 }

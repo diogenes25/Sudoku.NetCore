@@ -1,19 +1,23 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {
-      "Newtonsoft.Json/13.0.1": {
+    "net7.0": {
+      "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Sudoku.Interfaces/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v5.0",
+        "framework": ".NETCoreApp,Version=v7.0",
         "compile": {
           "bin/placeholder/Sudoku.Interfaces.dll": {}
         },
@@ -23,7 +27,7 @@
       },
       "Sudoku.NetCore/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v5.0",
+        "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "Sudoku.Interfaces": "1.0.0"
         },
@@ -37,14 +41,15 @@
     }
   },
   "libraries": {
-    "Newtonsoft.Json/13.0.1": {
-      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.1",
+      "path": "newtonsoft.json/13.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
+        "README.md",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -53,13 +58,15 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
         "lib/netstandard1.0/Newtonsoft.Json.dll",
         "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/netstandard1.3/Newtonsoft.Json.dll",
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -76,8 +83,8 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net5.0": [
-      "Newtonsoft.Json >= 13.0.1",
+    "net7.0": [
+      "Newtonsoft.Json >= 13.0.3",
       "Sudoku.Interfaces >= 1.0.0",
       "Sudoku.NetCore >= 1.0.0"
     ]
@@ -89,11 +96,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Serialization\\Sudoku.Serialization.csproj",
+      "projectUniqueName": "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.Serialization\\Sudoku.Serialization.csproj",
       "projectName": "Sudoku.Serialization",
-      "projectPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Serialization\\Sudoku.Serialization.csproj",
+      "projectPath": "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.Serialization\\Sudoku.Serialization.csproj",
       "packagesPath": "C:\\Users\\TOnnen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Serialization\\obj\\",
+      "outputPath": "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.Serialization\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
@@ -104,21 +111,21 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net5.0"
+        "net7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj": {
-              "projectPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj"
+            "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj": {
+              "projectPath": "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.Interfaces\\Sudoku.Interfaces.csproj"
             },
-            "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.NetCore\\Sudoku.NetCore.csproj": {
-              "projectPath": "C:\\Users\\TOnnen\\Source\\Repos\\Sudoku.NetCore\\Sudoku.NetCore\\Sudoku.NetCore.csproj"
+            "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.NetCore\\Sudoku.NetCore.csproj": {
+              "projectPath": "C:\\Users\\TOnnen\\source\\repos\\Sudoku.NetCore\\Sudoku.NetCore\\Sudoku.NetCore.csproj"
             }
           }
         }
@@ -130,12 +137,12 @@
       }
     },
     "frameworks": {
-      "net5.0": {
-        "targetAlias": "net5.0",
+      "net7.0": {
+        "targetAlias": "net7.0",
         "dependencies": {
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "[13.0.1, )"
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -144,7 +151,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -153,7 +161,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -22,7 +22,14 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
+        #region Protected Fields
+
         protected Cell[] _cells;
+
+        #endregion Protected Fields
+
+        #region Private Fields
+
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
         private const int ROW_CONTAINERTYPE = 0;
@@ -30,6 +37,10 @@ namespace DE.Onnen.Sudoku
         private List<SudokuHistoryItem> _history;
         private bool _keepGoingWithChecks;
         private ISolveTechnique<Cell>[] _solveTechniques;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public Board() => Init();
 
@@ -59,10 +70,18 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        #endregion Public Constructors
+
+        #region Public Events
+
         /// <summary>
         /// Changes in board
         /// </summary>
         public event System.EventHandler<SudokuEvent> BoardChangeEvent;
+
+        #endregion Public Events
+
+        #region Public Properties
 
         public int Count => _cells.Length;
 
@@ -76,7 +95,7 @@ namespace DE.Onnen.Sudoku
         {
             get
             {
-                double currSolvePercent = 0;
+                var currSolvePercent = 0;
                 foreach (var c in _cells)
                 {
                     for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
@@ -96,12 +115,20 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public IList<ISolveTechnique<Cell>> SolveTechniques => _solveTechniques.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
 
+        #endregion Public Properties
+
+        #region Public Indexers
+
         /// <summary>
         ///
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
         public Cell this[int index] => _cells[index];
+
+        #endregion Public Indexers
+
+        #region Public Methods
 
         public SudokuLog Backtracking()
         {
@@ -376,14 +403,22 @@ namespace DE.Onnen.Sudoku
             return sb.ToString();
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
         /// <summary>
         /// Some changes happend while solving. Another check is needed.
         /// </summary>
         internal void SomeChangesOccurs() => _keepGoingWithChecks = true;
 
+        #endregion Internal Methods
+
+        #region Private Methods
+
         private bool BacktrackingContinue(Board board)
         {
-            bool isComplete;
+            var isComplete = false;
             try
             {
                 isComplete = board.IsComplete();
@@ -525,5 +560,7 @@ namespace DE.Onnen.Sudoku
                 _solveTechniques[fileCount++] = st;
             }
         }
+
+        #endregion Private Methods
     }
 }

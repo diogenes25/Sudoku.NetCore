@@ -8,12 +8,15 @@ namespace Sudoku.Test
     [TestClass]
     public class BoardEqualsTest
     {
+        #region Private Fields
+
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
+        #endregion Private Fields
+
+        #region Public Methods
+
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext) => _solveTechniques = new ASolveTechnique<Cell>[]
             {
@@ -76,7 +79,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void Equals_Test()
         {
-            IBoard<Cell> otherBoard = new Board();
+            var otherBoard = new Board();
             var beq = _board.Equals(otherBoard);
             Assert.IsTrue(beq);
             Assert.AreEqual(_board, otherBoard);
@@ -84,5 +87,7 @@ namespace Sudoku.Test
 
         [TestInitialize]
         public void Initialize() => _board = new Board(_solveTechniques);
+
+        #endregion Public Methods
     }
 }

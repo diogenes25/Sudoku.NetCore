@@ -17,11 +17,17 @@ namespace DE.Onnen.Sudoku
     public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>>
     where C : ICell
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets the percentage solution progress
         /// </summary>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         /// <summary>
         /// Solve by backtracking (brute force) every Digit.
@@ -57,6 +63,8 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">g-Information of the action that were performed during the solve process.</param>
         /// <returns>true == No Errors while trying to solve. It does not mean the Sudoku was solved completely</returns>
         bool Solve(SudokuLog sudokuResult);
+
+        #endregion Public Methods
     }
 
     /// <summary>
@@ -64,19 +72,21 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public static class Consts
     {
+        #region Public Properties
+
         /// <summary>
         /// Initial value of every candidate as a  Bitmask.
         /// </summary>
         /// <remarks>
         /// In normal sudoku = (9 Bit) = 2^9 = 511
         /// </remarks>
-        public const int BASESTART = (1 << DIMENSIONSQUARE) - 1;
+        public static int BASESTART => (1 << DIMENSIONSQUARE) - 1;
 
         /// <summary>
         /// Number of cells total.
         /// </summary>
         /// <returns>In a normal sudoku it should be 81 ((3*3) * (3*3))</returns>
-        public const int COUNTCELL = DIMENSIONSQUARE * DIMENSIONSQUARE;
+        public static int COUNTCELL => DIMENSIONSQUARE * DIMENSIONSQUARE;
 
         /// <summary>
         /// Edge length of a box.<br />
@@ -85,7 +95,7 @@ namespace DE.Onnen.Sudoku
         /// In a normal sudoku t is 3.<br />
         /// Ultimately, all other terms are based on this value.
         /// </remarks>
-        public const int DIMENSION = 3;
+        public static int DIMENSION => 3;
 
         /// <summary>
         /// Total edge length of the sudoku.<br />
@@ -93,11 +103,13 @@ namespace DE.Onnen.Sudoku
         /// <remarks>
         /// In normal sudoku = 9 (3*3).
         /// </remarks>
-        public const int DIMENSIONSQUARE = DIMENSION * DIMENSION;
+        public static int DIMENSIONSQUARE => DIMENSION * DIMENSION;
 
         /// <summary>
         /// Number of possible candidates.
         /// </summary>
-        public const double SOLVEPERCENTBASE = DIMENSIONSQUARE * DIMENSIONSQUARE * DIMENSIONSQUARE;
+        public static double SOLVEPERCENTBASE => DIMENSIONSQUARE * DIMENSIONSQUARE * DIMENSIONSQUARE;
+
+        #endregion Public Properties
     }
 }
