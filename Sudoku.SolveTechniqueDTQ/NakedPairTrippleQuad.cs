@@ -17,7 +17,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
 
         public NakedPairTrippleQuad()
         {
-            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
+            Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
         }
 
         #endregion Public Constructors
@@ -33,10 +33,10 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             // Key = BaseValue, Anz Possible
-            Dictionary<int, List<C>> nakedMore = new Dictionary<int, List<C>>();
-            foreach (C c in house)
+            var nakedMore = new Dictionary<int, List<C>>();
+            foreach (var c in house)
             {
-                int val = c.CandidateValue;
+                var val = c.CandidateValue;
                 if (!nakedMore.ContainsKey(val))
                 {
                     nakedMore.Add(val, new List<C>());
@@ -45,18 +45,18 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 nakedMore[val].Add(c);
             }
 
-            foreach (KeyValuePair<int, List<C>> kv in nakedMore)
+            foreach (var kv in nakedMore)
             {
                 if (kv.Value.Count > 5)
                 {
                     return;
                 }
 
-                int count = kv.Value.First().Candidates.Count;
+                var count = kv.Value.First().Candidates.Count;
                 if (kv.Value.Count == count)
                 {
-                    string st = "Naked" + count;
-                    SudokuLog cresult = sudokuResult.CreateChildResult();
+                    var st = "Naked" + count;
+                    var cresult = sudokuResult.CreateChildResult();
                     cresult.EventInfoInResult = new SudokuEvent
                     {
                         Value = 0,
@@ -64,15 +64,15 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         Action = CellAction.RemoveCandidate,
                         SolveTechnik = st,
                     };
-                    bool found = false;
-                    foreach (C c in house)
+                    var found = false;
+                    foreach (var c in house)
                     {
                         if (kv.Value.Contains(c))
                         {
                             continue;
                         }
                         ICell kvc = kv.Value.First();
-                        foreach (int d in kvc.Candidates)
+                        foreach (var d in kvc.Candidates)
                         {
                             found |= c.RemoveCandidate(d, cresult);
                         }

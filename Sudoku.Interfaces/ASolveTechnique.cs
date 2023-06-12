@@ -18,7 +18,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// </summary>
         protected ASolveTechnique()
         {
-            this.Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
+            Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
         }
 
         #endregion Protected Constructors
@@ -39,10 +39,10 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         #region Public Methods
 
         /// <inheritdoc />
-        public void Activate() => this.IsActive = true;
+        public void Activate() => IsActive = true;
 
         /// <inheritdoc />
-        public void Deactivate() => this.IsActive = false;
+        public void Deactivate() => IsActive = false;
 
         /// <inheritdoc />
         public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);

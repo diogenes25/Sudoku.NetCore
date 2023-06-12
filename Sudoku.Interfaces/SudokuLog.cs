@@ -11,18 +11,9 @@ namespace DE.Onnen.Sudoku
 
         #endregion Private Fields
 
-        #region Public Constructors
-
-        public SudokuLog()
-        {
-            this.ChildSudokuResult = new List<SudokuLog>();
-        }
-
-        #endregion Public Constructors
-
         #region Public Properties
 
-        public List<SudokuLog> ChildSudokuResult { get; set; }
+        public List<SudokuLog> ChildSudokuResult { get; set; } = new List<SudokuLog>();
 
         public string ErrorMessage { get; set; }
 
@@ -34,14 +25,14 @@ namespace DE.Onnen.Sudoku
         {
             get
             {
-                bool result = this._successful;
-                foreach (SudokuLog sr in this.ChildSudokuResult)
+                var result = _successful;
+                foreach (var sr in ChildSudokuResult)
                 {
                     result &= sr.Successful;
                 }
                 return result;
             }
-            set { this._successful = value; }
+            set { _successful = value; }
         }
 
         #endregion Public Properties
@@ -50,22 +41,22 @@ namespace DE.Onnen.Sudoku
 
         public SudokuLog CreateChildResult()
         {
-            SudokuLog child = new SudokuLog
+            var child = new SudokuLog
             {
                 ParentSudokuResult = this
             };
-            this.ChildSudokuResult.Add(child);
+            ChildSudokuResult.Add(child);
             return child;
         }
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(this.Successful);
-            if (this.EventInfoInResult != null)
+            var sb = new StringBuilder();
+            sb.Append(Successful);
+            if (EventInfoInResult != null)
             {
                 sb.Append(", ");
-                sb.Append(this.EventInfoInResult.ToString());
+                sb.Append(EventInfoInResult.ToString());
             }
             return sb.ToString();
         }

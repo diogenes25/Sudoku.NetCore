@@ -14,7 +14,7 @@
 
         public IHasCandidates ChangedCellBase { get; set; }
 
-        public System.String SolveTechnik { private get; set; }
+        public string SolveTechnik { private get; set; }
 
         public int Value { private get; set; }
 
@@ -24,7 +24,7 @@
 
         public override string ToString()
         {
-            return System.String.Format("{0}, A:{1}, Val:{2}, T:{3}", this.ChangedCellBase, this.Action, this.Value, this.SolveTechnik);
+            return string.Format("{0}, A:{1}, Val:{2}, T:{3}", ChangedCellBase, Action, Value, SolveTechnik);
         }
 
         #endregion Public Methods
