@@ -6,6 +6,8 @@ namespace DE.Onnen.Sudoku.Extensions
 {
     public static class SudokuHelper
     {
+        #region Public Methods
+
         public static string PrintSudokuResult(SudokuLog sudokuResult)
         {
             var sb = new StringBuilder();
@@ -63,6 +65,10 @@ namespace DE.Onnen.Sudoku.Extensions
             return retList;
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private static void PrintSudokuResult(SudokuLog sudokuResult, StringBuilder sb, string cap)
         {
             sb.Append(cap);
@@ -72,5 +78,7 @@ namespace DE.Onnen.Sudoku.Extensions
                 PrintSudokuResult(sr, sb, cap + " ");
             }
         }
+
+        #endregion Private Methods
     }
 }

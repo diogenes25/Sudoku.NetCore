@@ -8,6 +8,8 @@ namespace DE.Onnen.Sudoku
 {
     public static class SudokuSolveTechniqueLoader<C> where C : ICell
     {
+        #region Public Methods
+
         public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
         {
             var solveTechnic = LoadSolveTechnic(fileName);
@@ -70,5 +72,7 @@ namespace DE.Onnen.Sudoku
 
             return null;
         }
+
+        #endregion Public Methods
     }
 }

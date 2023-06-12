@@ -2,9 +2,19 @@
 {
     public class LockedCandidates<C> : ASolveTechnique<C> where C : ICell
     {
+        #region Public Constructors
+
         public LockedCandidates() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
         public override ECellView CellView => ECellView.GlobalView;
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
@@ -14,6 +24,10 @@
                 DigitInBlock(board, house, sudokuResult, true);
             }
         }
+
+        #endregion Public Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Sucht Nummern die sich nur in einem Drittel der Container-Cells enthalten sind.
@@ -152,5 +166,7 @@
             }
             return true;
         }
+
+        #endregion Private Methods
     }
 }

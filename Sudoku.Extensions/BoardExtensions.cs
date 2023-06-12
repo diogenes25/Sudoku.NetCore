@@ -11,6 +11,8 @@ namespace DE.Onnen.Sudoku.Extensions
     /// </remarks>
     public static class BoardExtensions
     {
+        #region Public Methods
+
         public static string Matrix<C>(this IBoard<C> board)
         where C : ICell => Matrix(board, false);
 
@@ -263,5 +265,7 @@ namespace DE.Onnen.Sudoku.Extensions
             sb.Append(Environment.NewLine);
             return sb.ToString();
         }
+
+        #endregion Public Methods
     }
 }

@@ -5,12 +5,22 @@ namespace DE.Onnen.Sudoku
 {
     public class SudokuLog
     {
+        #region Private Fields
+
         private bool _successful = true;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public SudokuLog()
         {
             this.ChildSudokuResult = new List<SudokuLog>();
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         public List<SudokuLog> ChildSudokuResult { get; set; }
 
@@ -34,6 +44,10 @@ namespace DE.Onnen.Sudoku
             set { this._successful = value; }
         }
 
+        #endregion Public Properties
+
+        #region Public Methods
+
         public SudokuLog CreateChildResult()
         {
             SudokuLog child = new SudokuLog
@@ -55,5 +69,7 @@ namespace DE.Onnen.Sudoku
             }
             return sb.ToString();
         }
+
+        #endregion Public Methods
     }
 }

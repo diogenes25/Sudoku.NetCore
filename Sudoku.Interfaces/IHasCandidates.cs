@@ -13,6 +13,8 @@ namespace DE.Onnen.Sudoku
     /// </remarks>
     public interface IHasCandidates
     {
+        #region Public Properties
+
         /// <summary>
         /// Gets a list of every candidate.
         /// </summary>
@@ -50,6 +52,10 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         int ID { get; }
 
+        #endregion Public Properties
+
+        #region Public Methods
+
         /// <summary>
         /// Reset all candidate to start value.
         /// </summary>
@@ -65,5 +71,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuLog">Log information that stores all the steps that were necessary to perform the last solving run.</param>
         /// <returns>true = The candidate was successful removed. false = candidate was no in the cell.</returns>
         bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuLog);
+
+        #endregion Public Methods
     }
 }

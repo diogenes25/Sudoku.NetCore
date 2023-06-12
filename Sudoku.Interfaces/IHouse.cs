@@ -41,10 +41,14 @@ namespace DE.Onnen.Sudoku
     /// <typeparam name="C">Cell must be derived from ICell</typeparam>
     public interface IHouse<C> : IHasCandidates, ICellCollection<C> where C : ICell
     {
+        #region Public Methods
+
         /// <summary>
         /// Checks a House that every cell in this House is set and each digit is only st once.
         /// </summary>
         /// <returns>true == Every digit is set (correctly).</returns>
         bool IsComplete();
+
+        #endregion Public Methods
     }
 }
