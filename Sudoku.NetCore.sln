@@ -22,6 +22,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4BEDBD93-75F2-4D7B-8014-0306E220C304}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		Sudoku_Net-CoreV1.png = Sudoku_Net-CoreV1.png
+		Sudoku_Net-CoreV1_320x160.png = Sudoku_Net-CoreV1_320x160.png
 	EndProjectSection
 EndProject
 Global
