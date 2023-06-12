@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <ApplicationIcon />
+    <ApplicationIcon>brain.ico</ApplicationIcon>
     <StartupObject />
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/diogenes25/Sudoku.NetCore.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,17 @@
 
   <ItemGroup>
     <Compile Remove="ACellCollection.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="brain.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
