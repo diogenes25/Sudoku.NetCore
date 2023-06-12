@@ -32,7 +32,7 @@ namespace DE.Onnen.Sudoku
                 }
                 return result;
             }
-            set { _successful = value; }
+            set => _successful = value;
         }
 
         #endregion Public Properties

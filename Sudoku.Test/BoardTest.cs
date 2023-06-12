@@ -14,8 +14,14 @@
     [TestClass]
     public class BoardTest
     {
+        #region Private Fields
+
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         //You can use the following additional attributes as you write your tests:
         //
@@ -473,6 +479,10 @@
             Assert.AreEqual(expected, _board.ToString());
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private static void CheckBoard(IBoard<Cell> target)
         {
             Assert.AreEqual(Consts.COUNTCELL, ((Board)target).Count);
@@ -493,5 +503,7 @@
             };
             return st;
         }
+
+        #endregion Private Methods
     }
 }

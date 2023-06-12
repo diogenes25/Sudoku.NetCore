@@ -126,7 +126,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     {
                         for (var i = 1; i < Consts.DIMENSIONSQUARE + 1; i++)
                         {
-                            if (kv.Value.Keys.Contains(i))
+                            if (kv.Value.ContainsKey(i))
                             {
                                 continue;
                             }

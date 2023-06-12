@@ -110,7 +110,7 @@ namespace DE.Onnen.Sudoku
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is ICell))
+            if (obj == null || obj is not ICell)
             {
                 return false;
             }

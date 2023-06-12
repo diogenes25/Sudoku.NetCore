@@ -60,14 +60,7 @@ namespace DE.Onnen.Sudoku
         {
             _solveTechniques = solveTechniques;
             Init();
-            foreach (var uniqueCellID in uniqueCellIDs)
-            {
-                var c = Cell.CreateCellFromUniqueID(uniqueCellID);
-
-                _cells[c.ID]._candidateValueInternal = c.CandidateValue;
-                _cells[c.ID]._digit = c.Digit;
-                _cells[c.ID].IsGiven = c.Digit > 0;
-            }
+            FillBoardWithUniqueCellIDs(uniqueCellIDs);
         }
 
         #endregion Public Constructors
@@ -209,6 +202,18 @@ namespace DE.Onnen.Sudoku
 
         public bool Equals(Board other) => Equals((IBoard<Cell>)other);
 
+        public void FillBoardWithUniqueCellIDs(IEnumerable<int> uniqueCellIDs)
+        {
+            foreach (var uniqueCellID in uniqueCellIDs)
+            {
+                var c = Cell.CreateCellFromUniqueID(uniqueCellID);
+
+                _cells[c.ID]._candidateValueInternal = c.CandidateValue;
+                _cells[c.ID]._digit = c.Digit;
+                _cells[c.ID].IsGiven = c.Digit > 0;
+            }
+        }
+
         public IEnumerator<Cell> GetEnumerator() => _cells.Select(x => (Cell)x).GetEnumerator();
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _cells.GetEnumerator();
@@ -343,10 +348,7 @@ namespace DE.Onnen.Sudoku
         public bool Solve(SudokuLog sudokuResult)
         {
             var tmpSudokuResult = sudokuResult;
-            if (tmpSudokuResult == null)
-            {
-                tmpSudokuResult = new SudokuLog();
-            }
+            tmpSudokuResult ??= new SudokuLog();
 
             do
             {
@@ -418,7 +420,7 @@ namespace DE.Onnen.Sudoku
 
         private bool BacktrackingContinue(Board board)
         {
-            var isComplete = false;
+            bool isComplete;
             try
             {
                 isComplete = board.IsComplete();

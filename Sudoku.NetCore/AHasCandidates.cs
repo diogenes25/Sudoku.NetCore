@@ -83,7 +83,7 @@ namespace DE.Onnen.Sudoku
 
         public override bool Equals(object other)
         {
-            if (other == null || !(other is IHasCandidates))
+            if (other == null || other is not IHasCandidates)
             {
                 return false;
             }
@@ -117,10 +117,7 @@ namespace DE.Onnen.Sudoku
         public bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult)
         {
             var tmpSudokuResult = sudokuResult;
-            if (tmpSudokuResult == null)
-            {
-                tmpSudokuResult = new SudokuLog();
-            }
+            tmpSudokuResult ??= new SudokuLog();
 
             if (candidateToRemove < 1 || candidateToRemove > Consts.DIMENSIONSQUARE || (CandidateValue & (1 << (candidateToRemove - 1))) == 0)
             {

@@ -16,10 +16,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <summary>
         /// Initializes a new instance of the ASolveTechnique class.
         /// </summary>
-        protected ASolveTechnique()
-        {
-            Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
-        }
+        protected ASolveTechnique() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
 
         #endregion Protected Constructors
 

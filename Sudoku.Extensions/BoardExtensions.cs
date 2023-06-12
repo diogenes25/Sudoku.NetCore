@@ -171,7 +171,7 @@ namespace DE.Onnen.Sudoku.Extensions
                     var result = board.SetDigit(x, digit);
                     if (!result.Successful)
                     {
-                        throw new InvalidOperationException("Digit : " + digit + " could not be set");
+                        throw new InvalidOperationException($"Digit : {digit} could not be set");
                     }
                 }
             }

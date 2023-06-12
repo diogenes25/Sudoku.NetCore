@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Sudoku_Net-CoreV1_320x160.png = Sudoku_Net-CoreV1_320x160.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.AzureFunction", "Sudoku.AzureFunction\Sudoku.AzureFunction.csproj", "{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,14 @@ Global
 		{16496A7A-213A-4EB2-94C1-5A260A9E9EA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16496A7A-213A-4EB2-94C1-5A260A9E9EA1}.Release|x64.ActiveCfg = Release|Any CPU
 		{16496A7A-213A-4EB2-94C1-5A260A9E9EA1}.Release|x64.Build.0 = Release|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Debug|x64.Build.0 = Debug|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Release|x64.ActiveCfg = Release|Any CPU
+		{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

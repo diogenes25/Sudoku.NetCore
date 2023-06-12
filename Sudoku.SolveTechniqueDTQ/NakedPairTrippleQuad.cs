@@ -15,10 +15,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     {
         #region Public Constructors
 
-        public NakedPairTrippleQuad()
-        {
-            Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
-        }
+        public NakedPairTrippleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
 
         #endregion Public Constructors
 

@@ -18,13 +18,15 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class SolveSomeExamplesTest
     {
+        #region Public Methods
+
         /// <summary>
         /// Test Sudoku that can only be beaten with backtracking
         /// </summary>
         [TestMethod]
         public void TestHardestData_Test()
         {
-            IBoard<Cell> board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>());
+            var board = new Board(new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(), new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>());
 
             var source = TestRessources.top95;
             var i = 0;
@@ -46,7 +48,7 @@ namespace DE.Onnen.Sudoku
 
                     try
                     {
-                        currentLine = line.Substring(0, 81).Replace('.', '0');
+                        currentLine = line[..81].Replace('.', '0');
                         board.SetCellsFromString(currentLine);
                     }
                     catch (Exception ex)
@@ -90,5 +92,7 @@ namespace DE.Onnen.Sudoku
 
             Assert.AreEqual(i, 2);
         }
+
+        #endregion Public Methods
     }
 }

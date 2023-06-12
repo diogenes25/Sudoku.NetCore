@@ -22,10 +22,7 @@
 
         #region Public Methods
 
-        public override string ToString()
-        {
-            return string.Format("{0}, A:{1}, Val:{2}, T:{3}", ChangedCellBase, Action, Value, SolveTechnik);
-        }
+        public override string ToString() => string.Format("{0}, A:{1}, Val:{2}, T:{3}", ChangedCellBase, Action, Value, SolveTechnik);
 
         #endregion Public Methods
     }
