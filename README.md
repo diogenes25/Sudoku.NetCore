@@ -6,3 +6,169 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/82eefb090e91426c9c293856039efb15)](https://app.codacy.com/gh/diogenes25/Sudoku.NetCore/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## Dot.Net Core implementation of a Sudoku-Solver
+The Sudoku solver works on the principle of excluding the possible numbers (candidates) per cell.
+Since a number may occur only once per cell, column and row, when a number is defined in the cell, this number is deleted as a possible number (candidate) in the cells of the corresponding columns and rows.
+
+If finally only one possible number remains in a cell, column or row, this remaining number is set and thus another check is started.
+
+Besides the simple reduction of the possibilities, there are several other strategies that reduce the possibilities even further.
+
+# Rules
+
+https://en.wikipedia.org/wiki/Sudoku
+
+## Definition
+
+**Digit** = Given Number (1 to 9)
+
+**Candidates** = Possible Digits
+
+**Cell** = Has one digit or 2 to 9 candidates
+
+**Box** = square of 3×3 cells
+
+**Row** = 9 cells in a row
+
+**Column** = 9 cells in a column
+
+
+Cell with 9 Candidates
+<table border=1>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+
+Box with 9 Cell and 9 Candidates in each Cell
+<table border=2>
+<tr>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+<td>
+<table>
+<tr>
+<td>1</td><td>2</td><td>3</td>
+</tr>
+<tr>
+<td>4</td><td>5</td><td>6</td>
+</tr>
+<tr>
+<td>7</td><td>8</td><td>8</td>
+</tr>
+</table>
+</td>
+</tr>
+</table
+
