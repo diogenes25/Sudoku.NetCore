@@ -12,17 +12,11 @@ namespace DE.Onnen.Sudoku
     /// <typeparam name="T">A Cell must be derived from ICell</typeparam>
     public interface ICellCollection<out T> : System.Collections.Generic.IEnumerable<T> where T : ICell
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets the number of Cells
         /// </summary>
         /// <returns>Number of cells.</returns>
         int Count { get; }
-
-        #endregion Public Properties
-
-        #region Public Indexers
 
         /// <summary>
         /// Get a specific cells of the board.
@@ -31,15 +25,9 @@ namespace DE.Onnen.Sudoku
         /// <returns>Cell with the specific ID</returns>
         T this[int index] { get; }
 
-        #endregion Public Indexers
-
-        #region Public Methods
-
         /// <summary>
         /// Clears every Cell information and sets the Board to start values.
         /// </summary>
         void Clear();
-
-        #endregion Public Methods
     }
 }

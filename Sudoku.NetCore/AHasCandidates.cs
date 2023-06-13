@@ -6,16 +6,10 @@ namespace DE.Onnen.Sudoku
 {
     public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged, System.IEquatable<AHasCandidates>
     {
-        #region Internal Fields
-
         /// <summary>
         /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
         internal int _candidateValueInternal;
-
-        #endregion Internal Fields
-
-        #region Protected Constructors
 
         protected AHasCandidates(int id, HouseType ht)
         {
@@ -24,18 +18,10 @@ namespace DE.Onnen.Sudoku
             Clear();
         }
 
-        #endregion Protected Constructors
-
-        #region Public Events
-
         /// <summary>
         /// Changes in CandidateValue and/or Digit.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion Public Events
-
-        #region Public Properties
 
         /// <inheritdoc />
         public ReadOnlyCollection<int> Candidates
@@ -74,10 +60,6 @@ namespace DE.Onnen.Sudoku
             get;
             private set;
         }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public void Clear() => _candidateValueInternal = Consts.BASESTART;
 
@@ -149,10 +131,6 @@ namespace DE.Onnen.Sudoku
             return true;
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         /// <summary>
         /// Check if there is only one candidate left.
         /// </summary>
@@ -188,10 +166,6 @@ namespace DE.Onnen.Sudoku
 
         internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
 
-        #endregion Internal Methods
-
-        #region Protected Methods
-
         /// <summary>
         /// Cell-Value (CandidateValue and/or Digit) changed.
         /// </summary>
@@ -216,7 +190,5 @@ namespace DE.Onnen.Sudoku
             OnPropertyChanged(propertyName);
             return true;
         }
-
-        #endregion Protected Methods
     }
 }

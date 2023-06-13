@@ -8,8 +8,6 @@ namespace DE.Onnen.Sudoku
 {
     public static class SudokuSolveTechniqueLoader<C> where C : ICell
     {
-        #region Public Methods
-
         public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
         {
             var solveTechnic = LoadSolveTechnic(fileName);
@@ -60,9 +58,9 @@ namespace DE.Onnen.Sudoku
                     var obj = Activator.CreateInstance(type);
                     result.Add((ISolveTechnique<C>)obj);
                 }
-                catch 
+                catch (Exception ex)
                 {
-                    throw;
+                    throw new Exception($"Could not Create or Add SolveTechnique {type.Name}: ", ex);
                 }
             }
 
@@ -73,7 +71,5 @@ namespace DE.Onnen.Sudoku
 
             return null;
         }
-
-        #endregion Public Methods
     }
 }

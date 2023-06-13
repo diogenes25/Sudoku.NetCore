@@ -11,16 +11,10 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// <typeparam name="C">Type of Cell</typeparam>
     public abstract class ASolveTechnique<C> : ISolveTechnique<C> where C : ICell
     {
-        #region Protected Constructors
-
         /// <summary>
         /// Initializes a new instance of the ASolveTechnique class.
         /// </summary>
         protected ASolveTechnique() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
-
-        #endregion Protected Constructors
-
-        #region Public Properties
 
         /// <inheritdoc />
         public virtual ECellView CellView => ECellView.OnlyHouse;
@@ -31,10 +25,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <inheritdoc />
         public bool IsActive { get; private set; } = true;
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <inheritdoc />
         public void Activate() => IsActive = true;
 
@@ -43,7 +33,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
 
         /// <inheritdoc />
         public abstract void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
-
-        #endregion Public Methods
     }
 }

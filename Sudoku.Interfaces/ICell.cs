@@ -17,8 +17,6 @@ namespace DE.Onnen.Sudoku
     /// </remarks>
     public interface ICell : IHasCandidates, INotifyPropertyChanged, IEquatable<ICell>
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets a numerical value between 1 and 9, which must be placed in the cells in order to complete the puzzle.
         /// </summary>
@@ -35,17 +33,11 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         bool IsGiven { get; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
         /// Set the digit and removes candidates in nested Houses (col, row and box).
         /// </summary>
         /// <param name="digit">Digit to cell.</param>
         /// <returns>Log with every action that was done regarding this action.</returns>
         SudokuLog SetDigit(int digit);
-
-        #endregion Public Methods
     }
 }

@@ -13,19 +13,9 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// </summary>
     public class NakedPairTrippleQuad<C> : ASolveTechnique<C> where C : ICell
     {
-        #region Public Constructors
-
         public NakedPairTrippleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public override ECellView CellView => ECellView.OnlyHouse;
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
@@ -81,7 +71,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 }
             }
         }
-
-        #endregion Public Methods
     }
 }

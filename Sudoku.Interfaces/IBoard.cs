@@ -17,17 +17,11 @@ namespace DE.Onnen.Sudoku
     public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>>
     where C : ICell
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets the percentage solution progress
         /// </summary>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Solve by backtracking (brute force) every Digit.
@@ -63,8 +57,6 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">g-Information of the action that were performed during the solve process.</param>
         /// <returns>true == No Errors while trying to solve. It does not mean the Sudoku was solved completely</returns>
         bool Solve(SudokuLog sudokuResult);
-
-        #endregion Public Methods
     }
 
     /// <summary>
@@ -72,8 +64,6 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public static class Consts
     {
-        #region Public Properties
-
         /// <summary>
         /// Initial value of every candidate as a  Bitmask.
         /// </summary>
@@ -109,7 +99,5 @@ namespace DE.Onnen.Sudoku
         /// Number of possible candidates.
         /// </summary>
         public static double SOLVEPERCENTBASE => DIMENSIONSQUARE * DIMENSIONSQUARE * DIMENSIONSQUARE;
-
-        #endregion Public Properties
     }
 }

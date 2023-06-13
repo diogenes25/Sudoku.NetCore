@@ -24,13 +24,7 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
-        #region Protected Fields
-
         protected Cell[] _cells;
-
-        #endregion Protected Fields
-
-        #region Private Fields
 
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
@@ -39,11 +33,7 @@ namespace DE.Onnen.Sudoku
         private List<SudokuHistoryItem> _history;
         private bool _keepGoingWithChecks;
         private ISolveTechnique<Cell>[] _solveTechniques;
-        private ILogger _logger;
-
-        #endregion Private Fields
-
-        #region Public Constructors
+        private readonly ILogger<Board> _logger;
 
         public Board()
         {
@@ -54,6 +44,12 @@ namespace DE.Onnen.Sudoku
             });
 
             _logger = loggerFactory.CreateLogger<Board>();
+            Init();
+        }
+
+        public Board(ILogger<Board> logger)
+        {
+            _logger = logger;
             Init();
         }
 
@@ -76,18 +72,10 @@ namespace DE.Onnen.Sudoku
             FillBoardWithUniqueCellIDs(uniqueCellIDs);
         }
 
-        #endregion Public Constructors
-
-        #region Public Events
-
         /// <summary>
         /// Changes in board
         /// </summary>
         public event System.EventHandler<SudokuEvent> BoardChangeEvent;
-
-        #endregion Public Events
-
-        #region Public Properties
 
         public int Count => _cells.Length;
 
@@ -121,20 +109,12 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public IList<ISolveTechnique<Cell>> SolveTechniques => _solveTechniques.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
 
-        #endregion Public Properties
-
-        #region Public Indexers
-
         /// <summary>
         ///
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
         public Cell this[int index] => _cells[index];
-
-        #endregion Public Indexers
-
-        #region Public Methods
 
         public SudokuLog Backtracking()
         {
@@ -347,7 +327,7 @@ namespace DE.Onnen.Sudoku
                     {
                         _cells[i].Digit = _history[historyId].BoardInt[i] * -1;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _logger?.LogError(ex, $"Error in SetHistory: _cells[{i}].Digit = _history[{historyId}].BoardInt[{i}]");
                     }
@@ -423,16 +403,10 @@ namespace DE.Onnen.Sudoku
             return sb.ToString();
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         /// <summary>
         /// Some changes happend while solving. Another check is needed.
         /// </summary>
         internal void SomeChangesOccurs() => _keepGoingWithChecks = true;
-
-        #endregion Internal Methods
 
         private bool BacktrackingContinue(Board board)
         {
