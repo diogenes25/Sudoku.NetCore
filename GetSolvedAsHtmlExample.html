@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .sudokutbl {
+            border: solid 2px black;
+            color: black;
+        }
+        .sudokucell {
+            border: solid 2px green;
+            background-color: grey;
+        }
+        .sudokucell_given {
+            border: solid 2px green;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <table class="sudokutbl">
+
+        <tr class="sudokurow">
+            <td class="sudokucell_given" id="cell[0]">1</td>
+            <td class="sudokucell" id="cell[1]">2</td>
+            <td class="sudokucell_given" id="cell[2]">3</td>
+            <td class="sudokucell" id="cell[3]">[4|5|6|7|8|9]504</td>
+            <td class="sudokucell" id="cell[4]">[4|5|6|7|8|9]504</td>
+            <td class="sudokucell" id="cell[5]">[4|5|6|7|8|9]504</td>
+            <td class="sudokucell" id="cell[6]">[4|5|6|7|8|9]504</td>
+            <td class="sudokucell" id="cell[7]">[4|5|6|7|8|9]504</td>
+            <td class="sudokucell" id="cell[8]">[4|5|6|7|8|9]504</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell_given" id="cell[9]">4</td>
+            <td class="sudokucell_given" id="cell[10]">5</td>
+            <td class="sudokucell_given" id="cell[11]">6</td>
+            <td class="sudokucell" id="cell[12]">[1|2|3|7|8|9]455</td>
+            <td class="sudokucell" id="cell[13]">[1|2|3|7|8|9]455</td>
+            <td class="sudokucell" id="cell[14]">[1|2|3|7|8|9]455</td>
+            <td class="sudokucell" id="cell[15]">[1|2|3|7|8|9]455</td>
+            <td class="sudokucell" id="cell[16]">[1|2|3|7|8|9]455</td>
+            <td class="sudokucell" id="cell[17]">[1|2|3|7|8|9]455</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell_given" id="cell[18]">7</td>
+            <td class="sudokucell_given" id="cell[19]">8</td>
+            <td class="sudokucell_given" id="cell[20]">9</td>
+            <td class="sudokucell" id="cell[21]">[1|2|3|4|5|6]63</td>
+            <td class="sudokucell" id="cell[22]">[1|2|3|4|5|6]63</td>
+            <td class="sudokucell" id="cell[23]">[1|2|3|4|5|6]63</td>
+            <td class="sudokucell" id="cell[24]">[1|2|3|4|5|6]63</td>
+            <td class="sudokucell" id="cell[25]">[1|2|3|4|5|6]63</td>
+            <td class="sudokucell" id="cell[26]">[1|2|3|4|5|6]63</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[27]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[28]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[29]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[30]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[31]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[32]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[33]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[34]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[35]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[36]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[37]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[38]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[39]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[40]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[41]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[42]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[43]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[44]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[45]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[46]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[47]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[48]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[49]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[50]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[51]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[52]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[53]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[54]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[55]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[56]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[57]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[58]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[59]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[60]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[61]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[62]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[63]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[64]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[65]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[66]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[67]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[68]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[69]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[70]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[71]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+        <tr class="sudokurow">
+            <td class="sudokucell" id="cell[72]">[2|3|5|6|8|9]438</td>
+            <td class="sudokucell" id="cell[73]">[1|3|4|6|7|9]365</td>
+            <td class="sudokucell" id="cell[74]">[1|2|4|5|7|8]219</td>
+            <td class="sudokucell" id="cell[75]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[76]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[77]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[78]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[79]">[1|2|3|4|5|6|7|8|9]511</td>
+            <td class="sudokucell" id="cell[80]">[1|2|3|4|5|6|7|8|9]511</td>
+        </tr>
+    </table>
+</body>
+</html>

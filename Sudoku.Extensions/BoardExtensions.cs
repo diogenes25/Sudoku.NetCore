@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace DE.Onnen.Sudoku.Extensions
@@ -175,6 +176,9 @@ namespace DE.Onnen.Sudoku.Extensions
             }
         }
 
+        public static string ExtractCellsToString<C>(this IBoard<C> board)
+            where C : ICell => string.Join("", board.Select(x => x.Digit));
+
         /// <summary>
         /// Set a digit at cell.
         /// </summary>
@@ -229,6 +233,7 @@ namespace DE.Onnen.Sudoku.Extensions
 
         public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven) where C : ICell
         {
+            var boardAsString = board.ExtractCellsToString();
             var sb = new StringBuilder();
             var id = 0;
             sb.Append("<table class=\"sudokutbl\">");
@@ -250,7 +255,22 @@ namespace DE.Onnen.Sudoku.Extensions
                     }
                     else
                     {
-                        sb.Append(((board[id].Digit > 0) ? board[id].Digit.ToString() : "[" + string.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue));
+                        if (board[id].Digit > 0)
+                        {
+                            sb.Append(board[id].Digit.ToString());
+                        }
+                        else
+                        {
+                            sb.Append("[");
+                            foreach (var candidate in board[id].Candidates)
+                            {
+                                var query = boardAsString.Substring(0, id) + candidate + boardAsString.Substring(id + 1);
+                                var link = $"<a href=\"?board={query}\">{candidate}</a>";
+                                sb.Append(link);
+                            }
+                            sb.Append("]" + board[id].CandidateValue);
+                        }
+                        //sb.Append("[" + string.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue);
                     }
                     sb.Append("</td>");
                     id++;

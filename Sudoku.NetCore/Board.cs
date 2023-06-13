@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.Extensions.Logging;
 
@@ -49,6 +48,13 @@ namespace DE.Onnen.Sudoku
 
         public Board(ILogger<Board> logger)
         {
+            _logger = logger;
+            Init();
+        }
+
+        public Board(IEnumerable<ASolveTechnique<Cell>> solveTechniques, ILogger<Board> logger)
+        {
+            _solveTechniques = solveTechniques.ToArray();
             _logger = logger;
             Init();
         }
@@ -362,28 +368,28 @@ namespace DE.Onnen.Sudoku
 
                         if (_solveTechniques != null && _solveTechniques.Length > 0)
                         {
-                            foreach (var st in _solveTechniques)
+                            foreach (var st in _solveTechniques.Where(t => t.IsActive))
                             {
-                                if (st.IsActive)
+                                //if (st.IsActive)
+                                //{
+                                if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
                                 {
-                                    if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
-                                    {
-                                        continue;
-                                    }
-
-                                    try
-                                    {
-                                        st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
-                                    }
-                                    catch
-                                    {
-                                        return false;
-                                    }
-                                    if (!tmpSudokuResult.Successful)
-                                    {
-                                        return false;
-                                    }
+                                    continue;
                                 }
+
+                                try
+                                {
+                                    st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
+                                }
+                                catch
+                                {
+                                    return false;
+                                }
+                                if (!tmpSudokuResult.Successful)
+                                {
+                                    return false;
+                                }
+                                //}
                             }
                         }
                         _container[containerIdx][containerType].ReCheck = false;
@@ -393,15 +399,7 @@ namespace DE.Onnen.Sudoku
             return tmpSudokuResult.Successful;
         }
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            foreach (ICell cell in this)
-            {
-                sb.Append(cell.Digit);
-            }
-            return sb.ToString();
-        }
+        public override string ToString() => string.Join("", this.Select(x => x.Digit));
 
         /// <summary>
         /// Some changes happend while solving. Another check is needed.

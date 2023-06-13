@@ -12,7 +12,7 @@ namespace DE.Onnen.Sudoku.Serialization
     /// Transfer-Object that includes the last Board constellation and the current actions.
     /// </summary>
     [Serializable]
-    public record SudokuTransfer
+    public record SudokuDto
     {
         /// <summary>
         /// Gets or sets the action that set a digit by the user.

@@ -6,25 +6,25 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Sudoku.AzureFunction
+namespace Sudoku.AzureFunction.Controllers
 {
-    public class SudokuSolver
+    public class SudokuSolverController
     {
         private readonly Board _board;
 
         private readonly ILogger _logger;
 
-        public SudokuSolver(Board board, ILoggerFactory loggerFactory)
+        public SudokuSolverController(Board board, ILoggerFactory loggerFactory)
         {
             _board = board;
-            _logger = loggerFactory.CreateLogger<SudokuSolver>();
+            _logger = loggerFactory.CreateLogger<SudokuSolverController>();
         }
 
         [Function("PostSolve")]
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
-            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuTransfer>();
+            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuDto>();
 
             if (sudokuTransfer is null || sudokuTransfer.Cells?.Count < 1)
             {
@@ -39,12 +39,12 @@ namespace Sudoku.AzureFunction
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-            var transfer = new SudokuTransfer
+            var transfer = new SudokuDto
             {
                 Cells = new List<int>(_board.CreateSimpleBoard()),
                 Action = sudokuTransfer.Action,
             };
-            await response.WriteAsJsonAsync<SudokuTransfer>(transfer);
+            await response.WriteAsJsonAsync(transfer);
             return response;
         }
 
@@ -57,7 +57,7 @@ namespace Sudoku.AzureFunction
                 _board.SetCellsFromString(req.Query["board"]);
             }
             var response = req.CreateResponse(HttpStatusCode.OK);
-            var transfer = new SudokuTransfer
+            var transfer = new SudokuDto
             {
                 Cells = new List<int>(_board.CreateSimpleBoard()),
                 Action = new List<DigitAction>
@@ -69,7 +69,37 @@ namespace Sudoku.AzureFunction
                      }
                  },
             };
-            _ = response.WriteAsJsonAsync<SudokuTransfer>(transfer);
+            response.WriteAsJsonAsync(transfer);
+            return response;
+        }
+
+        [Function("GetSolveAsHtml")]
+        public async Task<HttpResponseData> SolveBoardReturnHtmlAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        {
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
+            if (req.Query.AllKeys.Contains("board"))
+            {
+                _board.SetCellsFromString(req.Query["board"]);
+                var sudokuLog = new SudokuLog();
+                _board.Solve(sudokuLog);
+            }
+            var transfer = new SudokuDto
+            {
+                Cells = new List<int>(_board.CreateSimpleBoard()),
+                Action = new List<DigitAction>
+                 {
+                     new DigitAction
+                     {
+                         CellId = 1,
+                         Digit = 2
+                     }
+                 },
+            };
+            var sudokuTableHtml = _board.ToHtmlTable();
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            var css = "<meta charset=\"utf-8\" />\r\n\t<title></title>\r\n\t<style>\r\n\t .sudokutbl {border: solid 2px black;color: black;}\r\n\t .sudokucell  {border: solid 2px green;background-color: grey;}\r\n\t .sudokucell_given {border: solid 2px green;background-color: green;}\r\n\t</style>";
+            var html = $"<html><head>{css}</head><body>{sudokuTableHtml}</body></html>";
+            await response.WriteStringAsync(html);
             return response;
         }
     }

@@ -10,11 +10,15 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.14.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.10.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Extensions\Sudoku.Extensions.csproj" />
     <ProjectReference Include="..\Sudoku.NetCore\Sudoku.NetCore.csproj" />
     <ProjectReference Include="..\Sudoku.Serialization\Sudoku.Serialization.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueDTQ\Sudoku.SolveTechniqueDTQ.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueHiddenDTQ\Sudoku.SolveTechniqueHiddenDTQ.csproj" />
+    <ProjectReference Include="..\Sudoku.SolveTechniqueLockedCandidates\Sudoku.SolveTechniqueLockedCandidates.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -27,5 +31,9 @@
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\ModelApis\" />
+    <Folder Include="OpenApi\" />
   </ItemGroup>
 </Project>

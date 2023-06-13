@@ -21,12 +21,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Serialization", "Sud
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4BEDBD93-75F2-4D7B-8014-0306E220C304}"
 	ProjectSection(SolutionItems) = preProject
+		GetSolvedAsHtmlExample.html = GetSolvedAsHtmlExample.html
 		README.md = README.md
+		sudokuExplain.html = sudokuExplain.html
 		Sudoku_Net-CoreV1.png = Sudoku_Net-CoreV1.png
 		Sudoku_Net-CoreV1_320x160.png = Sudoku_Net-CoreV1_320x160.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.AzureFunction", "Sudoku.AzureFunction\Sudoku.AzureFunction.csproj", "{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.AzureFunction", "Sudoku.AzureFunction\Sudoku.AzureFunction.csproj", "{3963FDDA-C30B-42A3-BBD6-F9C1AC970995}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
