@@ -60,8 +60,9 @@ namespace DE.Onnen.Sudoku
                     var obj = Activator.CreateInstance(type);
                     result.Add((ISolveTechnique<C>)obj);
                 }
-                catch
+                catch 
                 {
+                    throw;
                 }
             }
 

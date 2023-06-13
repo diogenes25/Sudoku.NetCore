@@ -10,10 +10,6 @@ namespace Sudoku.SolveTechniques
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
 
-        //
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext) => _solveTechniques = GetSolveTechniques();
 

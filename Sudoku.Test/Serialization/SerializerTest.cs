@@ -32,7 +32,7 @@
         public void Serialize_Board_Test()
         {
             _board.SetDigit(0, 1);
-            var json = _board.GetJson(new DigitAction()
+            var json = _board.GetJson(new DigitAction
             {
                 CellId = 1,
                 Digit = 2

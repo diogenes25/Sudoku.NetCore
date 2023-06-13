@@ -10,23 +10,13 @@ namespace DE.Onnen.Sudoku
     [DebuggerDisplay("Cell-ID {ID} {_digit} / {CandidateValue}")]
     public class Cell : AHasCandidates, ICell, IEquatable<Cell>
     {
-        #region Internal Fields
-
         internal int _digit;
 
         internal House<Cell>[] _fieldcontainters = new House<Cell>[3];
 
-        #endregion Internal Fields
-
-        #region Internal Constructors
-
         internal Cell(int id) : base(id, HouseType.Cell)
         {
         }
-
-        #endregion Internal Constructors
-
-        #region Public Properties
 
         /// <inheritdoc />
         public new int CandidateValue
@@ -77,10 +67,6 @@ namespace DE.Onnen.Sudoku
 
         /// <inheritdoc />
         public bool IsGiven { get; internal set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static Cell CreateCellFromUniqueID(int x)
         {
@@ -157,10 +143,6 @@ namespace DE.Onnen.Sudoku
         /// <returns>String that contains every cell-information.</returns>
         public override string ToString() => HType + "(" + ID + ") [" + ((char)(int)((ID / Consts.DIMENSIONSQUARE) + 65)) + "" + ((ID % Consts.DIMENSIONSQUARE) + 1) + "] " + _digit;
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override bool SetDigit(int digitFromOutside, SudokuLog sudokuResult)
         {
             if (_digit == digitFromOutside)
@@ -204,7 +186,5 @@ namespace DE.Onnen.Sudoku
 
             return true;
         }
-
-        #endregion Internal Methods
     }
 }

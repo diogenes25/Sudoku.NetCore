@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
 using DE.Onnen.Sudoku.SolveTechniques;
+using Microsoft.Extensions.Logging;
 
 namespace DE.Onnen.Sudoku
 {
@@ -37,12 +39,23 @@ namespace DE.Onnen.Sudoku
         private List<SudokuHistoryItem> _history;
         private bool _keepGoingWithChecks;
         private ISolveTechnique<Cell>[] _solveTechniques;
+        private ILogger _logger;
 
         #endregion Private Fields
 
         #region Public Constructors
 
-        public Board() => Init();
+        public Board()
+        {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+                builder.AddDebug();
+            });
+
+            _logger = loggerFactory.CreateLogger<Board>();
+            Init();
+        }
 
         public Board(string filePath)
         {
@@ -202,7 +215,7 @@ namespace DE.Onnen.Sudoku
 
         public bool Equals(Board other) => Equals((IBoard<Cell>)other);
 
-        public void FillBoardWithUniqueCellIDs(IEnumerable<int> uniqueCellIDs)
+        public void FillBoardWithUniqueCellIDs([NotNull] IEnumerable<int> uniqueCellIDs)
         {
             foreach (var uniqueCellID in uniqueCellIDs)
             {
@@ -309,16 +322,20 @@ namespace DE.Onnen.Sudoku
             }
             else
             {
-                SetHistory(_history.Count - 1);
+                if (_history.Count > 0)
+                {
+                    SetHistory(_history.Count - 1);
+                }
                 _cells[cellID].RemoveCandidate(digitToSet, sudokuResult);
             }
             return sudokuResult;
         }
 
-        public void SetHistory(int historyId)
+        private void SetHistory(int historyId)
         {
             if (historyId < 0 || historyId >= _history.Count)
             {
+                _logger?.LogWarning($"SetHistory with parameter historyId (value:{historyId}) is out of range (0 - {_history.Count})");
                 return;
             }
 
@@ -330,8 +347,9 @@ namespace DE.Onnen.Sudoku
                     {
                         _cells[i].Digit = _history[historyId].BoardInt[i] * -1;
                     }
-                    catch
+                    catch(Exception ex)
                     {
+                        _logger?.LogError(ex, $"Error in SetHistory: _cells[{i}].Digit = _history[{historyId}].BoardInt[{i}]");
                     }
                 }
                 else
@@ -416,8 +434,6 @@ namespace DE.Onnen.Sudoku
 
         #endregion Internal Methods
 
-        #region Private Methods
-
         private bool BacktrackingContinue(Board board)
         {
             bool isComplete;
@@ -425,8 +441,9 @@ namespace DE.Onnen.Sudoku
             {
                 isComplete = board.IsComplete();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger?.LogError(ex, "Error in BacktrackingContinue: board.IsComplete()");
                 return false;
             }
 
@@ -455,8 +472,9 @@ namespace DE.Onnen.Sudoku
                         {
                             isComplete = newBoard.IsComplete();
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            _logger?.LogError(ex, "Error in BacktrackingContinue: board.IsComplete()");
                             return false;
                         }
 
@@ -545,12 +563,14 @@ namespace DE.Onnen.Sudoku
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
+                _logger.LogWarning("LoadSolveTechnics: filePath is not set.");
                 return;
             }
 
             var files = Directory.GetFiles(filePath, "*.dll");
             if (files.Length < 1)
             {
+                _logger.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
                 return;
             }
 
@@ -562,7 +582,5 @@ namespace DE.Onnen.Sudoku
                 _solveTechniques[fileCount++] = st;
             }
         }
-
-        #endregion Private Methods
     }
 }

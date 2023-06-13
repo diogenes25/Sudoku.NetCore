@@ -10,15 +10,9 @@ namespace Sudoku.AzureFunction
 {
     public class SudokuSolver
     {
-        #region Private Fields
-
         private readonly Board _board;
 
         private readonly ILogger _logger;
-
-        #endregion Private Fields
-
-        #region Public Constructors
 
         public SudokuSolver(Board board, ILoggerFactory loggerFactory)
         {
@@ -26,15 +20,16 @@ namespace Sudoku.AzureFunction
             _logger = loggerFactory.CreateLogger<SudokuSolver>();
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
         [Function("PostSolve")]
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
             var sudokuTransfer = await req.ReadFromJsonAsync<SudokuTransfer>();
+
+            if (sudokuTransfer is null || sudokuTransfer.Cells?.Count < 1)
+            {
+                throw new ArgumentException("No Cells");
+            }
 
             _board.FillBoardWithUniqueCellIDs(sudokuTransfer.Cells);
 
@@ -65,19 +60,17 @@ namespace Sudoku.AzureFunction
             var transfer = new SudokuTransfer
             {
                 Cells = new List<int>(_board.CreateSimpleBoard()),
-                Action = new List<DigitAction>()
+                Action = new List<DigitAction>
                  {
-                     new DigitAction()
+                     new DigitAction
                      {
                          CellId = 1,
                          Digit = 2
                      }
                  },
             };
-            response.WriteAsJsonAsync<SudokuTransfer>(transfer);
+            _ = response.WriteAsJsonAsync<SudokuTransfer>(transfer);
             return response;
         }
-
-        #endregion Public Methods
     }
 }
