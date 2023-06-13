@@ -196,7 +196,7 @@ namespace DE.Onnen.Sudoku.Extensions
                 EventInfoInResult = new SudokuEvent
                 {
                     ChangedCellBase = null,
-                    Action = CellAction.SetDigitInt,
+                    Action = ECellAction.SetDigitInt,
                     SolveTechnik = "SetDigit",
                 }
             };

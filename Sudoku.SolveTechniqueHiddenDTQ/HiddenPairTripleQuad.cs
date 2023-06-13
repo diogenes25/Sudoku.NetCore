@@ -106,7 +106,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     cresult.EventInfoInResult = new SudokuEvent
                     {
                         ChangedCellBase = house,
-                        Action = CellAction.RemoveCandidate,
+                        Action = ECellAction.RemoveCandidate,
                         Value = 999999999,
                         SolveTechnik = st,
                     };

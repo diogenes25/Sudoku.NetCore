@@ -1,6 +1,6 @@
 ﻿namespace DE.Onnen.Sudoku
 {
-    public enum CellAction
+    public enum ECellAction
     {
         SetDigitInt = 1,
         RemoveCandidate = 2,
@@ -8,7 +8,7 @@
 
     public class SudokuEvent : System.EventArgs
     {
-        public CellAction Action { get; set; }
+        public ECellAction Action { get; set; }
 
         public IHasCandidates ChangedCellBase { get; set; }
 

@@ -103,7 +103,7 @@ namespace DE.Onnen.Sudoku
                 Value = digit,
                 SolveTechnik = "SetDigit",
                 ChangedCellBase = this,
-                Action = CellAction.SetDigitInt
+                Action = ECellAction.SetDigitInt
             };
             var ok = true;
             var newBaseValue = Consts.BASESTART;
@@ -140,7 +140,7 @@ namespace DE.Onnen.Sudoku
             result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
-                Action = CellAction.SetDigitInt,
+                Action = ECellAction.SetDigitInt,
                 SolveTechnik = "None",
                 Value = digit,
             };

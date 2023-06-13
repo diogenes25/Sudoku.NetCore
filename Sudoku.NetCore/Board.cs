@@ -276,7 +276,7 @@ namespace DE.Onnen.Sudoku
                 EventInfoInResult = new SudokuEvent
                 {
                     ChangedCellBase = null,
-                    Action = CellAction.SetDigitInt,
+                    Action = ECellAction.SetDigitInt,
                     SolveTechnik = "SetDigit",
                 }
             };
@@ -436,7 +436,7 @@ namespace DE.Onnen.Sudoku
                         var newBoard = (Board)board.Clone();
                         var result = newBoard.SetDigit(i, x, true);
                         newBoard[i].IsGiven = false;
-                        BoardChangeEvent?.Invoke(newBoard, new SudokuEvent { Action = CellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
+                        BoardChangeEvent?.Invoke(newBoard, new SudokuEvent { Action = ECellAction.SetDigitInt, ChangedCellBase = newBoard[i] });
                         if (!result.Successful)
                         {
                             continue;

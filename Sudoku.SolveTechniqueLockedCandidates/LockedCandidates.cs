@@ -148,7 +148,7 @@
                             child.EventInfoInResult = new SudokuEvent
                             {
                                 ChangedCellBase = resultContainer,
-                                Action = CellAction.RemoveCandidate,
+                                Action = ECellAction.RemoveCandidate,
                                 SolveTechnik = solveTechnik,
                                 Value = dc + 1,
                             };

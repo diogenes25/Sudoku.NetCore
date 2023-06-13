@@ -154,7 +154,7 @@ namespace DE.Onnen.Sudoku
             result.EventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
-                Action = CellAction.SetDigitInt,
+                Action = ECellAction.SetDigitInt,
                 SolveTechnik = "None",
                 Value = digitFromOutside,
             };

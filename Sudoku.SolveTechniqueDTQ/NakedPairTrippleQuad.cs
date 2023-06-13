@@ -48,7 +48,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     {
                         Value = 0,
                         ChangedCellBase = house,
-                        Action = CellAction.RemoveCandidate,
+                        Action = ECellAction.RemoveCandidate,
                         SolveTechnik = st,
                     };
                     var found = false;

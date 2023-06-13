@@ -111,7 +111,7 @@ namespace DE.Onnen.Sudoku
             var eventInfoInResult = new SudokuEvent
             {
                 ChangedCellBase = this,
-                Action = CellAction.RemoveCandidate,
+                Action = ECellAction.RemoveCandidate,
                 SolveTechnik = "SetDigit",
                 Value = candidateToRemove,
             };
@@ -154,7 +154,7 @@ namespace DE.Onnen.Sudoku
                     {
                         Value = i + 1,
                         ChangedCellBase = this,
-                        Action = CellAction.RemoveCandidate,
+                        Action = ECellAction.RemoveCandidate,
                         SolveTechnik = "LastCandidate",
                     };
 

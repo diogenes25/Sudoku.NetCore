@@ -23,6 +23,7 @@ namespace DE.Onnen.Sudoku
                 foreach (var sr in ChildSudokuResult)
                 {
                     result &= sr.Successful;
+                    if(!result) return false; // if result is already false, there is no need to continue to check the childResults.
                 }
                 return result;
             }
