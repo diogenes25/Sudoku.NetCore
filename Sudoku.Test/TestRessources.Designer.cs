@@ -19,7 +19,7 @@ namespace Sudoku.Test {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class TestRessources {
@@ -93,7 +93,7 @@ namespace Sudoku.Test {
         ///48.3............71.2.......7.5....6....2..8.............1.76...3.....4......5....
         ///....14....3....2...7..........9...3.6.1.............8.2.....1.4....5.6.....7.8...
         ///......52..8.4......3...9...5.1...6..2..7........3.....6...1..........7.4.......3.
-        ///6.2.5.........3.4... [rest of string was truncated]&quot;;.
+        ///6.2.5......... [rest of string was truncated]&quot;;.
         /// </summary>
         public static string top95 {
             get {
