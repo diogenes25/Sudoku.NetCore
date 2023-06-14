@@ -22,24 +22,24 @@ namespace Sudoku.Test {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class TestRessources {
+    internal class TestResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TestRessources() {
+        internal TestResource() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sudoku.Test.TestRessources", typeof(TestRessources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sudoku.Test.TestResource", typeof(TestResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Sudoku.Test {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -68,7 +68,7 @@ namespace Sudoku.Test {
         ///1....6.8....7..1........5.6..9.4.....7.2...3.8....76..3....1..5.4.9.......2.7....  11.8 11.8 11.6   
         ///.. [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string ElevensHardestSudoku_Small {
+        internal static string ElevensHardestSudoku_Small {
             get {
                 return ResourceManager.GetString("ElevensHardestSudoku_Small", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace Sudoku.Test {
         ///..2...7...1.....6.5......18....37.......49.....41.23....3.2.9...8.....5.6.......2,HardestSudokusThread-00003;tarx0136,tarek,95490,97086,,,,3671,2550
         ///5.......9.2.1...7...8...3...4.6.........5.......2.7.1...3...8. [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string HardestDatabase110626 {
+        internal static string HardestDatabase110626 {
             get {
                 return ResourceManager.GetString("HardestDatabase110626", resourceCulture);
             }
@@ -95,7 +95,7 @@ namespace Sudoku.Test {
         ///......52..8.4......3...9...5.1...6..2..7........3.....6...1..........7.4.......3.
         ///6.2.5......... [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string top95 {
+        internal static string top95 {
             get {
                 return ResourceManager.GetString("top95", resourceCulture);
             }
