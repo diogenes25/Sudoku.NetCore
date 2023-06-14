@@ -337,7 +337,7 @@
             Assert.AreEqual(block1r2Value, _board[21].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[22].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[23].CandidateValue);
-            _board.Solve(result);
+            _board.StartSolve();
             var block1r2ValueSolve = (1 << 0) | (1 << 1) | (1 << 2);
             Assert.AreEqual(block1r2ValueSolve, _board[21].CandidateValue);
             Assert.AreEqual(block1r2ValueSolve, _board[22].CandidateValue);
@@ -351,7 +351,7 @@
             _board.SetDigit(0, 6, 2);
             _board.SetDigit(0, 7, 3);
             var log = _board.SetDigit(0, 8, 4);
-            _board.Solve(log);
+            _board.StartSolve();
             var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, _board[18].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[19].CandidateValue);
@@ -366,7 +366,7 @@
             tmpBoard.SetDigit(6, 0, 2);
             tmpBoard.SetDigit(7, 0, 3);
             var result = tmpBoard.SetDigit(8, 0, 4);
-            _board.Solve(result);
+            _board.StartSolve();
             var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, _board[2].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[11].CandidateValue);
@@ -404,10 +404,8 @@
                     Assert.IsTrue(result.Successful);
                 }
             }
-            var sudokuResult = new SudokuLog();
             Assert.IsFalse(board.IsComplete());
-            Assert.IsTrue(sudokuResult.Successful);
-            board.Solve(sudokuResult);
+            var sudokuResult = board.StartSolve();
             Assert.IsTrue(board.IsComplete());
             Assert.IsTrue(sudokuResult.Successful);
         }
@@ -459,7 +457,7 @@
             tmpBoard.SetDigit(7, 8, 7);
 
             var result = tmpBoard.SetDigit(0, 0, 6);
-            _board.Solve(result);
+            _board.StartSolve();
             Assert.AreEqual(2, _board[80].Digit);
         }
 

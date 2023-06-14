@@ -30,7 +30,6 @@ namespace DE.Onnen.Sudoku
             var i = 0;
             for (i = 0; i < 2; i++)
             {
-
                 var source = TestResource.top95;
                 IList<string> boards = source.Split('\n');
 
@@ -63,8 +62,7 @@ namespace DE.Onnen.Sudoku
                     }
                     else
                     {
-                        var result = new SudokuLog();
-                        board.Solve(result);
+                        var result = board.StartSolve();
                         if (board.IsComplete())
                         {
                             emh[1] += 1;

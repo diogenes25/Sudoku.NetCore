@@ -61,7 +61,7 @@ namespace Sudoku.SolveTechniques
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(8));
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(9));
             }
-            board.Solve(new SudokuLog());
+            board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
@@ -96,7 +96,7 @@ namespace Sudoku.SolveTechniques
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(4));
                 Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(7));
             }
-            board.Solve(new SudokuLog());
+            board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
@@ -133,7 +133,7 @@ namespace Sudoku.SolveTechniques
                 Assert.IsTrue(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(9));
                 Assert.AreEqual(block1r2Value, board.GetHouse(HouseType.Box, 2)[i].CandidateValue);
             }
-            board.Solve(new SudokuLog());
+            board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
 
             block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);

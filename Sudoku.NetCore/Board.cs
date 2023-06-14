@@ -349,7 +349,19 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">Log</param>
-        public bool Solve(SudokuLog sudokuResult)
+        public SudokuLog StartSolve()
+        {
+            var initSudokuLog = new SudokuLog();
+            var result = Solve(initSudokuLog);
+
+            return initSudokuLog;
+        }
+
+        /// <summary>
+        /// Solves Sudoku with SolveTechniques (no Backtracking).
+        /// </summary>
+        /// <param name="sudokuResult">Log</param>
+        private bool Solve(SudokuLog sudokuResult)
         {
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();

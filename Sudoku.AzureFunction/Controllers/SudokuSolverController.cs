@@ -78,8 +78,8 @@ namespace Sudoku.AzureFunction.Controllers
             if (req.Query.AllKeys.Contains("board"))
             {
                 _board.SetCellsFromString(req.Query["board"]);
-                var sudokuLog = new SudokuLog();
-                _board.Solve(sudokuLog);
+                // var sudokuLog = new SudokuLog();
+                var sudokuLog = _board.StartSolve();
             }
 
             var sudokuTableHtml = _board.ToHtmlTable();

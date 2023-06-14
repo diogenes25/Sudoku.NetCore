@@ -55,8 +55,7 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">g-Information of the action that were performed during the solve process.</param>
-        /// <returns>true == No Errors while trying to solve. It does not mean the Sudoku was solved completely</returns>
-        bool Solve(SudokuLog sudokuResult);
+        SudokuLog StartSolve();
     }
 
     /// <summary>
