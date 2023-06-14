@@ -231,7 +231,9 @@ namespace DE.Onnen.Sudoku.Extensions
 
         public static string ToHtmlTable<C>(this IBoard<C> board) where C : ICell => ToHtmlTable(board, false);
 
-        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven) where C : ICell
+        public static string ToHtmlTableWithLinks<C>(this IBoard<C> board) where C : ICell => ToHtmlTable(board, false, true);
+
+        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven, bool candidatesAsLink = false) where C : ICell
         {
             var boardAsString = board.ExtractCellsToString();
             var sb = new StringBuilder();
@@ -261,16 +263,22 @@ namespace DE.Onnen.Sudoku.Extensions
                         }
                         else
                         {
-                            sb.Append("[");
-                            foreach (var candidate in board[id].Candidates)
+                            if (candidatesAsLink)
                             {
-                                var query = boardAsString.Substring(0, id) + candidate + boardAsString.Substring(id + 1);
-                                var link = $"<a href=\"?board={query}\">{candidate}</a>";
-                                sb.Append(link);
+                                sb.Append("[");
+                                foreach (var candidate in board[id].Candidates)
+                                {
+                                    var query = boardAsString.Substring(0, id) + candidate + boardAsString.Substring(id + 1);
+                                    var link = $"<a href=\"?board={query}\">{candidate}</a>";
+                                    sb.Append(link);
+                                }
+                                sb.Append("]" + board[id].CandidateValue);
                             }
-                            sb.Append("]" + board[id].CandidateValue);
+                            else
+                            {
+                                sb.Append("[" + string.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue);
+                            }
                         }
-                        //sb.Append("[" + string.Join('|', board[id].Candidates) + "]" + board[id].CandidateValue);
                     }
                     sb.Append("</td>");
                     id++;

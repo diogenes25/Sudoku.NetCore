@@ -370,8 +370,6 @@ namespace DE.Onnen.Sudoku
                         {
                             foreach (var st in _solveTechniques.Where(t => t.IsActive))
                             {
-                                //if (st.IsActive)
-                                //{
                                 if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
                                 {
                                     continue;
@@ -389,7 +387,6 @@ namespace DE.Onnen.Sudoku
                                 {
                                     return false;
                                 }
-                                //}
                             }
                         }
                         _container[containerIdx][containerType].ReCheck = false;

@@ -14,18 +14,16 @@ If finally only one possible number remains in a cell, column or row, this remai
 Besides the simple reduction of the possibilities, there are several other strategies that reduce the possibilities even further.
 
 # Rules
-
 https://en.wikipedia.org/wiki/Sudoku
 
 ## Definition
-
 **Digit** = One given Number (1 to 9) in a Cell
 
 **Candidates** = Possible Digits (up to 9)
 
 **Cell** = Has one digit or 1 to 9 candidates
 
-**Box** = square of 3×3 cells
+**Box** = square of 3*3 cells
 
 **Row** = 9 cells in a row
 

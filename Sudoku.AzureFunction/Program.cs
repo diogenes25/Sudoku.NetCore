@@ -19,9 +19,9 @@ var host = new HostBuilder()
         services.AddScoped<ASolveTechnique<Cell>, LockedCandidates<Cell>>();
         services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
         {
-            var options = new OpenApiConfigurationOptions()
+            var options = new OpenApiConfigurationOptions
             {
-                Info = new OpenApiInfo()
+                Info = new OpenApiInfo
                 {
                     Version = "1.0.0",
                     Title = "Sudoku-Solver",
