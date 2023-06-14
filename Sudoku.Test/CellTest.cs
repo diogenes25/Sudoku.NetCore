@@ -93,7 +93,6 @@ namespace DE.Onnen.Sudoku
         /// A test for CheckLastDigit
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Sudoku.exe")]
         public void CheckLastDigit_returns_false_when_not_last_candidate_after_create_Test()
         {
             var target = new Cell(0);
@@ -107,7 +106,6 @@ namespace DE.Onnen.Sudoku
         /// A test for CheckLastDigit
         /// </summary>
         [TestMethod]
-        [DeploymentItem("Sudoku.exe")]
         public void CheckLastDigit_returns_false_when_not_last_candidate_Test()
         {
             var target = new Cell(0);

@@ -8,6 +8,5 @@ build:
 test:
   assemblies:
     only:
-    - '**\bin\Debug\net7.0\Sudoku.Test.dll'
     - '**\*.Test.dll'
     

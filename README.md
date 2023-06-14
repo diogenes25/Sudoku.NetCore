@@ -13,7 +13,7 @@ If finally only one possible number remains in a cell, column or row, this remai
 
 Besides the simple reduction of the possibilities, there are several other strategies that reduce the possibilities even further.
 
-# Rules
+## Rules
 https://en.wikipedia.org/wiki/Sudoku
 
 ## Definition
