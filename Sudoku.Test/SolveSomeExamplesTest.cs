@@ -27,10 +27,10 @@ namespace DE.Onnen.Sudoku
         public void TestHardestData_Test()
         {
             var board = new Board(new SolveTechniques.HiddenPairTripleQuad<Cell>(), new SolveTechniques.LockedCandidates<Cell>(), new SolveTechniques.NakedPairTrippleQuad<Cell>());
+            var source = TestResource.top95; // 95 hard Sudokus for Testing
             var i = 0;
             for (i = 0; i < 2; i++)
             {
-                var source = TestResource.top95;
                 IList<string> boards = source.Split('\n');
 
                 var emh = new int[3];
@@ -82,7 +82,7 @@ namespace DE.Onnen.Sudoku
                     }
                 }
 
-                source = TestResource.HardestDatabase110626;
+                source = TestResource.HardestDatabase110626;  // 170 Hard-Sodukos for Systemtesting
                 board.Clear();
                 Assert.AreEqual(total, emh.Sum(x => x));
                 Assert.IsTrue(total > 10);
