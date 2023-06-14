@@ -3,8 +3,11 @@ image: Visual Studio 2022
 platform: Any CPU
 before_build:
 - dotnet restore --verbosity q
+build:
+  verbosity: minimal
 test:
   assemblies:
     only:
+    - '**\bin\Debug\net7.0\Sudoku.Test.dll'
     - '**\*.Test.dll'
     
