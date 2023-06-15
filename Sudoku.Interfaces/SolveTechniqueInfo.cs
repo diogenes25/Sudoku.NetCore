@@ -10,15 +10,9 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public class SolveTechniqueInfo
     {
-        #region Private Constructors
-
         private SolveTechniqueInfo()
         {
         }
-
-        #endregion Private Constructors
-
-        #region Public Properties
 
         /// <summary>
         /// Short title like a headline.
@@ -29,10 +23,6 @@ namespace DE.Onnen.Sudoku
         /// Gets a description of the solving technique
         /// </summary>
         public string Description { get; private set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Creates an information instance
@@ -48,7 +38,5 @@ namespace DE.Onnen.Sudoku
                 Description = descr
             };
         }
-
-        #endregion Public Methods
     }
 }

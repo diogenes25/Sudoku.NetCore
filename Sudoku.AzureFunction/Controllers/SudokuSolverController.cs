@@ -20,7 +20,7 @@ namespace Sudoku.AzureFunction.Controllers
             _logger = loggerFactory.CreateLogger<SudokuSolverController>();
         }
 
-        [Function("PostSolve")]
+        [Function("Solve")]
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("Solve.");
@@ -48,7 +48,7 @@ namespace Sudoku.AzureFunction.Controllers
             return response;
         }
 
-        [Function("GetSolve")]
+        [Function("SolveTest")]
         public HttpResponseData StarterBoard([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             if (req.Query.AllKeys.Contains("board"))
@@ -72,7 +72,7 @@ namespace Sudoku.AzureFunction.Controllers
             return response;
         }
 
-        [Function("GetSolveAsHtml")]
+        [Function("SolveHtml")]
         public async Task<HttpResponseData> SolveBoardReturnHtmlAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             if (req.Query.AllKeys.Contains("board"))
@@ -80,7 +80,7 @@ namespace Sudoku.AzureFunction.Controllers
                 var sudokuStr = req.Query["board"];
                 _board.SetCellsFromString(sudokuStr);
                 var countOf0 = sudokuStr.ToCharArray().Count(c => c == '0'); // A '0' represends a cell without a digit
-                if (countOf0 < 68) // If more than 12 numbers (68 '0' left) are set, the use of the solution algorithm only makes sense. 
+                if (countOf0 < 68) // If more than 12 numbers (68 '0' left) are set, the use of the solution algorithm only makes sense.
                 {
                     _board.StartSolve();
                 }

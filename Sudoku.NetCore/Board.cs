@@ -301,7 +301,7 @@ namespace DE.Onnen.Sudoku
                 _cells[cellID].IsGiven = true;
                 if (withSolve)
                 {
-                    SolveRecursion(sudokuResult);
+                    Solve(sudokuResult);
                 }
 
                 _history.Add(new SudokuHistoryItem(this, _cells[cellID], sudokuResult));
@@ -352,7 +352,7 @@ namespace DE.Onnen.Sudoku
         public SudokuLog StartSolve()
         {
             var initSudokuLog = new SudokuLog();
-            SolveRecursion(initSudokuLog);
+            Solve(initSudokuLog);
             return initSudokuLog;
         }
 
@@ -360,7 +360,7 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">Log</param>
-        private bool SolveRecursion(SudokuLog sudokuResult)
+        private void Solve(SudokuLog sudokuResult)
         {
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();
@@ -390,13 +390,17 @@ namespace DE.Onnen.Sudoku
                                 {
                                     st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
-                                    return false;
+                                    var log = tmpSudokuResult.CreateChildResult();
+                                    log.ErrorMessage = ex.Message;
+                                    log.Successful = false;
+
+                                    return;
                                 }
                                 if (!tmpSudokuResult.Successful)
                                 {
-                                    return false;
+                                    return;
                                 }
                             }
                         }
@@ -404,7 +408,6 @@ namespace DE.Onnen.Sudoku
                     }
                 }
             } while (_keepGoingWithChecks);
-            return tmpSudokuResult.Successful;
         }
 
         public override string ToString() => string.Join("", this.Select(x => x.Digit));

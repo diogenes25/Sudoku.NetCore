@@ -8,14 +8,8 @@ namespace Sudoku.Test
     [TestClass]
     public class BoardEqualsTest
     {
-        #region Private Fields
-
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
-
-        #endregion Private Fields
-
-        #region Public Methods
 
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext) => _solveTechniques = new ASolveTechnique<Cell>[]
@@ -87,7 +81,5 @@ namespace Sudoku.Test
 
         [TestInitialize]
         public void Initialize() => _board = new Board(_solveTechniques);
-
-        #endregion Public Methods
     }
 }

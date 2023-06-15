@@ -18,8 +18,6 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class SolveSomeExamplesTest
     {
-        #region Public Methods
-
         /// <summary>
         /// Test Sudoku that can only be beaten with backtracking
         /// </summary>
@@ -63,6 +61,7 @@ namespace DE.Onnen.Sudoku
                     else
                     {
                         var result = board.StartSolve();
+                        Assert.IsTrue(result.Successful);
                         if (board.IsComplete())
                         {
                             emh[1] += 1;
@@ -90,7 +89,5 @@ namespace DE.Onnen.Sudoku
 
             Assert.AreEqual(i, 2);
         }
-
-        #endregion Public Methods
     }
 }

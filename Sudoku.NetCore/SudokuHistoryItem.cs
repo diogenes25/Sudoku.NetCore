@@ -10,8 +10,6 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public class SudokuHistoryItem
     {
-        #region Public Constructors
-
         /// <summary>
         ///  Initializes a new instance of the <see cref="SudokuHistoryItem" /> class.
         /// </summary>
@@ -44,10 +42,6 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         /// <summary>
         /// Gets a collection of integer that representing the board.
         /// </summary>
@@ -73,10 +67,6 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public SudokuLog SudokuResults { get; private set; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
         /// Info about the work, that had been done.
         /// </summary>
@@ -89,7 +79,5 @@ namespace DE.Onnen.Sudoku
                  (CellID % Consts.DIMENSIONSQUARE) + 1,
                  Digit,
                  string.Format("{0:0.00}", Percent));
-
-        #endregion Public Methods
     }
 }

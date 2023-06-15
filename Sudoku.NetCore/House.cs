@@ -6,13 +6,7 @@ namespace DE.Onnen.Sudoku
     public class House<C> : AHasCandidates, IHouse<C>
     where C : ICell
     {
-        #region Private Fields
-
         private readonly C[] _cells;
-
-        #endregion Private Fields
-
-        #region Internal Constructors
 
         internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerIdx, containerType)
         {
@@ -24,32 +18,16 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        #endregion Internal Constructors
-
-        #region Public Properties
-
         public int Count => _cells.Length;
-
-        #endregion Public Properties
-
-        #region Internal Properties
 
         /// <summary>
         /// true = some cells
         /// </summary>
         internal bool ReCheck { set; get; }
 
-        #endregion Internal Properties
-
-        #region Public Indexers
-
         C ICellCollection<C>.this[int index] => _cells[index];
 
         public ICell this[int index] => _cells[index];
-
-        #endregion Public Indexers
-
-        #region Public Methods
 
         public IEnumerator<ICell> GetEnumerator() => _cells.Select(x => (ICell)x).GetEnumerator();
 
@@ -82,10 +60,6 @@ namespace DE.Onnen.Sudoku
         }
 
         public override string ToString() => $"{HType} ({ID}) {CandidateValue}";
-
-        #endregion Public Methods
-
-        #region Internal Methods
 
         /// <summary>
         /// A Digit in one of his peers is set.
@@ -153,10 +127,6 @@ namespace DE.Onnen.Sudoku
             return true;
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Digit"))
@@ -164,7 +134,5 @@ namespace DE.Onnen.Sudoku
                 ReCheck = true;
             }
         }
-
-        #endregion Private Methods
     }
 }

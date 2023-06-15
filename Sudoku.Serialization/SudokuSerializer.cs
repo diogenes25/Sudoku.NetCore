@@ -12,8 +12,6 @@ namespace DE.Onnen.Sudoku.Serialization
 
     public static class SudokuSerializer
     {
-        #region Public Methods
-
         public static string GetJson(this Board board, params DigitAction[] digActions)
         {
             var transfer = new SudokuDto
@@ -35,7 +33,5 @@ namespace DE.Onnen.Sudoku.Serialization
             }
             return board;
         }
-
-        #endregion Public Methods
     }
 }

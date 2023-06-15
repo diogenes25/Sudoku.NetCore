@@ -28,8 +28,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// <typeparam name="C">Type of Cell</typeparam>
     public interface ISolveTechnique<C> where C : ICell
     {
-        #region Public Properties
-
         /// <summary>
         /// Gets cell-view.
         /// </summary>
@@ -49,10 +47,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// </summary>
         bool IsActive { get; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
         /// Activate this solve-technique.
         /// </summary>
@@ -70,7 +64,5 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <param name="house">a specific house (box, row or column)</param>
         /// <param name="sudokuResult">Log-info to return the action that where made during the solve process.</param>
         void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
-
-        #endregion Public Methods
     }
 }

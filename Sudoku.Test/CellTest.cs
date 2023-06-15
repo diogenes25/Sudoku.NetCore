@@ -10,8 +10,6 @@ namespace DE.Onnen.Sudoku
     [TestClass]
     public class CellTest
     {
-        #region Public Methods
-
         /// <summary>
         ///A test for Candidates
         ///</summary>
@@ -438,7 +436,5 @@ namespace DE.Onnen.Sudoku
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
-
-        #endregion Public Methods
     }
 }
