@@ -49,7 +49,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         Value = 0,
                         ChangedCellBase = house,
                         Action = ECellAction.RemoveCandidate,
-                        SolveTechnik = st,
+                        SolveTechnique = st,
                     };
                     var found = false;
                     foreach (var c in house)

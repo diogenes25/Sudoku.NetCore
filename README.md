@@ -18,6 +18,7 @@ Besides the simple reduction of the possibilities, there are several other strat
 https://en.wikipedia.org/wiki/Sudoku
 
 ## Definition
+**Board**
 **Digit** = One given Number (1 to 9) in a Cell
 
 **Candidates** = Possible Digits (up to 9)

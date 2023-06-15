@@ -283,7 +283,7 @@ namespace DE.Onnen.Sudoku
                 {
                     ChangedCellBase = null,
                     Action = ECellAction.SetDigitInt,
-                    SolveTechnik = "SetDigit",
+                    SolveTechnique = "SetDigit",
                 }
             };
 
@@ -301,7 +301,7 @@ namespace DE.Onnen.Sudoku
                 _cells[cellID].IsGiven = true;
                 if (withSolve)
                 {
-                    Solve(sudokuResult);
+                    SolveRecursion(sudokuResult);
                 }
 
                 _history.Add(new SudokuHistoryItem(this, _cells[cellID], sudokuResult));
@@ -352,8 +352,7 @@ namespace DE.Onnen.Sudoku
         public SudokuLog StartSolve()
         {
             var initSudokuLog = new SudokuLog();
-            var result = Solve(initSudokuLog);
-
+            SolveRecursion(initSudokuLog);
             return initSudokuLog;
         }
 
@@ -361,7 +360,7 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">Log</param>
-        private bool Solve(SudokuLog sudokuResult)
+        private bool SolveRecursion(SudokuLog sudokuResult)
         {
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();

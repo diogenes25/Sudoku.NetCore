@@ -328,6 +328,7 @@
             _board.SetDigit(1, 3, 7);
             _board.SetDigit(1, 4, 8);
             var result = _board.SetDigit(1, 5, 9);
+            Assert.IsTrue(result.Successful);
             Assert.AreEqual(6, _board[11].Digit);
             var block0Value = (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block0Value, _board[18].CandidateValue);
@@ -351,6 +352,7 @@
             _board.SetDigit(0, 6, 2);
             _board.SetDigit(0, 7, 3);
             var log = _board.SetDigit(0, 8, 4);
+            Assert.IsTrue(log.Successful);
             _board.StartSolve();
             var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, _board[18].CandidateValue);
@@ -366,7 +368,9 @@
             tmpBoard.SetDigit(6, 0, 2);
             tmpBoard.SetDigit(7, 0, 3);
             var result = tmpBoard.SetDigit(8, 0, 4);
-            _board.StartSolve();
+            Assert.IsTrue(result.Successful);
+            result = _board.StartSolve();
+            Assert.IsTrue(result.Successful);
             var block1r2Value = (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8);
             Assert.AreEqual(block1r2Value, _board[2].CandidateValue);
             Assert.AreEqual(block1r2Value, _board[11].CandidateValue);
@@ -457,7 +461,9 @@
             tmpBoard.SetDigit(7, 8, 7);
 
             var result = tmpBoard.SetDigit(0, 0, 6);
-            _board.StartSolve();
+            Assert.IsTrue(result.Successful);
+            result = _board.StartSolve();
+            Assert.IsTrue(result.Successful);
             Assert.AreEqual(2, _board[80].Digit);
         }
 

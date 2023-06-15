@@ -77,12 +77,16 @@ namespace Sudoku.AzureFunction.Controllers
         {
             if (req.Query.AllKeys.Contains("board"))
             {
-                _board.SetCellsFromString(req.Query["board"]);
-                // var sudokuLog = new SudokuLog();
-                var sudokuLog = _board.StartSolve();
+                var sudokuStr = req.Query["board"];
+                _board.SetCellsFromString(sudokuStr);
+                var countOf0 = sudokuStr.ToCharArray().Count(c => c == '0'); // A '0' represends a cell without a digit
+                if (countOf0 < 68) // If more than 12 numbers (68 '0' left) are set, the use of the solution algorithm only makes sense. 
+                {
+                    _board.StartSolve();
+                }
             }
 
-            var sudokuTableHtml = _board.ToHtmlTable();
+            var sudokuTableHtml = _board.ToHtmlTableWithLinks();
             var response = req.CreateResponse(HttpStatusCode.OK);
             var css = "<meta charset=\"utf-8\" />\r\n\t<title></title>\r\n\t<style>\r\n\t .sudokutbl {border: solid 2px black;color: black;}\r\n\t .sudokucell  {border: solid 2px green;background-color: grey;}\r\n\t .sudokucell_given {border: solid 2px green;background-color: green;}\r\n\t</style>";
             var html = $"<html><head>{css}</head><body>{sudokuTableHtml}</body></html>";

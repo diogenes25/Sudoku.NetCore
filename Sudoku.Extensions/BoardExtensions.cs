@@ -201,7 +201,7 @@ namespace DE.Onnen.Sudoku.Extensions
                 {
                     ChangedCellBase = null,
                     Action = ECellAction.SetDigitInt,
-                    SolveTechnik = "SetDigit",
+                    SolveTechnique = "SetDigit",
                 }
             };
 
@@ -233,7 +233,7 @@ namespace DE.Onnen.Sudoku.Extensions
 
         public static string ToHtmlTableWithLinks<C>(this IBoard<C> board) where C : ICell => ToHtmlTable(board, false, true);
 
-        public static string ToHtmlTable<C>(this IBoard<C> board, bool onlyGiven, bool candidatesAsLink = false) where C : ICell
+        private static string ToHtmlTable<C>(IBoard<C> board, bool onlyGiven, bool candidatesAsLink = false) where C : ICell
         {
             var boardAsString = board.ExtractCellsToString();
             var sb = new StringBuilder();

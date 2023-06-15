@@ -17,6 +17,8 @@ namespace DE.Onnen.Sudoku
         /// Gets a list of every candidate.
         /// </summary>
         /// <remarks>
+        /// 
+        /// At the beginning a cell has 9 candidates (normal Sudoku)
         /// @see BaseValue
         /// </remarks>
         System.Collections.ObjectModel.ReadOnlyCollection<int> Candidates { get; }

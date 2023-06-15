@@ -149,7 +149,7 @@
                             {
                                 ChangedCellBase = resultContainer,
                                 Action = ECellAction.RemoveCandidate,
-                                SolveTechnik = solveTechnik,
+                                SolveTechnique = solveTechnik,
                                 Value = dc + 1,
                             };
                         }

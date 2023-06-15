@@ -155,7 +155,7 @@ namespace DE.Onnen.Sudoku
             {
                 ChangedCellBase = this,
                 Action = ECellAction.SetDigitInt,
-                SolveTechnik = "None",
+                SolveTechnique = "None",
                 Value = digitFromOutside,
             };
 

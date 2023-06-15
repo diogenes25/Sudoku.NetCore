@@ -108,7 +108,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                         ChangedCellBase = house,
                         Action = ECellAction.RemoveCandidate,
                         Value = 999999999,
-                        SolveTechnik = st,
+                        SolveTechnique = st,
                     };
                     var found = false;
                     var cc = kv.Value.Values.First();

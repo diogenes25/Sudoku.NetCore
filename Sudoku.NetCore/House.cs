@@ -101,7 +101,7 @@ namespace DE.Onnen.Sudoku
             var sudokuEvent = new SudokuEvent
             {
                 Value = digit,
-                SolveTechnik = "SetDigit",
+                SolveTechnique = "SetDigit",
                 ChangedCellBase = this,
                 Action = ECellAction.SetDigitInt
             };
@@ -141,7 +141,7 @@ namespace DE.Onnen.Sudoku
             {
                 ChangedCellBase = this,
                 Action = ECellAction.SetDigitInt,
-                SolveTechnik = "None",
+                SolveTechnique = "None",
                 Value = digit,
             };
 

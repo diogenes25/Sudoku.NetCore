@@ -112,7 +112,7 @@ namespace DE.Onnen.Sudoku
             {
                 ChangedCellBase = this,
                 Action = ECellAction.RemoveCandidate,
-                SolveTechnik = "SetDigit",
+                SolveTechnique = "SetDigit",
                 Value = candidateToRemove,
             };
 
@@ -155,7 +155,7 @@ namespace DE.Onnen.Sudoku
                         Value = i + 1,
                         ChangedCellBase = this,
                         Action = ECellAction.RemoveCandidate,
-                        SolveTechnik = "LastCandidate",
+                        SolveTechnique = "LastCandidate",
                     };
 
                     return SetDigit(i + 1, sresult);
