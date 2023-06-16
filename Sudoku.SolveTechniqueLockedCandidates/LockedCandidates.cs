@@ -9,7 +9,7 @@
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             DigitInBlock(board, house, sudokuResult);
-            if (house.HType == HouseType.Box)
+            if (house.HType == EHouseType.Box)
             {
                 DigitInBlock(board, house, sudokuResult, true);
             }
@@ -71,23 +71,23 @@
                     _ = house.HType;
                     var st = "LockedCandidatesClaiming";
                     int houseIdx;
-                    HouseType cellInContainertype;
+                    EHouseType cellInContainertype;
                     switch (house.HType)
                     {
-                        case HouseType.Row:
+                        case EHouseType.Row:
                             houseIdx = ((int)(house.ID / Consts.DIMENSION)) * 3 + x;
-                            cellInContainertype = HouseType.Box;
+                            cellInContainertype = EHouseType.Box;
                             break;
 
-                        case HouseType.Col:
+                        case EHouseType.Col:
                             houseIdx = x * 3 + (house.ID / Consts.DIMENSION);
-                            cellInContainertype = HouseType.Box;
+                            cellInContainertype = EHouseType.Box;
                             break;
 
-                        case HouseType.Box:
+                        case EHouseType.Box:
                             st = "LockedCandidatesPointing";
                             houseIdx = (verticalBlock) ? (house.ID % 3) * 3 + x : (house.ID / 3) * 3 + x;
-                            cellInContainertype = (verticalBlock) ? HouseType.Col : HouseType.Row;
+                            cellInContainertype = (verticalBlock) ? EHouseType.Col : EHouseType.Row;
                             break;
 
                         default:
@@ -99,9 +99,9 @@
                     {
                         pos++;
                         if (
-                            ((house.HType == HouseType.Row) && (house.ID % Consts.DIMENSION) == (pos / Consts.DIMENSION))
-                            || ((house.HType == HouseType.Col) && (house.ID % Consts.DIMENSION) == (pos % Consts.DIMENSION))
-                            || ((house.HType == HouseType.Box)
+                            ((house.HType == EHouseType.Row) && (house.ID % Consts.DIMENSION) == (pos / Consts.DIMENSION))
+                            || ((house.HType == EHouseType.Col) && (house.ID % Consts.DIMENSION) == (pos % Consts.DIMENSION))
+                            || ((house.HType == EHouseType.Box)
                                 && ((!verticalBlock && (house.ID % Consts.DIMENSION) == (pos / Consts.DIMENSION))
                                     || (verticalBlock && (house.ID / Consts.DIMENSION) == (pos / Consts.DIMENSION))
                                    )

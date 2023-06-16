@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku
     ///to contain all CellTest Unit Tests
     ///</summary>
     [TestClass]
-    public class CellTest
+    public class CellTests
     {
         /// <summary>
         ///A test for Candidates
@@ -138,7 +138,7 @@ namespace DE.Onnen.Sudoku
         public void Constructor_HType_eq_HouseType_Cell_Test()
         {
             var target = new Cell(0);
-            var expected = HouseType.Cell;
+            var expected = EHouseType.Cell;
             var actual = target.HType;
             Assert.AreEqual(expected, actual);
         }
@@ -233,9 +233,9 @@ namespace DE.Onnen.Sudoku
                 col[i] = new Cell(i + 10);
                 box[i] = new Cell(i + 20);
             }
-            target._fieldcontainters[0] = new House<Cell>(row, HouseType.Row, 1);
-            target._fieldcontainters[1] = new House<Cell>(col, HouseType.Col, 1);
-            target._fieldcontainters[2] = new House<Cell>(box, HouseType.Box, 1);
+            target._fieldcontainters[0] = new House<Cell>(row, EHouseType.Row, 1);
+            target._fieldcontainters[1] = new House<Cell>(col, EHouseType.Col, 1);
+            target._fieldcontainters[2] = new House<Cell>(box, EHouseType.Box, 1);
 
             row[0].CandidateValue = 3;
             target.SetDigit(1);
@@ -256,9 +256,9 @@ namespace DE.Onnen.Sudoku
                 col[i] = new Cell(i + 10);
                 box[i] = new Cell(i + 20);
             }
-            target._fieldcontainters[0] = new House<Cell>(row, HouseType.Row, 1);
-            target._fieldcontainters[1] = new House<Cell>(col, HouseType.Col, 1);
-            target._fieldcontainters[2] = new House<Cell>(box, HouseType.Box, 1);
+            target._fieldcontainters[0] = new House<Cell>(row, EHouseType.Row, 1);
+            target._fieldcontainters[1] = new House<Cell>(col, EHouseType.Col, 1);
+            target._fieldcontainters[2] = new House<Cell>(box, EHouseType.Box, 1);
 
             var expected = Consts.BASESTART;
             for (var i = 0; i < 10; i++)
@@ -435,6 +435,128 @@ namespace DE.Onnen.Sudoku
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void GetUniqueID_Test()
+        {
+            var target = new Cell(0);
+            var uniqueID = target.GetUniqueID();
+            Assert.AreEqual(uniqueID, 65408, "Every Candidate is set");
+
+            var bitArray = ConvertIntToBitArray(uniqueID);
+            Assert.IsTrue(bitArray[7], "Bit 7 (represents candidate 1) must be set");
+            Assert.IsTrue(bitArray[8], "Bit 8 (represents candidate 2) must be set");
+            Assert.IsTrue(bitArray[9], "Bit 9 (represents candidate 3) must be set");
+            Assert.IsTrue(bitArray[10], "Bit 10 (represents candidate 4) must be set");
+            Assert.IsTrue(bitArray[11], "Bit 11 (represents candidate 5) must be set");
+            Assert.IsTrue(bitArray[12], "Bit 12 (represents candidate 6) must be set");
+            Assert.IsTrue(bitArray[13], "Bit 13 (represents candidate 7) must be set");
+            Assert.IsTrue(bitArray[14], "Bit 14 (represents candidate 8) must be set");
+            Assert.IsTrue(bitArray[15], "Bit 15 (represents candidate 9) must be set");
+            Assert.IsFalse(bitArray[16], "Bit 16 should be 0 because there are no more candidates");
+
+            var target2 = new Cell(1);
+            var uniqueID2 = target2.GetUniqueID();
+            var bitArray2 = ConvertIntToBitArray(uniqueID2);
+            Assert.IsTrue(bitArray2[0], "CellID is 1");
+
+            target2 = new Cell(6);
+            uniqueID2 = target2.GetUniqueID();
+            bitArray2 = ConvertIntToBitArray(uniqueID2);
+            Assert.IsFalse(bitArray2[0], "CellID is 6 and bit nr 1 must not be set 011");
+            Assert.IsTrue(bitArray2[1], "CellID is 6 and bit nr 2 must be set 011");
+            Assert.IsTrue(bitArray2[2], "CellID is 6 and bit nr 3 must be set 011");
+            Assert.IsFalse(bitArray2[3], "CellID is 6 and bit nr 4 must not be set 011");
+
+            var targetDigit = new Cell(1)
+            {
+                Digit = 7,
+            };
+            var digitUniqueID = targetDigit.GetUniqueID();
+            Assert.IsTrue(digitUniqueID < 0, "When call.digit is set, the uniqueId must be negative");
+            var digitUniqueIDPositive = digitUniqueID * -1;
+            var digitBitArray = ConvertIntToBitArray(digitUniqueIDPositive);
+            Assert.IsTrue(digitBitArray[0], "CellID is 1");
+            Assert.IsTrue(digitBitArray[7], "Bit 7 (first Bit for 7 (1110)) must be set");
+            Assert.IsTrue(digitBitArray[8], "Bit 8 (second Bit for 7 (1110)) must be set");
+            Assert.IsTrue(digitBitArray[9], "Bit 9 (third Bit for 7 (1110)) must be set");
+            Assert.IsFalse(digitBitArray[10], "Bit 10 (fourth Bit for 7 (1110)) must not be set");
+        }
+
+        public static bool[] ConvertIntToBitArray(int value)
+        {
+            var bitArray = new bool[32];
+            for (var i = 0; i < 32; i++)
+            {
+                bitArray[i] = (value & (1 << i)) > 0;
+            }
+            return bitArray;
+        }
+
+        [TestMethod()]
+        public void ClearTest()
+        {
+            var cell = new Cell(0)
+            {
+                Digit = 1
+            };
+            Assert.AreEqual(1, cell.Digit, "Digit was set to 1 and must be 1.");
+            Assert.AreEqual(0, cell.CandidateValue, "When a Digit was set, no candidates are.");
+            cell.Clear();
+            Assert.AreEqual(0, cell.Digit, "Cell was cleared and Digit must set to 0");
+            Assert.AreEqual(Consts.BASESTART, cell.CandidateValue, "Cell was cleared and every candidate must be available");
+        }
+
+        [TestMethod()]
+        public void GetHashCodeTest()
+        {
+            var cell = new Cell(0)
+            {
+                Digit = 1
+            };
+            var actual = cell.GetHashCode();
+            Assert.IsTrue(actual != 0);
+            var cell2 = new Cell(0)
+            {
+                Digit = 2
+            };
+            var actual2 = cell2.GetHashCode();
+            Assert.AreNotEqual(actual, actual2);
+
+            cell.SetDigit(0);
+            var actualN = cell.GetHashCode();
+            Assert.AreNotEqual(actual, actualN);
+
+            cell = new Cell(0);
+            cell.RemoveCandidate(1, new SudokuLog());
+            actual = cell.GetHashCode();
+            Assert.IsTrue(actual != 0);
+            cell2 = new Cell(0);
+            cell2.RemoveCandidate(2, new SudokuLog());
+            actual2 = cell2.GetHashCode();
+            Assert.AreNotEqual(actual, actual2);
+        }
+
+        [TestMethod()]
+        public void RemoveCandidateTest()
+        {
+            var target = new Cell(0);
+            var log = new SudokuLog();
+            target.RemoveCandidate(2, log);
+            var uniqueID = target.GetUniqueID();
+
+            var bitArray = ConvertIntToBitArray(uniqueID);
+            Assert.IsTrue(bitArray[7], "Bit 7 (represents candidate 1) must be set");
+            Assert.IsFalse(bitArray[8], "Bit 8 (represents candidate 2) must NOT be set because it is removed");
+            Assert.IsTrue(bitArray[9], "Bit 9 (represents candidate 3) must be set");
+            Assert.IsTrue(bitArray[10], "Bit 10 (represents candidate 4) must be set");
+            Assert.IsTrue(bitArray[11], "Bit 11 (represents candidate 5) must be set");
+            Assert.IsTrue(bitArray[12], "Bit 12 (represents candidate 6) must be set");
+            Assert.IsTrue(bitArray[13], "Bit 13 (represents candidate 7) must be set");
+            Assert.IsTrue(bitArray[14], "Bit 14 (represents candidate 8) must be set");
+            Assert.IsTrue(bitArray[15], "Bit 15 (represents candidate 9) must be set");
+            Assert.IsFalse(bitArray[16], "Bit 16 should be 0 because there are no more candidates");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku
     /// <summary>
     /// Type of house.
     /// </summary>
-    public enum HouseType
+    public enum EHouseType
     {
         /// <summary>
         /// A Row

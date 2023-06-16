@@ -23,7 +23,7 @@ namespace DE.Onnen.Sudoku
     /// </summary>
     public class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
-        protected Cell[] _cells;
+        private Cell[] _cells = new Cell[Consts.COUNTCELL];
 
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
@@ -31,8 +31,8 @@ namespace DE.Onnen.Sudoku
         private readonly House<Cell>[][] _container = new House<Cell>[Consts.DIMENSIONSQUARE][];
         private List<SudokuHistoryItem> _history;
         private bool _keepGoingWithChecks;
-        private ISolveTechnique<Cell>[] _solveTechniques;
-        private readonly ILogger<Board> _logger;
+        private ISolveTechnique<Cell>[]? _solveTechniques;
+        private readonly ILogger<Board>? _logger;
 
         public Board()
         {
@@ -46,7 +46,7 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(ILogger<Board> logger)
+        public Board(ILogger<Board>? logger)
         {
             _logger = logger;
             Init();
@@ -65,13 +65,13 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(params ISolveTechnique<Cell>[] solveTechniques)
+        public Board([NotNull] params ISolveTechnique<Cell>[] solveTechniques)
         {
             _solveTechniques = solveTechniques;
             Init();
         }
 
-        public Board(IEnumerable<int> uniqueCellIDs, params ISolveTechnique<Cell>[] solveTechniques)
+        public Board([NotNull] IEnumerable<int> uniqueCellIDs, params ISolveTechnique<Cell>[] solveTechniques)
         {
             _solveTechniques = solveTechniques;
             Init();
@@ -83,8 +83,14 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         public event System.EventHandler<SudokuEvent> BoardChangeEvent;
 
+        /// <summary>
+        /// Count of cells (normaly 81 = 9*9)
+        /// </summary>
         public int Count => _cells.Length;
 
+        /// <summary>
+        /// History of Steps during the solvingprocess
+        /// </summary>
         public ReadOnlyCollection<SudokuHistoryItem> History => _history.AsReadOnly();
 
         /// <summary>
@@ -113,7 +119,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Loaded solvetechniques.
         /// </summary>
-        public IList<ISolveTechnique<Cell>> SolveTechniques => _solveTechniques.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
+        public IList<ISolveTechnique<Cell>>? SolveTechniques => _solveTechniques?.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
 
         /// <summary>
         ///
@@ -227,7 +233,7 @@ namespace DE.Onnen.Sudoku
             return retHash;
         }
 
-        public IHouse<Cell> GetHouse(HouseType houseType, int houseID) => _container[houseID][(int)houseType];
+        public IHouse<Cell> GetHouse(EHouseType houseType, int houseID) => _container[houseID][(int)houseType];
 
         /// <inheritdoc />
         public bool IsComplete()
@@ -533,7 +539,7 @@ namespace DE.Onnen.Sudoku
                 _container[containerIdx] = new House<Cell>[3];
                 for (var containerType = 0; containerType < 3; containerType++)
                 {
-                    _container[containerIdx][containerType] = new House<Cell>(fieldcontainer[containerType][containerIdx], (HouseType)containerType, containerIdx);
+                    _container[containerIdx][containerType] = new House<Cell>(fieldcontainer[containerType][containerIdx], (EHouseType)containerType, containerIdx);
                     foreach (var f in fieldcontainer[containerType][containerIdx])
                     {
                         f._fieldcontainters[containerType] = _container[containerIdx][containerType];

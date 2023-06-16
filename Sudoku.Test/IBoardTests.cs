@@ -3,7 +3,7 @@
 namespace DE.Onnen.Sudoku
 {
     [TestClass]
-    public class IBoardTest
+    public class IBoardTests
     {
         private IBoard<Cell> _target;
 

@@ -35,7 +35,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="houseType">Define the HouseType. There are 3 House-Types (Row, Col or Box)</param>
         /// <param name="houseID">House-Id of the House</param>
         /// <returns>House that matches the HouseType an HouseID</returns>
-        IHouse<C> GetHouse(HouseType houseType, int houseID);
+        IHouse<C> GetHouse(EHouseType houseType, int houseID);
 
         /// <summary>
         /// Return true when Sudoku is completed.

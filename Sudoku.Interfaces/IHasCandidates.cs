@@ -6,7 +6,7 @@
 namespace DE.Onnen.Sudoku
 {
     /// <summary>
-    /// Contains candidates.
+    /// Contains candidates like Cell, Box, Row or Col. <see cref="EHouseType"/>
     /// </summary>
     /// <remarks>
     /// A candidate is a possible Digit.
@@ -39,7 +39,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Gets the type of house (or cell).
         /// </summary>
-        HouseType HType { get; }
+        EHouseType HType { get; }
 
         /// <summary>
         /// Gets ID of the Cell/House.

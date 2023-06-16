@@ -4,14 +4,14 @@ using System.ComponentModel;
 
 namespace DE.Onnen.Sudoku
 {
-    public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged, System.IEquatable<AHasCandidates>
+    public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged //, System.IEquatable<AHasCandidates>
     {
         /// <summary>
         /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
         internal int _candidateValueInternal;
 
-        protected AHasCandidates(int id, HouseType ht)
+        protected AHasCandidates(int id, EHouseType ht)
         {
             ID = id;
             HType = ht;
@@ -48,7 +48,7 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <inheritdoc />
-        public HouseType HType
+        public EHouseType HType
         {
             get;
             private set;
@@ -61,21 +61,15 @@ namespace DE.Onnen.Sudoku
             private set;
         }
 
-        public void Clear() => _candidateValueInternal = Consts.BASESTART;
+        /// <summary>
+        /// Set the candidates to all possible Numbers
+        /// </summary>
+        /// <see cref="Consts.BASESTART"/>
+        public virtual void Clear() => _candidateValueInternal = Consts.BASESTART;
 
         public override bool Equals(object other)
         {
             if (other == null || other is not IHasCandidates)
-            {
-                return false;
-            }
-
-            return Equals((IHasCandidates)other);
-        }
-
-        public bool Equals(AHasCandidates other)
-        {
-            if (other == null)
             {
                 return false;
             }

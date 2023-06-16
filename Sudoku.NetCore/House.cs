@@ -8,7 +8,7 @@ namespace DE.Onnen.Sudoku
     {
         private readonly C[] _cells;
 
-        internal House(C[] cells, HouseType containerType, int containerIdx) : base(containerIdx, containerType)
+        internal House(C[] cells, EHouseType containerType, int containerIdx) : base(containerIdx, containerType)
         {
             _cells = cells;
             ReCheck = false;

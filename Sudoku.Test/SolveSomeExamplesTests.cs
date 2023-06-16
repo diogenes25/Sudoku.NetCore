@@ -16,7 +16,7 @@ namespace DE.Onnen.Sudoku
     /// Test some real world examples.
     /// </summary>
     [TestClass]
-    public class SolveSomeExamplesTest
+    public class SolveSomeExamplesTests
     {
         /// <summary>
         /// Test Sudoku that can only be beaten with backtracking

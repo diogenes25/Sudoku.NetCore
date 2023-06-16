@@ -58,15 +58,15 @@ namespace Sudoku.SolveTechniques
             // 8,9 sind in der Row[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(8));
-                Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(9));
+                Assert.IsTrue(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(8));
+                Assert.IsTrue(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(9));
             }
             board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsFalse(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(8));
-                Assert.IsFalse(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(9));
+                Assert.IsFalse(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(8));
+                Assert.IsFalse(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(9));
             }
         }
 
@@ -93,15 +93,15 @@ namespace Sudoku.SolveTechniques
             // 4,7 sind in der Col[1] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(4));
-                Assert.IsTrue(board.GetHouse(HouseType.Row, 2)[i].Candidates.Contains(7));
+                Assert.IsTrue(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(4));
+                Assert.IsTrue(board.GetHouse(EHouseType.Row, 2)[i].Candidates.Contains(7));
             }
             board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsFalse(board.GetHouse(HouseType.Col, 0)[i].Candidates.Contains(4));
-                Assert.IsFalse(board.GetHouse(HouseType.Col, 0)[i].Candidates.Contains(7));
+                Assert.IsFalse(board.GetHouse(EHouseType.Col, 0)[i].Candidates.Contains(4));
+                Assert.IsFalse(board.GetHouse(EHouseType.Col, 0)[i].Candidates.Contains(7));
             }
         }
 
@@ -129,9 +129,9 @@ namespace Sudoku.SolveTechniques
             // 8,9 sind in der Box[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 7 und 8 sein können.
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsTrue(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(8));
-                Assert.IsTrue(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(9));
-                Assert.AreEqual(block1r2Value, board.GetHouse(HouseType.Box, 2)[i].CandidateValue);
+                Assert.IsTrue(board.GetHouse(EHouseType.Box, 2)[i].Candidates.Contains(8));
+                Assert.IsTrue(board.GetHouse(EHouseType.Box, 2)[i].Candidates.Contains(9));
+                Assert.AreEqual(block1r2Value, board.GetHouse(EHouseType.Box, 2)[i].CandidateValue);
             }
             board.StartSolve();
             // 8,9 sind in jetzt aus Cell[30] bis Cell[35].
@@ -139,9 +139,9 @@ namespace Sudoku.SolveTechniques
             block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5);
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
             {
-                Assert.IsFalse(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(8));
-                Assert.IsFalse(board.GetHouse(HouseType.Box, 2)[i].Candidates.Contains(9));
-                Assert.AreEqual(block1r2Value, board.GetHouse(HouseType.Box, 2)[i].CandidateValue);
+                Assert.IsFalse(board.GetHouse(EHouseType.Box, 2)[i].Candidates.Contains(8));
+                Assert.IsFalse(board.GetHouse(EHouseType.Box, 2)[i].Candidates.Contains(9));
+                Assert.AreEqual(block1r2Value, board.GetHouse(EHouseType.Box, 2)[i].CandidateValue);
             }
         }
     }

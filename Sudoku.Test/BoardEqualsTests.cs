@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sudoku.Test
 {
     [TestClass]
-    public class BoardEqualsTest
+    public class BoardEqualsTests
     {
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;

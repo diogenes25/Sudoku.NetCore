@@ -12,7 +12,7 @@
     /// to contain all BoardTest Unit Tests
     ///</summary>
     [TestClass]
-    public class BoardTest
+    public class BoardTests
     {
         private static ASolveTechnique<Cell>[] _solveTechniques;
         private IBoard<Cell> _board;
@@ -102,11 +102,11 @@
             Assert.AreEqual(expected.Length, actual.Length);
             for (var i = 0; i < Consts.COUNTCELL; i++)
             {
-                var c = Cell.CreateCellFromUniqueID(actual[i]);
-                Assert.AreEqual(_board[i].CandidateValue, c.CandidateValue);
-                Assert.AreEqual(i, c.ID);
+                var cellFromUniqueID = Cell.CreateCellFromUniqueID(actual[i]);
+                Assert.AreEqual(_board[i].CandidateValue, cellFromUniqueID.CandidateValue);
+                Assert.AreEqual(i, cellFromUniqueID.ID);
                 Assert.AreEqual(_board[i].Digit, expected[i]);
-                Assert.AreEqual(_board[i].Digit, c.Digit);
+                Assert.AreEqual(_board[i].Digit, cellFromUniqueID.Digit);
             }
 
             var recreatedBoard = new Board(actual);
@@ -140,7 +140,7 @@
         [TestMethod]
         public void GetHouse_House_Col_Test()
         {
-            var houseType = HouseType.Col;
+            var houseType = EHouseType.Col;
             IHouse<Cell> actual;
             for (var idx = 0; idx < Consts.DIMENSIONSQUARE; idx++)
             {
@@ -160,7 +160,7 @@
         [TestMethod]
         public void GetHouse_House_Row_Test()
         {
-            var houseType = HouseType.Row;
+            var houseType = EHouseType.Row;
             IHouse<Cell> actual;
             for (var idx = 0; idx < Consts.DIMENSIONSQUARE; idx++)
             {
