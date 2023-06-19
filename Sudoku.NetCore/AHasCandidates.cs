@@ -9,13 +9,12 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// protected candidateValue to set value without NotifyPropertyChanged-Event.
         /// </summary>
-        internal int _candidateValueInternal;
+        internal int _candidateValueInternal = Consts.BASESTART;
 
         protected AHasCandidates(int id, EHouseType ht)
         {
             ID = id;
             HType = ht;
-            Clear();
         }
 
         /// <summary>
@@ -48,18 +47,10 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <inheritdoc />
-        public EHouseType HType
-        {
-            get;
-            private set;
-        }
+        public EHouseType HType { get; private set; }
 
         /// <inheritdoc />
-        public int ID
-        {
-            get;
-            private set;
-        }
+        public int ID { get; private set; }
 
         /// <summary>
         /// Set the candidates to all possible Numbers

@@ -437,7 +437,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetUniqueID_Test()
         {
             var target = new Cell(0);
@@ -494,7 +494,7 @@ namespace DE.Onnen.Sudoku
             return bitArray;
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ClearTest()
         {
             var cell = new Cell(0)
@@ -508,7 +508,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreEqual(Consts.BASESTART, cell.CandidateValue, "Cell was cleared and every candidate must be available");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetHashCodeTest()
         {
             var cell = new Cell(0)
@@ -538,7 +538,7 @@ namespace DE.Onnen.Sudoku
             Assert.AreNotEqual(actual, actual2);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void RemoveCandidateTest()
         {
             var target = new Cell(0);
