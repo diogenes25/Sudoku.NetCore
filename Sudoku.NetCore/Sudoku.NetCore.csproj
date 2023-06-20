@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <ApplicationIcon>brain.ico</ApplicationIcon>
     <StartupObject />
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/diogenes25/Sudoku.NetCore.git</RepositoryUrl>
@@ -11,6 +10,18 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Sudoku Solver</Title>
+    <Authors>Tjark Onnen</Authors>
+    <PackageIcon>SudokuIcon.png</PackageIcon>
+    <PackageProjectUrl>https://diogenes25.github.io/Sudoku.NetCore/</PackageProjectUrl>
+    <Copyright>Apache License 2.0</Copyright>
+    <Description>Sudoku puzzle solver.</Description>
+    <PackageTags>sudoku; puzzle</PackageTags>
+    <PackageReleaseNotes>Init</PackageReleaseNotes>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Version>1.0.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,11 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="brain.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\SudokuIcon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

@@ -3,8 +3,9 @@ using System.Linq;
 
 namespace DE.Onnen.Sudoku
 {
+    /// <inheritdoc />
     public class House<C> : AHasCandidates, IHouse<C>
-    where C : ICell
+       where C : ICell
     {
         private readonly C[] _cells;
 
@@ -18,25 +19,50 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        /// <summary>
+        /// Number of Cells.
+        /// </summary>
         public int Count => _cells.Length;
 
         /// <summary>
-        /// true = some cells
+        /// true = some cells inside this house where been changed and another solve-routine should be done.
         /// </summary>
         internal bool ReCheck { set; get; }
 
+        /// <summary>
+        /// Cell[index] of this house.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>A spezific cell</returns>
         C ICellCollection<C>.this[int index] => _cells[index];
 
+        /// <summary>
+        /// Cell[index] of this house.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>A spezific cell</returns>
         public ICell this[int index] => _cells[index];
 
+        /// <summary>
+        /// Enumerator of the house.
+        /// </summary>
+        /// <returns>IEnumerator<ICell> of the cell of the house.</ICell></returns>
         public IEnumerator<ICell> GetEnumerator() => _cells.Select(x => (ICell)x).GetEnumerator();
 
+        /// <summary>
+        /// Enumerator of the house.
+        /// </summary>
+        /// <returns>IEnumerator<ICell> of the cell of the house.</ICell></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _cells.GetEnumerator();
 
+        /// <summary>
+        /// Enumerator of the house.
+        /// </summary>
+        /// <returns>IEnumerator<ICell> of the cell of the house.</ICell></returns>
         IEnumerator<C> IEnumerable<C>.GetEnumerator() => _cells.ToList().GetEnumerator();
 
         /// <summary>
-        /// Every Cell inside this House has a Digit.
+        /// When every Cell inside this House has a Digit, then this house is 'Complete'.
         /// </summary>
         public bool IsComplete()
         {
@@ -59,13 +85,17 @@ namespace DE.Onnen.Sudoku
             return retval == 0 && checkDigit == Consts.BASESTART;
         }
 
+        /// <summary>
+        /// String of the House.
+        /// </summary>
+        /// <returns>String with Couse-ID and CandidateValue.</returns>
         public override string ToString() => $"{HType} ({ID}) {CandidateValue}";
 
         /// <summary>
         /// A Digit in one of his peers is set.
         /// </summary>
         /// <remarks>
-        /// Check if digit is possible in this house.
+        /// Check if digit is possible in this house and remove this digit as an candidate from the included cells.
         /// </remarks>
         /// <param name="digit"></param>
         /// <param name="sudokuResult"></param>
@@ -79,36 +109,26 @@ namespace DE.Onnen.Sudoku
                 ChangedCellBase = this,
                 Action = ECellAction.SetDigitInt
             };
-            var ok = true;
-            var newBaseValue = Consts.BASESTART;
-            var m = new HashSet<int>();
-            foreach (var cell in _cells)
+            var newCalculatedCandidateValue = Consts.BASESTART;
+            var digitsFoundInHouse = new HashSet<int>();
+            foreach (var cell in _cells.Where(c => c.Digit > 0))
             {
-                if (cell.Digit > 0)
+                if (digitsFoundInHouse.Contains(cell.Digit))
                 {
-                    if (m.Contains(cell.Digit))
-                    {
-                        ok = false;
-                        break;
-                    }
-                    else
-                    {
-                        m.Add(cell.Digit);
-                        newBaseValue -= (1 << (cell.Digit - 1));
-                    }
+                    var resultError = sudokuResult.CreateChildResult();
+                    resultError.EventInfoInResult = sudokuEvent;
+                    resultError.Successful = false;
+                    resultError.ErrorMessage = $"Digit {digit} allready set in another Cell is in CellContainer {HType} {ID}.";
+                    return true;
+                }
+                else
+                {
+                    digitsFoundInHouse.Add(cell.Digit);
+                    newCalculatedCandidateValue -= (1 << (cell.Digit - 1));
                 }
             }
 
-            if (!ok)
-            {
-                var resultError = sudokuResult.CreateChildResult();
-                resultError.EventInfoInResult = sudokuEvent;
-                resultError.Successful = false;
-                resultError.ErrorMessage = "Digit " + digit + " is in CellContainer not possible";
-                return true;
-            }
-
-            _candidateValueInternal = newBaseValue;
+            _candidateValueInternal = newCalculatedCandidateValue;
 
             var result = sudokuResult.CreateChildResult();
             result.EventInfoInResult = new SudokuEvent

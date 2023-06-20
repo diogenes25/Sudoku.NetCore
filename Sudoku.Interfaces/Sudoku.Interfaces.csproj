@@ -2,6 +2,35 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <Authors>Tjark Onnen</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/diogenes25/Sudoku.NetCore/tree/master/Sudoku.Interfaces</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/diogenes25/Sudoku.NetCore.git</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <Version>1.0.1.1</Version>
+    <PackageIcon>SudokuIcon.png</PackageIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\SudokuIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

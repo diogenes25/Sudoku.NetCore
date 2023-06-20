@@ -29,7 +29,7 @@ namespace DE.Onnen.Sudoku
         private const int COL_CONTAINERTYPE = 1;
         private const int ROW_CONTAINERTYPE = 0;
         private readonly House<Cell>[][] _container = new House<Cell>[Consts.DIMENSIONSQUARE][];
-        private List<SudokuHistoryItem> _history;
+        private List<SudokuHistoryItem> _history = new();
         private bool _keepGoingWithChecks;
         private ISolveTechnique<Cell>[]? _solveTechniques;
         private readonly ILogger<Board>? _logger;
@@ -503,7 +503,7 @@ namespace DE.Onnen.Sudoku
                 _cells[i].PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Cell_PropertyChanged);
             }
 
-            _history = new List<SudokuHistoryItem>();
+            _history.Clear();
 
             Cell[][][] fieldcontainer;
             fieldcontainer = new Cell[3][][];

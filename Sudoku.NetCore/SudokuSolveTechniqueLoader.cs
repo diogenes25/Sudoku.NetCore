@@ -8,21 +8,7 @@ namespace DE.Onnen.Sudoku
 {
     public static class SudokuSolveTechniqueLoader<C> where C : ICell
     {
-        public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName)
-        {
-            var solveTechnic = LoadSolveTechnic(fileName);
-            SolveTechniqueInfo info;
-            if (solveTechnic is ISolveTechnique<C>)
-            {
-                info = solveTechnic.Info;
-            }
-            else
-            {
-                throw new NotImplementedException(string.Format(CultureInfo.CurrentCulture, "The type {0} is not implemented in file {1}", typeof(ASolveTechnique<C>), fileName));
-            }
-
-            return info;
-        }
+        public static SolveTechniqueInfo GetSolveTechnicInfo(string fileName) => LoadSolveTechnic(fileName).Info;
 
         public static ISolveTechnique<C> LoadSolveTechnic(string fileName)
         {
@@ -60,7 +46,7 @@ namespace DE.Onnen.Sudoku
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Could not Create or Add SolveTechnique {type.Name}: ", ex);
+                    throw new NotImplementedException($"Could not Create or Add SolveTechnique {type.Name}: ", ex);
                 }
             }
 
@@ -68,8 +54,7 @@ namespace DE.Onnen.Sudoku
             {
                 return result[0];
             }
-
-            return null;
+            throw new NotImplementedException($"Could not Create or Add SolveTechnique {fileName}");
         }
     }
 }

@@ -1,11 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Sudoku Extensions</Title>
+    <Authors>Tjark Onnen</Authors>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <PackageProjectUrl>https://diogenes25.github.io/Sudoku.NetCore/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/diogenes25/Sudoku.NetCore.git</RepositoryUrl>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <Version>1.0.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
