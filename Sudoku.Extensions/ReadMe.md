@@ -44,7 +44,6 @@ I│   │   │   │
 Complete: 7,681755829903977 %
 ```
 
-
 ### MatrixWithCandidates
 
 Create a ASCII-Matrix of the board but shows the candidates as well.

@@ -213,10 +213,20 @@
         [TestMethod]
         public void SetBoard_set_Digit_at_cell_0_Test()
         {
-            IBoard<Cell> otherBoard = new Board();
-            otherBoard.SetDigit(0, 1);
+            _board.SetDigit(cellID: 0, digitToSet: 1);
             Assert.AreEqual(0, _board[0].Digit);
-            ((Board)_board).SetBoard(otherBoard);
+            ((Board)_board).SetBoard(_board);
+            Assert.AreEqual(1, _board[0].Digit);
+        }
+
+        /// <summary>
+        ///A test for SetBoard
+        ///</summary>
+        [TestMethod]
+        public void SetBoard_set_Digit_direct_at_cell_1_Test()
+        {
+            var cell0 = _board[0];
+            cell0.SetDigit(1);
             Assert.AreEqual(1, _board[0].Digit);
         }
 
@@ -404,13 +414,13 @@
                         continue;
                     }
 
-                    var result = board.SetDigit(y, x, Convert.ToInt32(currChar) - 48);
+                    var result = _board.SetDigit(y, x, Convert.ToInt32(currChar) - 48);
                     Assert.IsTrue(result.Successful);
                 }
             }
-            Assert.IsFalse(board.IsComplete());
-            var sudokuResult = board.StartSolve();
-            Assert.IsTrue(board.IsComplete());
+            Assert.IsFalse(_board.IsComplete());
+            var sudokuResult = _board.StartSolve();
+            Assert.IsTrue(_board.IsComplete());
             Assert.IsTrue(sudokuResult.Successful);
         }
 

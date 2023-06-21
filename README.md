@@ -10,11 +10,11 @@
 
 Solves Sudoku.
 
-# Rules
+## Rules
 
 https://en.wikipedia.org/wiki/Sudoku
 
-# Definition
+## Definition
 
 **Board** = contains 81 cells organized in 9 rows, 9 columns and 9 boxes.
 
@@ -30,10 +30,9 @@ https://en.wikipedia.org/wiki/Sudoku
 
 **Candidates** = Possible Digits (up to 9)
 
-
 <img src="SudokuCRC.png">
 
-# Background
+## Background
 
 A Sudoku has 81 cells, where each cell is part of a box, a row and a column.
 At the beginning, each cell can receive a number between 1 and 9. 
@@ -43,4 +42,37 @@ If the reduction of possibilities leaves only one possible number in a cell, col
 
 Besides the simple reduction of the candidates, there are several other strategies that reduce the possibilities even further.
 
+## Example
 
+Start with a simple board.
+
+```csharp
+// create a simple board with 81 cells.
+var board = new Board();
+```
+
+### Set a digit
+
+Set a digit and check the candidates.
+There are several ways to set a digit:
+
+```csharp
+var board = new Board();
+
+// Set digit with cellID.
+board.SetDigit(cellID: 0, digitToSet: 1);
+
+// Set digit 3 on the cell with ID 2:
+// Read cell with ID 2 first
+var cell2 = board[2];
+// Set Digit 3 to this cell
+cell2.SetDigit(3);
+
+// Set digit 4 on the cell with ID 5. Shortversion
+board[4].SetDigit(5);
+
+```
+
+### Read the candidates
+
+At the beginning every cell, box, col or row has 9 candidates

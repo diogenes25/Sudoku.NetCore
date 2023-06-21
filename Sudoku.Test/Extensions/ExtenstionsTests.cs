@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -69,9 +65,9 @@ namespace Sudoku.Test.Extensions
         public void SetDigitTest()
         {
             var board = new Board();
-            board.SetDigit(0, 0, 1);
+            board.SetDigit(row: 0, col: 0, digit: 1);
             Assert.IsTrue(board[0].Digit == 1);
-            board.SetDigit('A', 1, 2);
+            board.SetDigit(row: 'A', col: 1, digit: 2);
             Assert.IsTrue(board[1].Digit == 2);
             board.SetDigit('a', 2, 3);
             Assert.IsTrue(board[2].Digit == 3);
