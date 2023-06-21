@@ -273,6 +273,7 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        /// <inheritdoc/>
         public SudokuLog SetDigit(int cellID, int digitToSet) => SetDigit(cellID, digitToSet, false);
 
         /// <summary>
@@ -370,6 +371,12 @@ namespace DE.Onnen.Sudoku
         {
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();
+            if ((_solveTechniques?.Count).GetValueOrDefault(0) < 0)
+            {
+                sudokuResult.Successful = false;
+                sudokuResult.ErrorMessage = "No SolveTechnique is set";
+                return;
+            }
 
             do
             {
@@ -383,31 +390,28 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-                        if (_solveTechniques != null && _solveTechniques.Count > 0)
+                        foreach (var st in _solveTechniques.Where(t => t.IsActive))
                         {
-                            foreach (var st in _solveTechniques.Where(t => t.IsActive))
+                            if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
                             {
-                                if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
-                                {
-                                    continue;
-                                }
+                                continue;
+                            }
 
-                                try
-                                {
-                                    st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
-                                }
-                                catch (Exception ex)
-                                {
-                                    var log = tmpSudokuResult.CreateChildResult();
-                                    log.ErrorMessage = ex.Message;
-                                    log.Successful = false;
+                            try
+                            {
+                                st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
+                            }
+                            catch (Exception ex)
+                            {
+                                var log = tmpSudokuResult.CreateChildResult();
+                                log.ErrorMessage = ex.Message;
+                                log.Successful = false;
 
-                                    return;
-                                }
-                                if (!tmpSudokuResult.Successful)
-                                {
-                                    return;
-                                }
+                                return;
+                            }
+                            if (!tmpSudokuResult.Successful)
+                            {
+                                return;
                             }
                         }
                         _container[containerIdx][containerType].ReCheck = false;

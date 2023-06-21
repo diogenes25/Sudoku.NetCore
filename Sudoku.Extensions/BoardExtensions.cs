@@ -112,9 +112,12 @@ namespace DE.Onnen.Sudoku.Extensions
                                 {
                                     sb.Append((char)(++i + 64));
                                 }
-                                else { sb.Append(" "); }
+                                else
+                                {
+                                    sb.Append(' ');
+                                }
                             }
-                            sb.Append("│");
+                            sb.Append('│');
                             for (int partX = 0, maxpartX = (Consts.DIMENSION); partX < maxpartX; partX++)
                             {
                                 for (int part = 0, maxpart = (Consts.DIMENSION); part < maxpart; part++)
@@ -277,20 +280,21 @@ namespace DE.Onnen.Sudoku.Extensions
                     {
                         if (board[id].Digit > 0)
                         {
-                            sb.Append(board[id].Digit.ToString());
+                            sb.Append(board[id].Digit);
                         }
                         else
                         {
                             if (candidatesAsLink)
                             {
-                                sb.Append("[");
+                                sb.Append('[');
                                 foreach (var candidate in board[id].Candidates)
                                 {
-                                    var query = boardAsString.Substring(0, id) + candidate + boardAsString.Substring(id + 1);
+                                    var query = boardAsString[..id] + candidate + boardAsString[(id + 1)..];
                                     var link = $"<a href=\"?board={query}\">{candidate}</a>";
                                     sb.Append(link);
                                 }
-                                sb.Append("]" + board[id].CandidateValue);
+                                sb.Append(']');
+                                sb.Append(board[id].CandidateValue);
                             }
                             else
                             {

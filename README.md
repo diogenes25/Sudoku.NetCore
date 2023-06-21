@@ -26,9 +26,15 @@ The following solving strategies are already implemented and can be reloaded:
 
 Regardless of the solution strategies, backtracking (brute-force) is implemented.
 
-## Rules
+## Background
 
-https://en.wikipedia.org/wiki/Sudoku
+A Sudoku has 81 cells, where each cell is part of a box, a row and a column.
+At the beginning, each cell can receive a number between 1 and 9. 
+After a cell has received a digit, this possible value is reduced for each cell that is also in the same box, column and row as the corresponding cell.
+
+If the reduction of possibilities leaves only one possible number in a cell, column or row, this remaining number is set and thus starts a further reduction of possibilities for the affected cells.
+
+But there are several other strategies that reduce the possibilities even further.
 
 ## Definition
 
@@ -48,19 +54,7 @@ https://en.wikipedia.org/wiki/Sudoku
 
 <img src="SudokuCRC.png">
 
-## Background
-
-A Sudoku has 81 cells, where each cell is part of a box, a row and a column.
-At the beginning, each cell can receive a number between 1 and 9. 
-After a cell has received a digit, this possible value is reduced for each cell that is also in the same box, column and row as the corresponding cell.
-
-If the reduction of possibilities leaves only one possible number in a cell, column or row, this remaining number is set and thus starts a further reduction of possibilities for the affected cells.
-
-
-
-But there are several other strategies that reduce the possibilities even further.
-
-## Example
+## How To
 
 Start with a simple board.
 
@@ -131,3 +125,33 @@ Candidates from first box (Upper Left) where Cell 1 is part of => 2,3,4,5,6,7,8,
 ```
 
 You see that the cadidate 1 is removed in Cell:0 after the digit 1 was set in Cell:1
+
+## Extensions
+
+```csharp
+using DE.Onnen.Sudoku.Extensions;
+```
+
+### Set a whole Board at once
+
+Use a string
+
+```csharp
+using DE.Onnen.Sudoku;
+using DE.Onnen.Sudoku.Extensions;
+
+// Create Sudoku-Board
+var board = new Board();
+
+// Load a whole board from string
+board.SetCellsFromString("100000000000000000000000000000000000000000000000000000000000000000000000000000009");
+Console.WriteLine($"Digit of Cell0 (first Cell): {board.First().Digit}");
+Console.WriteLine($"Digit of Cell80 (last Cell): {board.Last().Digit}");
+```
+
+**Output**
+
+```console
+Digit of Cell0 (first Cell): 1
+Digit of Cell80 (last Cell): 9
+```
