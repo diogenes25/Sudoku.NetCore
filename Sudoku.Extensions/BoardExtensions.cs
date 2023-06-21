@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -37,7 +38,7 @@ namespace DE.Onnen.Sudoku.Extensions
         /// </remarks>
         /// <param name="board"></param>
         /// <param name="onlyGiven"></param>
-        /// <returns></returns>
+        /// <returns>ASCII-Art of the board.</returns>
         public static string Matrix<C>(this IBoard<C> board, bool onlyGiven)
         where C : ICell
         {
@@ -92,9 +93,11 @@ namespace DE.Onnen.Sudoku.Extensions
         {
             var sb = new StringBuilder();
             var lineID = 0;
+            sb.AppendLine("   1   2   3    4   5   6    7   8   9");
+            var i = 0;
             for (var boxX = 0; boxX < 3; boxX++)
             {
-                sb.Append("┌───┬───┬───┐┌───┬───┬───┐┌───┬───┬───┐");
+                sb.Append(" ┌───┬───┬───┐┌───┬───┬───┐┌───┬───┬───┐");
                 sb.Append(Environment.NewLine);
                 for (var boxY = 0; boxY < 3; boxY++)
                 {
@@ -103,7 +106,15 @@ namespace DE.Onnen.Sudoku.Extensions
                     {
                         for (int line = 0, maxline = (Consts.DIMENSION); line < maxline; line++)
                         {
-                            sb.Append('│');
+                            if (line == 0)
+                            {
+                                if (l == 1)
+                                {
+                                    sb.Append((char)(++i + 64));
+                                }
+                                else { sb.Append(" "); }
+                            }
+                            sb.Append("│");
                             for (int partX = 0, maxpartX = (Consts.DIMENSION); partX < maxpartX; partX++)
                             {
                                 for (int part = 0, maxpart = (Consts.DIMENSION); part < maxpart; part++)
@@ -130,12 +141,12 @@ namespace DE.Onnen.Sudoku.Extensions
                     lineID++;
                     if (boxY < 2)
                     {
-                        sb.Append("├───┼───┼───┤├───┼───┼───┤├───┼───┼───┤");
+                        sb.Append(" ├───┼───┼───┤├───┼───┼───┤├───┼───┼───┤");
                         sb.Append(Environment.NewLine);
                     }
                     else
                     {
-                        sb.Append("└───┴───┴───┘└───┴───┴───┘└───┴───┴───┘");
+                        sb.Append(" └───┴───┴───┘└───┴───┴───┘└───┴───┴───┘");
                         sb.Append(Environment.NewLine);
                     }
                 }
@@ -148,17 +159,24 @@ namespace DE.Onnen.Sudoku.Extensions
             return sb.ToString();
         }
 
-        public static void SetCellsFromString<C>(this IBoard<C> board, string line)
+        /// <summary>
+        /// Load a board from string.
+        /// </summary>
+        /// <remarks>A line of 81 chars/digits</remarks>
+        /// <typeparam name="C"></typeparam>
+        /// <param name="board"></param>
+        /// <param name="line"></param>
+        public static void SetCellsFromString<C>(this IBoard<C> board, [NotNull] string line)
                                 where C : ICell => SetCellsFromString(board, line, '0');
 
-        public static void SetCellsFromString<C>(this IBoard<C> board, string line, char zero)
+        public static void SetCellsFromString<C>(this IBoard<C> board, [NotNull] string line, char zero)
         where C : ICell
         {
             board.Clear();
             var max = Consts.COUNTCELL;
             if (line.Length < max)
             {
-                throw new ArgumentOutOfRangeException("string is to short");
+                throw new ArgumentOutOfRangeException($"string is to short. Is {line.Length} but must be {max} in: {nameof(SetCellsFromString)}");
             }
 
             for (var x = 0; x < max; x++)

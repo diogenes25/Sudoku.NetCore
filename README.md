@@ -7,21 +7,16 @@
 [![CodeQL](https://github.com/diogenes25/Sudoku.NetCore/actions/workflows/codeql.yml/badge.svg)](https://github.com/diogenes25/Sudoku.NetCore/actions/workflows/codeql.yml)
 
 ## Dot.Net Core implementation of a Sudoku-Solver
-The Sudoku solver works on the principle of excluding the possible numbers (candidates) per cell.
-Since a number may occur only once per cell, column and row, when a number is defined in the cell, this number is deleted as a possible number (candidate) in the cells of the corresponding columns and rows.
 
-If finally only one possible number remains in a cell, column or row, this remaining number is set and thus another check is started.
+Solves Sudoku.
 
-Besides the simple reduction of the possibilities, there are several other strategies that reduce the possibilities even further.
+# Rules
 
-## Rules
 https://en.wikipedia.org/wiki/Sudoku
 
-## Definition
-**Board**
-**Digit** = One given Number (1 to 9) in a Cell
+# Definition
 
-**Candidates** = Possible Digits (up to 9)
+**Board** = contains 81 cells organized in 9 rows, 9 columns and 9 boxes.
 
 **Cell** = Has one digit or 1 to 9 candidates
 
@@ -30,3 +25,22 @@ https://en.wikipedia.org/wiki/Sudoku
 **Row** = 9 cells in a row
 
 **Column** = 9 cells in a column
+
+**Digit** = One given Number (1 to 9) in a Cell
+
+**Candidates** = Possible Digits (up to 9)
+
+
+<img src="SudokuCRC.png">
+
+# Background
+
+A Sudoku has 81 cells, where each cell is part of a box, a row and a column.
+At the beginning, each cell can receive a number between 1 and 9. 
+After a cell has received a digit, this possible value is reduced for each cell that is also in the same box, column and row as the corresponding cell.
+
+If the reduction of possibilities leaves only one possible number in a cell, column or row, this remaining number is set and thus starts a further reduction of possibilities for the affected cells.
+
+Besides the simple reduction of the candidates, there are several other strategies that reduce the possibilities even further.
+
+
