@@ -12,7 +12,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Backtracking_solve_without_any_digit_and_LockedCandidates_Test()
         {
-            var target = new Board(new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>());
+            var target = new Board().AddSolveTechnique(new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>());
             var log = target.Backtracking();
             Assert.IsTrue(log.Successful);
             Assert.IsTrue(target.IsComplete());

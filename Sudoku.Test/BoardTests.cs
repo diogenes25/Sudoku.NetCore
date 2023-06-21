@@ -232,6 +232,9 @@
             var cell0 = _board[0];
             cell0.SetDigit(1);
             Assert.AreEqual(1, _board[0].Digit);
+
+            _board[1].Digit = 2;
+            Assert.AreEqual(2, _board[1].Digit);
         }
 
         /// <summary>

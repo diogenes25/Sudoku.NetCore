@@ -24,7 +24,10 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void TestHardestData_Test()
         {
-            var board = new Board(new SolveTechniques.HiddenPairTripleQuad<Cell>(), new SolveTechniques.LockedCandidates<Cell>(), new SolveTechniques.NakedPairTrippleQuad<Cell>());
+            var board = new Board()
+                .AddSolveTechnique(new SolveTechniques.HiddenPairTripleQuad<Cell>())
+                .AddSolveTechnique(new SolveTechniques.LockedCandidates<Cell>())
+                .AddSolveTechnique(new SolveTechniques.NakedPairTrippleQuad<Cell>());
             var source = TestResource.top95; // 95 hard Sudokus for Testing
             var i = 0;
             for (i = 0; i < 2; i++)

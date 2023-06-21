@@ -31,7 +31,7 @@ namespace DE.Onnen.Sudoku
         private readonly House<Cell>[][] _container = new House<Cell>[Consts.DIMENSIONSQUARE][];
         private readonly List<SudokuHistoryItem> _history = new();
         private bool _keepGoingWithChecks;
-        private ISolveTechnique<Cell>[]? _solveTechniques;
+        private List<ISolveTechnique<Cell>>? _solveTechniques;
         private readonly ILogger<Board>? _logger;
 
         public Board()
@@ -52,9 +52,9 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(IEnumerable<ASolveTechnique<Cell>> solveTechniques, ILogger<Board> logger)
+        public Board(IEnumerable<ISolveTechnique<Cell>> solveTechniques, ILogger<Board> logger)
         {
-            _solveTechniques = solveTechniques.ToArray();
+            _solveTechniques = solveTechniques.ToList();
             _logger = logger;
             Init();
         }
@@ -65,15 +65,15 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board([NotNull] params ISolveTechnique<Cell>[] solveTechniques)
+        public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques)
         {
-            _solveTechniques = solveTechniques;
+            _solveTechniques = solveTechniques?.ToList();
             Init();
         }
 
-        public Board([NotNull] IEnumerable<int> uniqueCellIDs, params ISolveTechnique<Cell>[] solveTechniques)
+        public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null)
         {
-            _solveTechniques = solveTechniques;
+            _solveTechniques = solveTechniques?.ToList();
             Init();
             FillBoardWithUniqueCellIDs(uniqueCellIDs);
         }
@@ -383,7 +383,7 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-                        if (_solveTechniques != null && _solveTechniques.Length > 0)
+                        if (_solveTechniques != null && _solveTechniques.Count > 0)
                         {
                             foreach (var st in _solveTechniques.Where(t => t.IsActive))
                             {
@@ -548,27 +548,33 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        public Board AddSolveTechnique(ISolveTechnique<Cell> solveTechnique)
+        {
+            _solveTechniques ??= new List<ISolveTechnique<Cell>>();
+            _solveTechniques.Add(solveTechnique);
+            return this;
+        }
+
         private void LoadSolveTechnics(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                _logger.LogWarning("LoadSolveTechnics: filePath is not set.");
+                _logger?.LogWarning("LoadSolveTechnics: filePath is not set.");
                 return;
             }
 
             var files = Directory.GetFiles(filePath, "*.dll");
             if (files.Length < 1)
             {
-                _logger.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
+                _logger?.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
                 return;
             }
 
-            _solveTechniques = new ASolveTechnique<Cell>[files.Length];
-            var fileCount = 0;
+            _solveTechniques = new List<ISolveTechnique<Cell>>(files.Length);
             foreach (var file in files)
             {
                 var st = SudokuSolveTechniqueLoader<Cell>.LoadSolveTechnic(file);
-                _solveTechniques[fileCount++] = st;
+                _solveTechniques.Add(st);
             }
         }
     }

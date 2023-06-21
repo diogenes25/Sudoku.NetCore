@@ -8,7 +8,23 @@
 
 ## Dot.Net Core implementation of a Sudoku-Solver
 
-Solves Sudoku.
+Library for solving a Sudoku puzzle.
+
+The solution process can be extended by own solution techniques.
+
+The two solving strategies ***"Hidden Single"*** and ***"Naked Single"*** are already implemented.
+
+The following solving strategies are already implemented and can be reloaded:
+
+- Locked Candidates 
+- Naked Pair
+- Naked Triple
+- Naked Quad
+- Hidden Pair
+- Hidden Triple
+- Hidden Quad
+
+Regardless of the solution strategies, backtracking (brute-force) is implemented.
 
 ## Rules
 
@@ -40,7 +56,9 @@ After a cell has received a digit, this possible value is reduced for each cell 
 
 If the reduction of possibilities leaves only one possible number in a cell, column or row, this remaining number is set and thus starts a further reduction of possibilities for the affected cells.
 
-Besides the simple reduction of the candidates, there are several other strategies that reduce the possibilities even further.
+
+
+But there are several other strategies that reduce the possibilities even further.
 
 ## Example
 
@@ -58,6 +76,8 @@ var board = new Board();
 There are several ways to set a digit in a cell:
 
 ```csharp
+using DE.Onnen.Sudoku;
+
 var board = new Board();
 
 // Set digit with cellID.
@@ -69,7 +89,7 @@ var cell2 = board[2];
 // Set Digit 3 to this cell
 cell2.SetDigit(3);
 
-// Set digit 4 on the cell with ID 5. Shortversion
+// Set digit 5 on the cell with ID 4. Shortversion
 board[4].SetDigit(5);
 
 ```
@@ -78,7 +98,13 @@ board[4].SetDigit(5);
 
 At the beginning every cell, box, col or row has 9 candidates
 
+**Example:**
+
 ```csharp
+using DE.Onnen.Sudoku;
+
+var board = new Board();
+
 // Read the candidates (collection of int) from cell 0
 var candidatesFromCell0 = board[0].Candidates;
 Console.Write("Candidates from Cell:0 => ");
@@ -96,13 +122,12 @@ Console.Write("Candidates from first box (Upper Left) where Cell 1 is part of =>
 Console.WriteLine(String.Join(",", boxUpperLeft.Candidates));
 ```
 
-Output:
+**Output:**
 
-```csharp
+```console
 Candidates from Cell:0 => 1,2,3,4,5,6,7,8,9
 Candidates from Cell:0 after Cell:1 got digit 1 => 2,3,4,5,6,7,8,9
 Candidates from first box (Upper Left) where Cell 1 is part of => 2,3,4,5,6,7,8,9
 ```
 
-
-
+You see that the cadidate 1 is removed in Cell:0 after the digit 1 was set in Cell:1
