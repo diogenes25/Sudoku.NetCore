@@ -213,10 +213,14 @@
         [TestMethod]
         public void SetBoard_set_Digit_at_cell_0_Test()
         {
-            _board.SetDigit(cellID: 0, digitToSet: 1);
+            var otherBoard = new Board();
+            otherBoard.SetDigit(cellID: 0, digitToSet: 1);
+            var hash = otherBoard.GetHashCode();
             Assert.AreEqual(0, _board[0].Digit);
-            ((Board)_board).SetBoard(_board);
+            Assert.AreNotEqual(hash, _board.GetHashCode());
+            ((Board)_board).SetBoard(otherBoard);
             Assert.AreEqual(1, _board[0].Digit);
+            Assert.AreEqual(hash, _board.GetHashCode());
         }
 
         /// <summary>
@@ -390,7 +394,6 @@
         [TestMethod]
         public void Solve_Sudoku_solved_with_3_solvetechniques_and_without_backtracking_Test()
         {
-            var board = new Board(_solveTechniques);
             var simpleSudoku = @"030050040
 008010500
 460000012

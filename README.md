@@ -47,14 +47,15 @@ Besides the simple reduction of the candidates, there are several other strategi
 Start with a simple board.
 
 ```csharp
+using DE.Onnen.Sudoku;
+
 // create a simple board with 81 cells.
 var board = new Board();
 ```
 
 ### Set a digit
 
-Set a digit and check the candidates.
-There are several ways to set a digit:
+There are several ways to set a digit in a cell:
 
 ```csharp
 var board = new Board();
@@ -76,3 +77,32 @@ board[4].SetDigit(5);
 ### Read the candidates
 
 At the beginning every cell, box, col or row has 9 candidates
+
+```csharp
+// Read the candidates (collection of int) from cell 0
+var candidatesFromCell0 = board[0].Candidates;
+Console.Write("Candidates from Cell:0 => ");
+Console.WriteLine(String.Join(",", candidatesFromCell0));
+
+// Set digit in cell 1 (right beside cell 0)
+board[1].SetDigit(1);
+candidatesFromCell0 = board[0].Candidates;
+Console.Write("Candidates from Cell:0 after Cell:1 got digit 1 => ");
+Console.WriteLine(String.Join(",", candidatesFromCell0));
+
+// Check candidates from first box.
+var boxUpperLeft = board.GetHouse(EHouseType.Box, 0);
+Console.Write("Candidates from first box (Upper Left) where Cell 1 is part of => ");
+Console.WriteLine(String.Join(",", boxUpperLeft.Candidates));
+```
+
+Output:
+
+```csharp
+Candidates from Cell:0 => 1,2,3,4,5,6,7,8,9
+Candidates from Cell:0 after Cell:1 got digit 1 => 2,3,4,5,6,7,8,9
+Candidates from first box (Upper Left) where Cell 1 is part of => 2,3,4,5,6,7,8,9
+```
+
+
+
