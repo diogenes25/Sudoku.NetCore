@@ -355,7 +355,6 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
-        /// <param name="sudokuResult">Log</param>
         public SudokuLog StartSolve()
         {
             var initSudokuLog = new SudokuLog();
@@ -369,14 +368,15 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">Log</param>
         private void Solve(SudokuLog sudokuResult)
         {
-            var tmpSudokuResult = sudokuResult;
-            tmpSudokuResult ??= new SudokuLog();
-            if ((_solveTechniques?.Count).GetValueOrDefault(0) < 0)
+            if(_solveTechniques is null || _solveTechniques.Count<1)
             {
                 sudokuResult.Successful = false;
                 sudokuResult.ErrorMessage = "No SolveTechnique is set";
                 return;
             }
+
+            var tmpSudokuResult = sudokuResult;
+            tmpSudokuResult ??= new SudokuLog();           
 
             do
             {
