@@ -1,5 +1,4 @@
-﻿using System;
-using DE.Onnen.Sudoku;
+﻿using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

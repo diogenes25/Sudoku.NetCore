@@ -368,7 +368,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">Log</param>
         private void Solve(SudokuLog sudokuResult)
         {
-            if(_solveTechniques is null || _solveTechniques.Count<1)
+            if (_solveTechniques is null || _solveTechniques.Count < 1)
             {
                 sudokuResult.Successful = false;
                 sudokuResult.ErrorMessage = "No SolveTechnique is set";
@@ -376,7 +376,7 @@ namespace DE.Onnen.Sudoku
             }
 
             var tmpSudokuResult = sudokuResult;
-            tmpSudokuResult ??= new SudokuLog();           
+            tmpSudokuResult ??= new SudokuLog();
 
             do
             {

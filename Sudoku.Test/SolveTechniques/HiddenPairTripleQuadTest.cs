@@ -1,5 +1,4 @@
-﻿using System;
-using DE.Onnen.Sudoku;
+﻿using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +36,6 @@ namespace Sudoku.SolveTechniques
                 new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>()
             };
 
-
         /// <summary>
         /// Cell[0] and Cell[1] must have ONLY candidate 7 and 8.
         /// </summary>
@@ -57,7 +55,7 @@ namespace Sudoku.SolveTechniques
         public void HiddenPairTripleQuadTest_in_Row_Test()
         {
             IBoard<Cell> board = new Board();
-            
+
             board.SetCellsFromString("000000000000000078000780000007000000008000000000000000000000000000000000000000000");
             Assert.IsTrue(board[0].Candidates.Contains(1));
             Assert.IsTrue(board[1].Candidates.Contains(1));
@@ -71,16 +69,37 @@ namespace Sudoku.SolveTechniques
             Assert.AreEqual(9, board[0].Candidates.Count);
             Assert.AreEqual(9, board[1].Candidates.Count);
 
-            //Console.WriteLine(board.MatrixWithCandidates());
+            // System.Console.WriteLine(board.MatrixWithCandidates());
             var hidden = new HiddenPairTripleQuad<Cell>();
 
             // Check Box:0
             hidden.SolveHouse(board, board.GetHouse(EHouseType.Box, 0), new SudokuLog());
-            //Console.WriteLine(board.MatrixWithCandidates());
+            // System.Console.WriteLine(board.MatrixWithCandidates());
             Assert.IsFalse(board[0].Candidates.Contains(1));
             Assert.IsFalse(board[1].Candidates.Contains(1));
             Assert.AreEqual(2, board[0].Candidates.Count, "Cell[0].Candidates must be reduced to 7 and 8");
             Assert.AreEqual(2, board[1].Candidates.Count, "Cell[1].Candidates must be reduced to 7 and 8");
+        }
+
+        [TestMethod]
+        public void Doc()
+        {
+            var board = new Board();
+
+            board.SetCellsFromString("000000000000000078000780000007000000008000000000000000000000000000000000000000000");
+            // Show init Board
+            System.Console.WriteLine("Given Board with candidates:");
+            System.Console.WriteLine(board.MatrixWithCandidates());
+
+            // Create solvetechnique
+            var hidden = new HiddenPairTripleQuad<Cell>();
+
+            // Start Solve with first row.
+            hidden.SolveHouse(board, board.GetHouse(EHouseType.Box, 0), new SudokuLog());
+
+            // Init Board
+            System.Console.WriteLine("Board with candidates 7 and 8 left");
+            System.Console.WriteLine(board.MatrixWithCandidates());
         }
     }
 }

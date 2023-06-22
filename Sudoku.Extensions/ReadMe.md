@@ -1,14 +1,13 @@
 ﻿# Sudoku Extensions
 
-Extension for the [Sudoku-Board](/)
-
-Extension for the [Sudoku.NetCore](Sudoku.NetCore)
-
+Extension for the [Sudoku.NetCore](../README.md)
 
 ## Matrix
+
 Create a ASCII-Matrix of the board.
 
 Example:
+
 ```csharp
 using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
@@ -28,6 +27,7 @@ Console.WriteLine(outp);
 ```
 
 Output:
+
 ```ascii
   123 456 789
  ┌───┬───┬───┐
@@ -51,6 +51,7 @@ Complete: 7,681755829903977 %
 Create a ASCII-Matrix of the board but shows the candidates as well.
 
 Example:
+
 ```csharp
 using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
@@ -70,6 +71,7 @@ Console.WriteLine(outp);
 ```
 
 Output:
+
 ```ascii
    1   2   3    4   5   6    7   8   9
  ┌───┬───┬───┐┌───┬───┬───┐┌───┬───┬───┐
@@ -114,7 +116,7 @@ I│456│456│456││456│456│456││456│456│456│
 Complete: 7,681755829903977 %
 ```
 
----
+***
 
 ## Set a whole Board at once
 
