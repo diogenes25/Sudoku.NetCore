@@ -35,7 +35,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// Defines whether this solution technique is performed only once per solution-run (ECellView.GlobalView),
         /// or for each house (ECellView.OnlyHouse).
         /// </remarks>
-        ECellView CellView { get; }
+        //ECellView CellView { get; }
 
         /// <summary>
         /// Gets solveTechniqueInfo that describes the technique.
@@ -64,5 +64,12 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <param name="house">a specific house (box, row or column)</param>
         /// <param name="sudokuResult">Log-info to return the action that where made during the solve process.</param>
         void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
+
+        /// <summary>
+        /// This method is called until no more changes where made. Here, the activities are carried out according to the solution technique.
+        /// </summary>
+        /// <param name="board">The whole board</param>
+        /// <param name="sudokuResult">Log-info to return the action that where made during the solve process.</param>
+        void SolveBoard(IBoard<C> board, SudokuLog sudokuResult);
     }
 }

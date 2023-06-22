@@ -4,7 +4,7 @@
     {
         public LockedCandidates() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
 
-        public override ECellView CellView => ECellView.GlobalView;
+        public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult) { }
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {

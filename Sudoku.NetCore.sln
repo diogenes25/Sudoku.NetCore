@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.AzureFunction", "Sud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Generator", "Sudoku.Generator\Sudoku.Generator.csproj", "{79243243-E836-4E6A-B0E8-C83FEECC5494}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolveTechniques", "SolveTechniques", "{ADED9D01-AC17-4AD9-B736-470CEC54BF6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.KillerSudoku", "Sudoku.KillerSudoku\Sudoku.KillerSudoku.csproj", "{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,9 +125,23 @@ Global
 		{79243243-E836-4E6A-B0E8-C83FEECC5494}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79243243-E836-4E6A-B0E8-C83FEECC5494}.Release|x64.ActiveCfg = Release|Any CPU
 		{79243243-E836-4E6A-B0E8-C83FEECC5494}.Release|x64.Build.0 = Release|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCFBA0A6-75B8-4867-B28B-B4EDB4E36FE5} = {ADED9D01-AC17-4AD9-B736-470CEC54BF6E}
+		{31450962-FDA4-4A32-BAF6-6A3FF3194C33} = {ADED9D01-AC17-4AD9-B736-470CEC54BF6E}
+		{D788988C-F1EA-48D5-8AFA-045FEC95A137} = {ADED9D01-AC17-4AD9-B736-470CEC54BF6E}
+		{C5A3BE4C-75C5-4DA5-AC15-4F46307A649A} = {ADED9D01-AC17-4AD9-B736-470CEC54BF6E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0EE9A4A4-1C61-45A1-B818-F0B995067EC1}

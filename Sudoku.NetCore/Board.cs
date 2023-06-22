@@ -381,6 +381,26 @@ namespace DE.Onnen.Sudoku
             do
             {
                 _keepGoingWithChecks = false;
+                foreach (var st in _solveTechniques.Where(t => t.IsActive))
+                {
+                    try
+                    {
+                        st.SolveBoard(this, tmpSudokuResult);
+                    }
+                    catch (Exception ex)
+                    {
+                        var log = tmpSudokuResult.CreateChildResult();
+                        log.ErrorMessage = ex.Message;
+                        log.Successful = false;
+
+                        return;
+                    }
+                    if (!tmpSudokuResult.Successful)
+                    {
+                        return;
+                    }
+                }
+
                 for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
                 {
                     for (var containerType = 0; containerType < 3; containerType++)
@@ -392,7 +412,7 @@ namespace DE.Onnen.Sudoku
 
                         foreach (var st in _solveTechniques.Where(t => t.IsActive))
                         {
-                            if (!_container[containerIdx][containerType].ReCheck && st.CellView == ECellView.OnlyHouse)
+                            if (!_container[containerIdx][containerType].ReCheck) //&& st.CellView == ECellView.OnlyHouse)
                             {
                                 continue;
                             }

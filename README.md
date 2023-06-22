@@ -16,13 +16,13 @@ The two solving strategies ***"Hidden Single"*** and ***"Naked Single"*** are al
 
 The following solution strategies are already programmed and can be reloaded:
 
-- Locked Candidates 
-- Naked Pair
-- Naked Triple
-- Naked Quad
-- Hidden Pair
-- Hidden Triple
-- Hidden Quad
+  - Locked Candidates
+  - Naked Pair
+  - Naked Triple
+  - Naked Quad
+  - Hidden Pair
+  - Hidden Triple
+  - Hidden Quad
 
 Regardless of the solution strategies, backtracking (brute-force) is implemented.
 

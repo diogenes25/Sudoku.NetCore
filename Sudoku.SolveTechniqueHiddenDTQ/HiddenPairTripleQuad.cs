@@ -17,7 +17,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     {
         public HiddenPairTripleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Hidden TwinTripleQuad", descr: "This technique is very similar to naked subsets, but instead of affecting other cells with the same row, column or block, candidates are eliminated from the cells that hold the subset. If there are N cells, with N candidates between them that don't appear elsewhere in the same row, column or block, then any other candidates for those cells can be eliminated.");
 
-        public override ECellView CellView => ECellView.OnlyHouse;
+        public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult) { }
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
