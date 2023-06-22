@@ -130,7 +130,7 @@ You see that the cadidate 1 is removed in Cell:0 after the digit 1 was set in Ce
 
 ## Load a whole board with Extensions
 
-[Extension](../Sudoku.Extensions/ReadMe.md)
+[Extension](tree/master/Sudoku.Extensions)
 
 ```csharp
 using DE.Onnen.Sudoku.Extensions;
