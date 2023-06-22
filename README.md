@@ -14,7 +14,7 @@ The solution process can be extended by own solution techniques.
 
 The two solving strategies ***"Hidden Single"*** and ***"Naked Single"*** are already implemented.
 
-The following solving strategies are already implemented and can be reloaded:
+The following solution strategies are already programmed and can be reloaded:
 
 - Locked Candidates 
 - Naked Pair
@@ -66,6 +66,8 @@ var board = new Board();
 ```
 
 ### Set a digit
+
+The cells are numbered from top left to bottom right and can be addressed directly via this ID.
 
 There are several ways to set a digit in a cell:
 
@@ -126,7 +128,9 @@ Candidates from first box (Upper Left) where Cell 1 is part of => 2,3,4,5,6,7,8,
 
 You see that the cadidate 1 is removed in Cell:0 after the digit 1 was set in Cell:1
 
-## Extensions
+## Load a whole board with Extensions
+
+[Extension](../Sudoku.Extensions/ReadMe.md)
 
 ```csharp
 using DE.Onnen.Sudoku.Extensions;

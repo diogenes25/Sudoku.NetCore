@@ -1,9 +1,8 @@
 ﻿# Sudoku Extensions
 
-## Board Extensions
 Extension for the Sudoku-Board.
 
-### Matrix
+## Matrix
 Create a ASCII-Matrix of the board.
 
 Example:
@@ -44,7 +43,7 @@ I│   │   │   │
 Complete: 7,681755829903977 %
 ```
 
-### MatrixWithCandidates
+## MatrixWithCandidates
 
 Create a ASCII-Matrix of the board but shows the candidates as well.
 
@@ -110,4 +109,30 @@ I│456│456│456││456│456│456││456│456│456│
  │789│789│789││789│789│789││789│789│789│
  └───┴───┴───┘└───┴───┴───┘└───┴───┴───┘
 Complete: 7,681755829903977 %
+```
+
+---
+
+## Set a whole Board at once
+
+Use a string
+
+```csharp
+using DE.Onnen.Sudoku;
+using DE.Onnen.Sudoku.Extensions;
+
+// Create Sudoku-Board
+var board = new Board();
+
+// Load a whole board from string
+board.SetCellsFromString("100000000000000000000000000000000000000000000000000000000000000000000000000000009");
+Console.WriteLine($"Digit of Cell0 (first Cell): {board.First().Digit}");
+Console.WriteLine($"Digit of Cell80 (last Cell): {board.Last().Digit}");
+```
+
+**Output**
+
+```console
+Digit of Cell0 (first Cell): 1
+Digit of Cell80 (last Cell): 9
 ```
