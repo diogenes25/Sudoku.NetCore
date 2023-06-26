@@ -204,6 +204,5 @@ namespace DE.Onnen.Sudoku
             base.Clear();
             _digit = 0;
         }
-
     }
 }

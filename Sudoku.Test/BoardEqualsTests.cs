@@ -80,6 +80,6 @@ namespace Sudoku.Test
         }
 
         [TestInitialize]
-        public void Initialize() => _board = new Board(_solveTechniques);
+        public void Initialize() => _board = new Board(_solveTechniques, null);
     }
 }

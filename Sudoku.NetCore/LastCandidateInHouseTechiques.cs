@@ -1,65 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.SolveTechniques;
 
 namespace Sudoku.NetCore
 {
-    public class LastCandidateInHouseTechiques : ISolveTechnique<Cell>
+    public class LastCandidateInHouseTechiques : ASolveTechnique<Cell>
     {
         public SolveTechniqueInfo Info => SolveTechniqueInfo.GetTechniqueInfo(
             caption: "Last Candidate in House",
-            descr:  "When only "
+            descr: "When only "
         );
-        public bool IsActive { get; set; } = true;
 
-        public void Activate() => IsActive = true;
-        public void Deactivate() => IsActive = false;
-        public void SolveBoard(IBoard<Cell> board, SudokuLog sudokuResult) { }
-        public void SolveHouse(IBoard<Cell> board, IHouse<Cell> house, SudokuLog sudokuResult) {
-            
-            var single = 0;
-            var doubleSav = 0;
-            var doubleBefore = 0;
+        public override void SolveBoard(IBoard<Cell> board, SudokuLog sudokuResult)
+        {
+        }
 
-            foreach (var cell in house)
+        public override void SolveHouse(IBoard<Cell> board, IHouse<Cell> house, SudokuLog sudokuResult)
+        {
+            var foundCount = 0;
+            var singleCandCell = new Dictionary<int, Cell?>();
+
+            foreach (var cell in house.Where(c => c.Digit == 0))
             {
-                doubleSav |= cell.CandidateValue & doubleBefore;
-                doubleBefore = cell.CandidateValue;
-                single ^= cell.CandidateValue;
-            }
-
-            var bit = ~doubleSav & single;
-            if (bit == 0)
-            {
-                return;
-            }
-
-            // Check every possible Digit
-            for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
-            {
-                if (((1 << i) & bit) > 0)
+                foreach (var cand in cell.Candidates)
                 {
-                    var cellToSetDigit = house.Where(v => (v.CandidateValue & (1 << i)) > 0).FirstOrDefault();
-                    if (cellToSetDigit is not null)
+                    if (singleCandCell.ContainsKey(cand))
                     {
-                        var sresult = sudokuResult.CreateChildResult();
-                        sresult.EventInfoInResult = new SudokuEvent
-                        {
-                            Value = i + 1,
-                            ChangedCellBase = cellToSetDigit,
-                            Action = ECellAction.SetDigitInt,
-                            SolveTechnique = "LastCandidate in House",
-
-                        };
-                        cellToSetDigit.SetDigit((i + 1), sresult);
+                        foundCount--;
+                        singleCandCell[cand] = null;
+                    }
+                    else
+                    {
+                        foundCount++;
+                        singleCandCell.Add(cand, cell);
                     }
                 }
             }
-        }
 
+            foreach (var cellToSetDigit in singleCandCell.Where(c => c.Value is not null))
+            {
+                var sresult = sudokuResult.CreateChildResult();
+                sresult.EventInfoInResult = new SudokuEvent
+                {
+                    Value = cellToSetDigit.Key,
+                    ChangedCellBase = cellToSetDigit.Value,
+                    Action = ECellAction.SetDigitInt,
+                    SolveTechnique = "LastCandidate in House",
+                };
+                cellToSetDigit.Value.SetDigit(cellToSetDigit.Key, sresult);
+            }
+        }
     }
 }

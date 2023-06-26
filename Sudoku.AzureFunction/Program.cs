@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sudoku.NetCore;
 
 var host = new HostBuilder()
     .ConfigureServices(services =>
@@ -14,9 +15,10 @@ var host = new HostBuilder()
         services.AddScoped<ICell, Cell>();
         services.AddScoped<Board>();
         services.AddScoped<Cell>();
-        services.AddScoped<ASolveTechnique<Cell>, NakedPairTrippleQuad<Cell>>();
-        services.AddScoped<ASolveTechnique<Cell>, HiddenPairTripleQuad<Cell>>();
-        services.AddScoped<ASolveTechnique<Cell>, LockedCandidates<Cell>>();
+        services.AddScoped<ISolveTechnique<Cell>, LastCandidateInHouseTechiques>();
+        services.AddScoped<ISolveTechnique<Cell>, NakedPairTrippleQuad<Cell>>();
+        services.AddScoped<ISolveTechnique<Cell>, HiddenPairTripleQuad<Cell>>();
+        services.AddScoped<ISolveTechnique<Cell>, LockedCandidates<Cell>>();
         services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
         {
             var options = new OpenApiConfigurationOptions

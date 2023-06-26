@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DE.Onnen.Sudoku;
+﻿using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,7 +17,6 @@ namespace Sudoku.Test
             var firRow = board.GetHouse(EHouseType.Row, 0);
             ((House)firRow).CheckLastDigit(new SudokuLog());
             //Assert.AreEqual(4, board[3].Digit);
-
         }
     }
 }

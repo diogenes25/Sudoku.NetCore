@@ -3,7 +3,6 @@ using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sudoku.NetCore;
 
 namespace Sudoku.SolveTechniques
 {
@@ -42,7 +41,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Backtracking_solve_without_any_digit_and_NakedPairTrippleQuadTest_Test()
         {
-            var target = new Board(_solveTechniques);
+            var target = new Board(_solveTechniques, null);
             var log = target.Backtracking();
             Assert.IsTrue(log.Successful);
             Assert.IsTrue(target.IsComplete());
@@ -70,7 +69,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void NakedPairTrippleQuadTest_in_Box_Test()
         {
-            IBoard<Cell> board = new Board(_solveTechniques);
+            IBoard<Cell> board = new Board(_solveTechniques, null);
             board.SetCellsFromString("123000000456000000700000000000000000000000000000000000000000000000000000000000000");
             // 8,9 sind in der Row[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
@@ -105,7 +104,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void NakedPairTrippleQuadTest_in_Col_Test()
         {
-            IBoard<Cell> board = new Board(_solveTechniques);
+            IBoard<Cell> board = new Board(_solveTechniques, null);
             board.SetCellsFromString("123000000056000000089000000000000000000000000000000000000000000000000000000000000");
             // 4,7 sind in der Col[1] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 28 und 29 sein können.
             for (var i = 3; i < Consts.DIMENSIONSQUARE; i++)
@@ -140,7 +139,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void NakedPairTrippleQuadTest_in_Row_Test()
         {
-            IBoard<Cell> board = new Board(_solveTechniques);
+            IBoard<Cell> board = new Board(_solveTechniques, null);
             board.SetCellsFromString("123456700000000000000000000000000000000000000000000000000000000000000000000000000");
             var block1r2Value = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 7) | (1 << 8);
             // 8,9 sind in der Box[2] komplett gesetzt, obwohl diese beiden Digit nur in den Cellen 7 und 8 sein können.

@@ -97,7 +97,7 @@ namespace Sudoku.SolveTechniques
             Assert.AreEqual(9, board[27].Candidates.Count);
 
             new LockedCandidates<Cell>().SolveHouse(board, board.GetHouse(EHouseType.Row, 0), new SudokuLog());
-            
+
             // System.Console.WriteLine(board.MatrixWithCandidates());
             Assert.IsFalse(board[9].Candidates.Contains(1), "Cell[24].Candidates must not contains 5");
             Assert.IsFalse(board[10].Candidates.Contains(2), "Cell[25].Candidates must not contains 5");

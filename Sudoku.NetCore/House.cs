@@ -154,27 +154,27 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-    //    /// <summary>
-    //    /// Check if there is only one candidate left.
-    //    /// </summary>
-    //    /// <param name="sudokuResult">Log </param>
-    //    /// <returns>true = Only one candidate was left and will be set</returns>
-    //    public override bool CheckLastDigit(SudokuLog sudokuResult)
-    //    {
-    //        if (_cells.Where(c => c.Digit == 0).Count() != 1)
-    //        {
-    //            return false;
-    //        }
-    //        var allSet = Consts.BASESTART;
-    //        var lastCell = _cells.Where(c=>c.Digit==0).First();
-    //        foreach (var cell in _cells)
-    //        {
-    //            if (cell.Digit == 0)
-    //            {
-    //                allSet -= 1 << (cell.Digit - 1);
-    //            }
-    //        }
-    //        return lastCell.SetDigit(allSet, sudokuResult);
-    //    }
+        //    /// <summary>
+        //    /// Check if there is only one candidate left.
+        //    /// </summary>
+        //    /// <param name="sudokuResult">Log </param>
+        //    /// <returns>true = Only one candidate was left and will be set</returns>
+        //    public override bool CheckLastDigit(SudokuLog sudokuResult)
+        //    {
+        //        if (_cells.Where(c => c.Digit == 0).Count() != 1)
+        //        {
+        //            return false;
+        //        }
+        //        var allSet = Consts.BASESTART;
+        //        var lastCell = _cells.Where(c=>c.Digit==0).First();
+        //        foreach (var cell in _cells)
+        //        {
+        //            if (cell.Digit == 0)
+        //            {
+        //                allSet -= 1 << (cell.Digit - 1);
+        //            }
+        //        }
+        //        return lastCell.SetDigit(allSet, sudokuResult);
+        //    }
     }
 }

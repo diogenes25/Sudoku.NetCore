@@ -52,9 +52,9 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(IEnumerable<ISolveTechnique<Cell>> solveTechniques, ILogger<Board> logger)
+        public Board(IEnumerable<ISolveTechnique<Cell>> solveTechniques, ILogger<Board>? logger)
         {
-            _solveTechniques = solveTechniques.ToList();
+            _solveTechniques = solveTechniques?.ToList();
             _logger = logger;
             Init();
         }
@@ -65,15 +65,16 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques)
-        {
-            _solveTechniques = solveTechniques?.ToList();
-            Init();
-        }
+        //public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques)
+        //{
+        //    _solveTechniques = solveTechniques?.ToList();
+        //    Init();
+        //}
 
-        public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null)
+        public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null, ILogger<Board>? logger = null)
         {
             _solveTechniques = solveTechniques?.ToList();
+            _logger = logger;
             Init();
             FillBoardWithUniqueCellIDs(uniqueCellIDs);
         }
@@ -414,7 +415,6 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-
                         if (_container[containerIdx][containerType].ReCheck)
                         {
                             _container[containerIdx][containerType].CheckLastDigit(tmpSudokuResult);
@@ -424,7 +424,7 @@ namespace DE.Onnen.Sudoku
                         {
                             foreach (var st in _solveTechniques.Where(t => t.IsActive))
                             {
-                                if (!_container[containerIdx][containerType].ReCheck || _container[containerIdx][containerType].CandidateValue==0) //&& st.CellView == ECellView.OnlyHouse)
+                                if (!_container[containerIdx][containerType].ReCheck || _container[containerIdx][containerType].CandidateValue == 0) //&& st.CellView == ECellView.OnlyHouse)
                                 {
                                     continue;
                                 }

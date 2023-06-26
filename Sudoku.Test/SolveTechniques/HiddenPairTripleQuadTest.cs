@@ -30,7 +30,7 @@ namespace Sudoku.SolveTechniques
         }
 
         [TestInitialize]
-        public void Initialize() => _board = new Board(_solveTechniques);
+        public void Initialize() => _board = new Board(_solveTechniques, null);
 
         private static ASolveTechnique<Cell>[] GetSolveTechniques() => new ASolveTechnique<Cell>[] {
                 new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>()

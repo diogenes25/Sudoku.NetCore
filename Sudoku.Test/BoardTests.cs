@@ -37,8 +37,6 @@
                 Assert.AreEqual((i + 1), _board[i].Digit);
             }
         }
-        
-      
 
         /// <summary>
         ///A test for Board Constructor
@@ -176,7 +174,7 @@
         }
 
         [TestInitialize]
-        public void Initialize() => _board = new Board(_solveTechniques);
+        public void Initialize() => _board = new Board(_solveTechniques, null);
 
         /// <summary>
         ///A test for IsComplete
@@ -508,9 +506,9 @@
         {
             var st = new ASolveTechnique<Cell>[]
             {
-                new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
-                new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
-                new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>(),
+                new HiddenPairTripleQuad<Cell>(),
+                new LockedCandidates<Cell>(),
+                new NakedPairTrippleQuad<Cell>(),
             };
             return st;
         }

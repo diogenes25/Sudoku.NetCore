@@ -80,7 +80,7 @@ namespace Sudoku.AzureFunction.Controllers
                 var sudokuStr = req.Query["board"];
                 _board.SetCellsFromString(sudokuStr);
                 var countOf0 = sudokuStr.ToCharArray().Count(c => c == '0'); // A '0' represends a cell without a digit
-                if (countOf0 < 68) // If more than 12 numbers (68 '0' left) are set, the use of the solution algorithm only makes sense.
+                if (countOf0 < 76) // If more than 4 numbers (76 '0' left) are set, the use of the solution algorithm only makes sense.
                 {
                     _board.StartSolve();
                 }

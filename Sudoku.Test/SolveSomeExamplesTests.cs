@@ -9,6 +9,7 @@ namespace DE.Onnen.Sudoku
     using System.Collections.Generic;
     using System.Linq;
     using DE.Onnen.Sudoku.Extensions;
+    using global::Sudoku.NetCore;
     using global::Sudoku.Test;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,6 +26,7 @@ namespace DE.Onnen.Sudoku
         public void TestHardestData_Test()
         {
             var board = new Board()
+                .AddSolveTechnique(new LastCandidateInHouseTechiques())
                 .AddSolveTechnique(new SolveTechniques.HiddenPairTripleQuad<Cell>())
                 .AddSolveTechnique(new SolveTechniques.LockedCandidates<Cell>())
                 .AddSolveTechnique(new SolveTechniques.NakedPairTrippleQuad<Cell>());

@@ -149,7 +149,6 @@ namespace DE.Onnen.Sudoku
             return false;
         }
 
-
         internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
 
         /// <summary>
