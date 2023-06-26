@@ -16,13 +16,13 @@ The two solving strategies ***"Hidden Single"*** and ***"Naked Single"*** are al
 
 The following solution strategies are already programmed and can be reloaded:
 
-*   Locked Candidates
-*   Naked Pair
-*   Naked Triple
-*   Naked Quad
-*   Hidden Pair
-*   Hidden Triple
-*   Hidden Quad
+*   [Locked Candidates](Sudoku.SolveTechniqueLockedCandidates)
+*   [Naked Pair](Sudoku.SolveTechniqueDTQ)
+*   [Naked Triple](Sudoku.SolveTechniqueDTQ)
+*   [Naked Quad](Sudoku.SolveTechniqueDTQ)
+*   [Hidden Pair](Sudoku.SolveTechniqueHiddenDTQ)
+*   [Hidden Triple](Sudoku.SolveTechniqueHiddenDTQ)
+*   [Hidden Quad](Sudoku.SolveTechniqueHiddenDTQ)
 
 Regardless of the solution strategies, backtracking (brute-force) is implemented.
 

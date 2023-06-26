@@ -1,7 +1,9 @@
-﻿using DE.Onnen.Sudoku;
+﻿using System;
+using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sudoku.NetCore;
 
 namespace Sudoku.SolveTechniques
 {
@@ -18,6 +20,21 @@ namespace Sudoku.SolveTechniques
         public static void MyClassInitialize(TestContext testContext) => _solveTechniques = new ASolveTechnique<Cell>[] {
                 new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>()
             };
+
+        [TestMethod]
+        public void Check_Last_Digit_Test()
+        {
+            var board = new Board();
+            board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
+            Assert.AreEqual(0, board[0].Digit);
+            Assert.AreEqual(0, board[3].Digit);
+            var firRow = board.GetHouse(EHouseType.Row, 0);
+            var lastCandidateInHouse = new NakedPairTrippleQuad<Cell>();
+            Console.WriteLine(board.MatrixWithCandidates());
+            lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
+            Console.WriteLine(board.MatrixWithCandidates());
+            Assert.AreEqual(4, board[3].Digit);
+        }
 
         /// <summary>
         ///A test for Backtracking

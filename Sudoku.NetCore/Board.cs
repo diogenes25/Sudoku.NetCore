@@ -28,7 +28,7 @@ namespace DE.Onnen.Sudoku
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
         private const int ROW_CONTAINERTYPE = 0;
-        private readonly House<Cell>[][] _container = new House<Cell>[Consts.DIMENSIONSQUARE][];
+        private readonly House[][] _container = new House[Consts.DIMENSIONSQUARE][];
         private readonly List<SudokuHistoryItem> _history = new();
         private bool _keepGoingWithChecks;
         private List<ISolveTechnique<Cell>>? _solveTechniques;
@@ -368,12 +368,12 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">Log</param>
         private void Solve(SudokuLog sudokuResult)
         {
-            if (_solveTechniques is null || _solveTechniques.Count < 1)
-            {
-                sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = "No SolveTechnique is set";
-                return;
-            }
+            //if (_solveTechniques is null || _solveTechniques.Count < 1)
+            //{
+            //    sudokuResult.Successful = false;
+            //    sudokuResult.ErrorMessage = "No SolveTechnique is set";
+            //    return;
+            //}
 
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();
@@ -381,23 +381,27 @@ namespace DE.Onnen.Sudoku
             do
             {
                 _keepGoingWithChecks = false;
-                foreach (var st in _solveTechniques.Where(t => t.IsActive))
-                {
-                    try
-                    {
-                        st.SolveBoard(this, tmpSudokuResult);
-                    }
-                    catch (Exception ex)
-                    {
-                        var log = tmpSudokuResult.CreateChildResult();
-                        log.ErrorMessage = ex.Message;
-                        log.Successful = false;
 
-                        return;
-                    }
-                    if (!tmpSudokuResult.Successful)
+                if (_solveTechniques is not null && _solveTechniques.Count > 0)
+                {
+                    foreach (var st in _solveTechniques.Where(t => t.IsActive))
                     {
-                        return;
+                        try
+                        {
+                            st.SolveBoard(this, tmpSudokuResult);
+                        }
+                        catch (Exception ex)
+                        {
+                            var log = tmpSudokuResult.CreateChildResult();
+                            log.ErrorMessage = ex.Message;
+                            log.Successful = false;
+
+                            return;
+                        }
+                        if (!tmpSudokuResult.Successful)
+                        {
+                            return;
+                        }
                     }
                 }
 
@@ -410,28 +414,37 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-                        foreach (var st in _solveTechniques.Where(t => t.IsActive))
+
+                        if (_container[containerIdx][containerType].ReCheck)
                         {
-                            if (!_container[containerIdx][containerType].ReCheck) //&& st.CellView == ECellView.OnlyHouse)
-                            {
-                                continue;
-                            }
+                            _container[containerIdx][containerType].CheckLastDigit(tmpSudokuResult);
+                        }
 
-                            try
+                        if (_solveTechniques is not null && _solveTechniques.Count > 0)
+                        {
+                            foreach (var st in _solveTechniques.Where(t => t.IsActive))
                             {
-                                st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
-                            }
-                            catch (Exception ex)
-                            {
-                                var log = tmpSudokuResult.CreateChildResult();
-                                log.ErrorMessage = ex.Message;
-                                log.Successful = false;
+                                if (!_container[containerIdx][containerType].ReCheck || _container[containerIdx][containerType].CandidateValue==0) //&& st.CellView == ECellView.OnlyHouse)
+                                {
+                                    continue;
+                                }
 
-                                return;
-                            }
-                            if (!tmpSudokuResult.Successful)
-                            {
-                                return;
+                                try
+                                {
+                                    st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
+                                }
+                                catch (Exception ex)
+                                {
+                                    var log = tmpSudokuResult.CreateChildResult();
+                                    log.ErrorMessage = ex.Message;
+                                    log.Successful = false;
+
+                                    return;
+                                }
+                                if (!tmpSudokuResult.Successful)
+                                {
+                                    return;
+                                }
                             }
                         }
                         _container[containerIdx][containerType].ReCheck = false;
@@ -560,10 +573,10 @@ namespace DE.Onnen.Sudoku
                     }
                 }
 
-                _container[containerIdx] = new House<Cell>[3];
+                _container[containerIdx] = new House[3];
                 for (var containerType = 0; containerType < 3; containerType++)
                 {
-                    _container[containerIdx][containerType] = new House<Cell>(fieldcontainer[containerType][containerIdx], (EHouseType)containerType, containerIdx);
+                    _container[containerIdx][containerType] = new House(fieldcontainer[containerType][containerIdx], (EHouseType)containerType, containerIdx);
                     foreach (var f in fieldcontainer[containerType][containerIdx])
                     {
                         f._fieldcontainters[containerType] = _container[containerIdx][containerType];

@@ -20,7 +20,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Changes in CandidateValue and/or Digit.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc />
         public ReadOnlyCollection<int> Candidates
@@ -121,7 +121,7 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="sudokuResult">Log </param>
         /// <returns>true = Only one candidate was left and will be set</returns>
-        internal bool CheckLastDigit(SudokuLog sudokuResult)
+        public bool CheckLastDigit(SudokuLog sudokuResult)
         {
             // Check every possible Digit
             for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
@@ -140,7 +140,7 @@ namespace DE.Onnen.Sudoku
                         Value = i + 1,
                         ChangedCellBase = this,
                         Action = ECellAction.RemoveCandidate,
-                        SolveTechnique = "LastCandidate",
+                        SolveTechnique = "LastCandidate in Cell",
                     };
 
                     return SetDigit(i + 1, sresult);
@@ -148,6 +148,7 @@ namespace DE.Onnen.Sudoku
             }
             return false;
         }
+
 
         internal abstract bool SetDigit(int digit, SudokuLog sudokuResult);
 

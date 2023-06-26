@@ -233,9 +233,9 @@ namespace DE.Onnen.Sudoku
                 col[i] = new Cell(i + 10);
                 box[i] = new Cell(i + 20);
             }
-            target._fieldcontainters[0] = new House<Cell>(row, EHouseType.Row, 1);
-            target._fieldcontainters[1] = new House<Cell>(col, EHouseType.Col, 1);
-            target._fieldcontainters[2] = new House<Cell>(box, EHouseType.Box, 1);
+            target._fieldcontainters[0] = new House(row, EHouseType.Row, 1);
+            target._fieldcontainters[1] = new House(col, EHouseType.Col, 1);
+            target._fieldcontainters[2] = new House(box, EHouseType.Box, 1);
 
             row[0].CandidateValue = 3;
             target.SetDigit(1);
@@ -256,9 +256,9 @@ namespace DE.Onnen.Sudoku
                 col[i] = new Cell(i + 10);
                 box[i] = new Cell(i + 20);
             }
-            target._fieldcontainters[0] = new House<Cell>(row, EHouseType.Row, 1);
-            target._fieldcontainters[1] = new House<Cell>(col, EHouseType.Col, 1);
-            target._fieldcontainters[2] = new House<Cell>(box, EHouseType.Box, 1);
+            target._fieldcontainters[0] = new House(row, EHouseType.Row, 1);
+            target._fieldcontainters[1] = new House(col, EHouseType.Col, 1);
+            target._fieldcontainters[2] = new House(box, EHouseType.Box, 1);
 
             var expected = Consts.BASESTART;
             for (var i = 0; i < 10; i++)

@@ -4,12 +4,11 @@ using System.Linq;
 namespace DE.Onnen.Sudoku
 {
     /// <inheritdoc />
-    public class House<C> : AHasCandidates, IHouse<C>
-       where C : ICell
+    public class House : AHasCandidates, IHouse<Cell>
     {
-        private readonly C[] _cells;
+        private readonly Cell[] _cells;
 
-        internal House(C[] cells, EHouseType containerType, int containerIdx) : base(containerIdx, containerType)
+        internal House(Cell[] cells, EHouseType containerType, int containerIdx) : base(containerIdx, containerType)
         {
             _cells = cells;
             ReCheck = false;
@@ -34,14 +33,14 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="index"></param>
         /// <returns>A spezific cell</returns>
-        C ICellCollection<C>.this[int index] => _cells[index];
+        Cell ICellCollection<Cell>.this[int index] => _cells[index];
 
         /// <summary>
         /// Cell[index] of this house.
         /// </summary>
         /// <param name="index"></param>
         /// <returns>A spezific cell</returns>
-        public ICell this[int index] => _cells[index];
+        public Cell this[int index] => _cells[index];
 
         /// <summary>
         /// Enumerator of the house.
@@ -59,7 +58,7 @@ namespace DE.Onnen.Sudoku
         /// Enumerator of the house.
         /// </summary>
         /// <returns>IEnumerator<ICell> of the cell of the house.</ICell></returns>
-        IEnumerator<C> IEnumerable<C>.GetEnumerator() => _cells.ToList().GetEnumerator();
+        IEnumerator<Cell> IEnumerable<Cell>.GetEnumerator() => _cells.ToList().GetEnumerator();
 
         /// <summary>
         /// When every Cell inside this House has a Digit, then this house is 'Complete'.
@@ -154,5 +153,28 @@ namespace DE.Onnen.Sudoku
                 ReCheck = true;
             }
         }
+
+    //    /// <summary>
+    //    /// Check if there is only one candidate left.
+    //    /// </summary>
+    //    /// <param name="sudokuResult">Log </param>
+    //    /// <returns>true = Only one candidate was left and will be set</returns>
+    //    public override bool CheckLastDigit(SudokuLog sudokuResult)
+    //    {
+    //        if (_cells.Where(c => c.Digit == 0).Count() != 1)
+    //        {
+    //            return false;
+    //        }
+    //        var allSet = Consts.BASESTART;
+    //        var lastCell = _cells.Where(c=>c.Digit==0).First();
+    //        foreach (var cell in _cells)
+    //        {
+    //            if (cell.Digit == 0)
+    //            {
+    //                allSet -= 1 << (cell.Digit - 1);
+    //            }
+    //        }
+    //        return lastCell.SetDigit(allSet, sudokuResult);
+    //    }
     }
 }

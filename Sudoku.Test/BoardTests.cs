@@ -37,6 +37,8 @@
                 Assert.AreEqual((i + 1), _board[i].Digit);
             }
         }
+        
+      
 
         /// <summary>
         ///A test for Board Constructor
@@ -44,8 +46,7 @@
         [TestMethod]
         public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
         {
-            ASolveTechnique<Cell>[] tempSolveTechniques = null;
-            IBoard<Cell> tmpBoard = new Board(tempSolveTechniques);
+            IBoard<Cell> tmpBoard = new Board().AddSolveTechnique(null);
             CheckBoard(tmpBoard);
         }
 

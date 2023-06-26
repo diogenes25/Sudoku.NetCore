@@ -12,7 +12,7 @@ namespace DE.Onnen.Sudoku
     {
         internal int _digit;
 
-        internal House<Cell>[] _fieldcontainters = new House<Cell>[3];
+        internal House[] _fieldcontainters = new House[3];
 
         internal Cell(int id) : base(id, EHouseType.Cell)
         {
@@ -204,5 +204,6 @@ namespace DE.Onnen.Sudoku
             base.Clear();
             _digit = 0;
         }
+
     }
 }

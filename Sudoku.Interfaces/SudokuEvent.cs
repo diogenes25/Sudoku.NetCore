@@ -2,6 +2,8 @@
 {
     public enum ECellAction
     {
+        /// <summary>
+        /// </summary>
         SetDigitInt = 1,
         RemoveCandidate = 2,
     }
