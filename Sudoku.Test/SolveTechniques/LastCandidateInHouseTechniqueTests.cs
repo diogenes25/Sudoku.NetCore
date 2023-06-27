@@ -18,9 +18,7 @@ namespace Sudoku.Test.SolveTechniques
             Assert.AreEqual(0, board[3].Digit);
             var firRow = board.GetHouse(EHouseType.Row, 0);
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
-            Console.WriteLine(board.MatrixWithCandidates());
             lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
-            Console.WriteLine(board.MatrixWithCandidates());
             Assert.AreEqual(4, board[3].Digit);
         }
 
@@ -33,9 +31,7 @@ namespace Sudoku.Test.SolveTechniques
             Assert.AreEqual(0, board[3].Digit);
             var firRow = board.GetHouse(EHouseType.Row, 0);
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
-            Console.WriteLine(board.MatrixWithCandidates());
             lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
-            Console.WriteLine(board.MatrixWithCandidates());
             Assert.AreEqual(4, board[3].Digit);
         }
 
@@ -57,9 +53,7 @@ namespace Sudoku.Test.SolveTechniques
             Assert.IsTrue(board[6].Candidates.Contains(7));
             var firRow = board.GetHouse(EHouseType.Row, 0);
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
-            Console.WriteLine(board.MatrixWithCandidates());
             lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
-            Console.WriteLine(board.MatrixWithCandidates());
             Assert.AreEqual(4, board[3].Digit);
             Assert.AreEqual(7, board[6].Digit);
         }
@@ -79,18 +73,10 @@ namespace Sudoku.Test.SolveTechniques
 "009000000" +
 "000001007" +
 "005300009");
-
-            //Assert.IsTrue(board[3].Candidates.Contains(4));
-            //Assert.IsTrue(board[6].Candidates.Contains(7));
-            //var firRow = board.GetHouse(EHouseType.Row, 0);
             var log = new SudokuLog();
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
 
-            //            Console.WriteLine(board.MatrixWithCandidates());
-            //for (var i = 0; i < 1; i++)
-            //{
-            for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE;
-                                                        containerIdx++)
+            for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
             {
                 for (var containerType = 0; containerType < 3; containerType++)
                 {
@@ -98,28 +84,12 @@ namespace Sudoku.Test.SolveTechniques
                     Assert.IsTrue(log.Successful, $"Error: {containerType} {containerIdx} = {log.ToString()}");
                 }
             }
-            //}
             Console.WriteLine(board.MatrixWithCandidates());
 
             log = new SudokuLog();
             var thirdCol = board.GetHouse(EHouseType.Row, 4);
             lastCandidateInHouse.SolveHouse(board, thirdCol, log);
             Assert.IsTrue(log.Successful);
-
-            //var box4 = board.GetHouse(EHouseType.Box, 3);
-            //log = new SudokuLog();
-            //lastCandidateInHouse.SolveHouse(board, box4, log);
-            //Assert.IsTrue(log.Successful);
-            //log = new SudokuLog();
-            //lastCandidateInHouse.SolveHouse(board, box4, log);
-            //Assert.IsTrue(log.Successful);
-            //log = new SudokuLog();
-            //lastCandidateInHouse.SolveHouse(board, box4, log);
-            //Assert.IsTrue(log.Successful);
-            //var result = board.StartSolve();
-            //Assert.IsTrue(result.Successful);
-            Console.WriteLine(board.MatrixWithCandidates());
-            //Assert.AreEqual(7, board[6].Digit);
         }
 
         [TestMethod]
@@ -158,7 +128,6 @@ namespace Sudoku.Test.SolveTechniques
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
             lastCandidateInHouse.SolveHouse(board, firstBox, new SudokuLog());
             Console.WriteLine(board.MatrixWithCandidates());
-            //Assert.IsTrue(firstBox.IsComplete());
             Assert.AreEqual(1, board[0].Digit);
         }
     }

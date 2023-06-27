@@ -20,6 +20,9 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Gets the percentage solution progress
         /// </summary>
+        /// <remarks>
+        /// Percentage of completion based on candidates (Sudoku = 9(Row) * 9(Col) * 9(Candidates)). 
+        /// </remarks>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }
 
@@ -54,7 +57,6 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
-        /// <param name="sudokuResult">g-Information of the action that were performed during the solve process.</param>
         SudokuLog StartSolve();
     }
 

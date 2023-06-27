@@ -12,13 +12,14 @@ namespace Sudoku.NetCore
             descr: "When only "
         );
 
+        /// <inheritdoc />
         public override void SolveBoard(IBoard<Cell> board, SudokuLog sudokuResult)
         {
         }
 
+        /// <inheritdoc />
         public override void SolveHouse(IBoard<Cell> board, IHouse<Cell> house, SudokuLog sudokuResult)
         {
-            var foundCount = 0;
             var singleCandCell = new Dictionary<int, Cell?>();
 
             foreach (var cell in house.Where(c => c.Digit == 0))
@@ -27,12 +28,10 @@ namespace Sudoku.NetCore
                 {
                     if (singleCandCell.ContainsKey(cand))
                     {
-                        foundCount--;
                         singleCandCell[cand] = null;
                     }
                     else
                     {
-                        foundCount++;
                         singleCandCell.Add(cand, cell);
                     }
                 }
@@ -48,7 +47,7 @@ namespace Sudoku.NetCore
                     Action = ECellAction.SetDigitInt,
                     SolveTechnique = "LastCandidate in House",
                 };
-                cellToSetDigit.Value.SetDigit(cellToSetDigit.Key, sresult);
+                cellToSetDigit.Value?.SetDigit(cellToSetDigit.Key, sresult);
             }
         }
     }

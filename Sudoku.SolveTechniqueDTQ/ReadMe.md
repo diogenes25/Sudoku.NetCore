@@ -5,7 +5,7 @@
 **Example:**
 NakedPair in row0.
 The digit 8 and 9 can only be in Cell7 and  Cell8.
-So the candidates 8 and 8 must be removed from every other cell in Box2.
+So the candidates 8 and 9 must be removed from every other cell in Box2.
 
 ```csharp
 using DE.Onnen.Sudoku;
@@ -26,7 +26,7 @@ var nakedPair = new NakedPairTrippleQuad<Cell>();
 nakedPair.SolveHouse(board, board.GetHouse(EHouseType.Box, 2), new SudokuLog());
 
 // Board after solving
-System.Console.WriteLine("Board with removed candidates 8 and 9 in Box2");
+System.Console.WriteLine("Board with removed candidates 8 and 9 in Box2 (upper right) second and third row");
 System.Console.WriteLine(board.MatrixWithCandidates());
 ```
 
@@ -75,7 +75,7 @@ I│456│456│456││ 56│4 6│45 ││456│456│456│
 
 Complete: 22,085048010973935 %
 
-Board with removed candidates in Box2
+Board with removed candidates 8 and 9 in Box2 (upper right) second and third row
    1   2   3    4   5   6    7   8   9
  ┌───┬───┬───┐┌───┬───┬───┐┌───┬───┬───┐
  │   │   │   ││   │   │   ││   │   │   │
@@ -119,3 +119,6 @@ I│456│456│456││ 56│4 6│45 ││456│456│456│
 
 Complete: 23,731138545953357 %
 ```
+
+We can see that the percentage of completion has increased (22.1 -> 23.7), although it has not changed the number of digits.
+This is because this percentage also includes the candidates.

@@ -69,12 +69,10 @@ namespace Sudoku.SolveTechniques
             Assert.AreEqual(9, board[0].Candidates.Count);
             Assert.AreEqual(9, board[1].Candidates.Count);
 
-            // System.Console.WriteLine(board.MatrixWithCandidates());
             var hidden = new HiddenPairTripleQuad<Cell>();
 
             // Check Box:0
             hidden.SolveHouse(board, board.GetHouse(EHouseType.Box, 0), new SudokuLog());
-            // System.Console.WriteLine(board.MatrixWithCandidates());
             Assert.IsFalse(board[0].Candidates.Contains(1));
             Assert.IsFalse(board[1].Candidates.Contains(1));
             Assert.AreEqual(2, board[0].Candidates.Count, "Cell[0].Candidates must be reduced to 7 and 8");

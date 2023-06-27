@@ -15,10 +15,12 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     {
         public NakedPairTrippleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
 
+        /// <inheritdoc />
         public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult)
         {
         }
 
+        /// <inheritdoc />
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             // Key = BaseValue, Anz Possible

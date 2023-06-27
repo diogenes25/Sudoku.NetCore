@@ -65,12 +65,6 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        //public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques)
-        //{
-        //    _solveTechniques = solveTechniques?.ToList();
-        //    Init();
-        //}
-
         public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null, ILogger<Board>? logger = null)
         {
             _solveTechniques = solveTechniques?.ToList();
@@ -369,40 +363,37 @@ namespace DE.Onnen.Sudoku
         /// <param name="sudokuResult">Log</param>
         private void Solve(SudokuLog sudokuResult)
         {
-            //if (_solveTechniques is null || _solveTechniques.Count < 1)
-            //{
-            //    sudokuResult.Successful = false;
-            //    sudokuResult.ErrorMessage = "No SolveTechnique is set";
-            //    return;
-            //}
-
             var tmpSudokuResult = sudokuResult;
             tmpSudokuResult ??= new SudokuLog();
+
+            if (_solveTechniques is null || _solveTechniques.Count < 1)
+            {
+                sudokuResult.Successful = true;
+                sudokuResult.ErrorMessage = "No SolveTechnique is set";
+                return;
+            }
 
             do
             {
                 _keepGoingWithChecks = false;
 
-                if (_solveTechniques is not null && _solveTechniques.Count > 0)
+                foreach (var st in _solveTechniques.Where(t => t.IsActive))
                 {
-                    foreach (var st in _solveTechniques.Where(t => t.IsActive))
+                    try
                     {
-                        try
-                        {
-                            st.SolveBoard(this, tmpSudokuResult);
-                        }
-                        catch (Exception ex)
-                        {
-                            var log = tmpSudokuResult.CreateChildResult();
-                            log.ErrorMessage = ex.Message;
-                            log.Successful = false;
+                        st.SolveBoard(this, tmpSudokuResult);
+                    }
+                    catch (Exception ex)
+                    {
+                        var log = tmpSudokuResult.CreateChildResult();
+                        log.ErrorMessage = ex.Message;
+                        log.Successful = false;
 
-                            return;
-                        }
-                        if (!tmpSudokuResult.Successful)
-                        {
-                            return;
-                        }
+                        return;
+                    }
+                    if (!tmpSudokuResult.Successful)
+                    {
+                        return;
                     }
                 }
 
@@ -415,36 +406,28 @@ namespace DE.Onnen.Sudoku
                             continue;
                         }
 
-                        if (_container[containerIdx][containerType].ReCheck)
+                        foreach (var st in _solveTechniques.Where(t => t.IsActive))
                         {
-                            _container[containerIdx][containerType].CheckLastDigit(tmpSudokuResult);
-                        }
-
-                        if (_solveTechniques is not null && _solveTechniques.Count > 0)
-                        {
-                            foreach (var st in _solveTechniques.Where(t => t.IsActive))
+                            if (!_container[containerIdx][containerType].ReCheck || _container[containerIdx][containerType].CandidateValue == 0) //&& st.CellView == ECellView.OnlyHouse)
                             {
-                                if (!_container[containerIdx][containerType].ReCheck || _container[containerIdx][containerType].CandidateValue == 0) //&& st.CellView == ECellView.OnlyHouse)
-                                {
-                                    continue;
-                                }
+                                continue;
+                            }
 
-                                try
-                                {
-                                    st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
-                                }
-                                catch (Exception ex)
-                                {
-                                    var log = tmpSudokuResult.CreateChildResult();
-                                    log.ErrorMessage = ex.Message;
-                                    log.Successful = false;
+                            try
+                            {
+                                st.SolveHouse(this, _container[containerIdx][containerType], tmpSudokuResult);
+                            }
+                            catch (Exception ex)
+                            {
+                                var log = tmpSudokuResult.CreateChildResult();
+                                log.ErrorMessage = ex.Message;
+                                log.Successful = false;
 
-                                    return;
-                                }
-                                if (!tmpSudokuResult.Successful)
-                                {
-                                    return;
-                                }
+                                return;
+                            }
+                            if (!tmpSudokuResult.Successful)
+                            {
+                                return;
                             }
                         }
                         _container[containerIdx][containerType].ReCheck = false;
@@ -453,6 +436,7 @@ namespace DE.Onnen.Sudoku
             } while (_keepGoingWithChecks);
         }
 
+        /// <inheritdoc/>
         public override string ToString() => string.Join("", this.Select(x => x.Digit));
 
         /// <summary>
