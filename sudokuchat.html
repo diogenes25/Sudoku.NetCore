@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Hintergrundfarbe der Seite */
+        }
+
+        .sudoku-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+        }
+
+        .box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 3px;
+            background-color: #ffc0cb; /* Hellrot für Boxen */
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .box:nth-child(even) {
+            background-color: #ffff00; /* Gelb für gerade nummerierte Boxen */
+        }
+
+        .field {
+            background-color: #87cefa; /* Hellblau für Felder */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 3px;
+        }
+
+        .field:nth-child(even) {
+            background-color: #98fb98; /* Hellgrün für gerade nummerierte Felder */
+        }
+
+        button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc; /* Randfarbe der Buttons */
+            background-color: #d3d3d3; /* Hellgrau für Kandidaten */
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sudoku Solver</h1>
+
+    <!-- Hier werden die Sudoku-Boxen und Buttons erstellt -->
+    <div class="sudoku-board" id="sudoku-board"></div>
+
+    <script>
+        // Funktion zum Erstellen der Sudoku-Boxen, Felder und Buttons
+        function createSudokuBoard() {
+            const sudokuBoardContainer = document.getElementById('sudoku-board');
+
+            // Erstelle 3x3 Sudoku-Boxen
+            for (let i = 0; i < 9; i++) {
+                const box = document.createElement('div');
+                box.classList.add('box');
+                
+                // Erstelle 9 Felder in jeder Box
+                for (let j = 0; j < 9; j++) {
+                    const field = document.createElement('div');
+                    field.classList.add('field');
+                    
+                    // Erstelle 9 Buttons für jedes Feld
+                    for (let k = 1; k <= 9; k++) {
+                        const button = document.createElement('button');
+                        button.textContent = k;
+                        field.appendChild(button);
+                    }
+
+                    box.appendChild(field);
+                }
+
+                sudokuBoardContainer.appendChild(box);
+            }
+        }
+
+        // Seite initialisieren, wenn das Dokument geladen wurde
+        document.addEventListener('DOMContentLoaded', createSudokuBoard);
+    </script>
+
+</body>
+</html>

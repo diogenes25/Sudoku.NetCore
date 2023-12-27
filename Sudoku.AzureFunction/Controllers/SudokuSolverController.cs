@@ -24,25 +24,29 @@ namespace Sudoku.AzureFunction.Controllers
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("Solve.");
-            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuDto>();
+            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuDto>();            
 
-            if (sudokuTransfer is null || sudokuTransfer.Cells?.Count < 1)
+            if (sudokuTransfer != null)
             {
-                throw new ArgumentException("No Cells");
-            }
+                if (sudokuTransfer.Cells != null)
+                {
+                    _board.FillBoardWithUniqueCellIDs(sudokuTransfer.Cells);
+                }
 
-            _board.FillBoardWithUniqueCellIDs(sudokuTransfer.Cells);
-
-            foreach (var action in sudokuTransfer.Action)
-            {
-                _board.SetDigit(action.CellId, action.Digit);
+                if (sudokuTransfer.Action != null)
+                {
+                    foreach (var action in sudokuTransfer.Action)
+                    {
+                        _board.SetDigit(action.CellId, action.Digit);
+                    }
+                }
             }
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             var transfer = new SudokuDto
             {
                 Cells = new List<int>(_board.CreateSimpleBoard()),
-                Action = sudokuTransfer.Action,
+                Action = sudokuTransfer?.Action,
             };
             await response.WriteAsJsonAsync(transfer);
             return response;

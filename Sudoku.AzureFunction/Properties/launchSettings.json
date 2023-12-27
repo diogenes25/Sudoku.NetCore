@@ -2,8 +2,7 @@
   "profiles": {
     "Sudoku.AzureFunction": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7035",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7035 --cors *"
     }
   }
 }
