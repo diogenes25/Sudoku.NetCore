@@ -25,7 +25,7 @@ var host = new HostBuilder()
             {
                 Info = new OpenApiInfo
                 {
-                    Version = "1.0.0",
+                    Version = "1.0.1",
                     Title = "Sudoku-Solver",
                     Description = "Sudoku-Solver-API",
                 },

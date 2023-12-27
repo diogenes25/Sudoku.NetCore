@@ -12,6 +12,14 @@
     <Version>1.0.1.1</Version>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
   </ItemGroup>

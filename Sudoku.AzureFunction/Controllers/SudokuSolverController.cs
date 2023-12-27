@@ -59,14 +59,14 @@ namespace Sudoku.AzureFunction.Controllers
             var transfer = new SudokuDto
             {
                 Cells = new List<int>(_board.CreateSimpleBoard()),
-                Action = new List<DigitAction>
-                 {
+                Action =
+                 [
                      new DigitAction
                      {
                          CellId = 1,
                          Digit = 2
                      }
-                 },
+                 ],
             };
             response.WriteAsJsonAsync(transfer);
             return response;
