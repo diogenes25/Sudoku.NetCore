@@ -83,7 +83,7 @@ namespace DE.Onnen.Sudoku
         /// Edge length of a box.<br />
         /// </summary>
         /// <remarks>
-        /// In a normal sudoku t is 3.<br />
+        /// In a normal sudoku it is 3.<br />
         /// Ultimately, all other terms are based on this value.
         /// </remarks>
         public static int DIMENSION => 3;
