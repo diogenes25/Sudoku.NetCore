@@ -657,14 +657,14 @@ namespace DE.Onnen.Sudoku
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                _logger.LogWarning("LoadSolveTechnics: filePath is not set.");
+                LogWarning_PathNotFound(_logger, filePath);
                 return;
             }
 
             var files = Directory.GetFiles(filePath, "*.dll");
             if (files.Length < 1)
             {
-                _logger.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
+                LogWarning_PathNotFound(_logger, filePath);
                 return;
             }
 
@@ -675,5 +675,9 @@ namespace DE.Onnen.Sudoku
                 _solveTechniques.Add(st);
             }
         }
+
+        [LoggerMessage(EventId = 140, Level = LogLevel.Warning, Message = "LoadSolveTechnics: filePath not found: {filePath}")]
+        private static partial void LogWarning_PathNotFound(ILogger<Board> logger, string filePath);
+
     }
 }

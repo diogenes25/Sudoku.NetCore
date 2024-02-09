@@ -148,7 +148,7 @@ namespace DE.Onnen.Sudoku
 
         private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("Digit"))
+            if (e.PropertyName == "Digit")
             {
                 ReCheck = true;
             }
