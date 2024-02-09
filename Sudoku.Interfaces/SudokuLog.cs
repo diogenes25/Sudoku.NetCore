@@ -3,18 +3,36 @@ using System.Text;
 
 namespace DE.Onnen.Sudoku
 {
+    /// <summary>
+    /// Represents a log entry for a Sudoku operation.
+    /// </summary>
     public class SudokuLog
     {
         private bool _successful = true;
 
-        public List<SudokuLog> ChildSudokuResult { get; set; } = new List<SudokuLog>();
+        /// <summary>
+        /// Gets or sets the list of child Sudoku log entries.
+        /// </summary>
+        public List<SudokuLog> ChildSudokuResult { get; set; } = [];
 
+        /// <summary>
+        /// Gets or sets the error message associated with the Sudoku operation.
+        /// </summary>
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the event information associated with the Sudoku operation.
+        /// </summary>
         public SudokuEvent EventInfoInResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parent Sudoku log entry.
+        /// </summary>
         public SudokuLog ParentSudokuResult { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Sudoku operation was successful.
+        /// </summary>
         public bool Successful
         {
             get
@@ -33,6 +51,10 @@ namespace DE.Onnen.Sudoku
             set => _successful = value;
         }
 
+        /// <summary>
+        /// Creates a child Sudoku log entry and adds it to the list of child entries.
+        /// </summary>
+        /// <returns>The created child Sudoku log entry.</returns>
         public SudokuLog CreateChildResult()
         {
             var child = new SudokuLog
@@ -43,6 +65,10 @@ namespace DE.Onnen.Sudoku
             return child;
         }
 
+        /// <summary>
+        /// Returns a string representation of the Sudoku log entry.
+        /// </summary>
+        /// <returns>A string representation of the Sudoku log entry.</returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

@@ -71,8 +71,8 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Creates a cell whose id and candidates are read from the passed bits (inside the int)
         /// </summary>
-        /// <param name="bitsThatRepresendsACell"></param>
-        /// <returns>New Cell</returns>
+        /// <param name="bitsThatRepresendsACell">The bits that represent a cell</param>
+        /// <returns>A new Cell instance</returns>
         public static Cell CreateCellFromUniqueID(int bitsThatRepresendsACell)
         {
             var mask = ((1 << 7) - 1);
@@ -97,8 +97,15 @@ namespace DE.Onnen.Sudoku
             return createdCell;
         }
 
+        /// <summary>
+        /// Creates a unique ID for a cell based on its ID and digit
+        /// </summary>
+        /// <param name="id">The ID of the cell</param>
+        /// <param name="digit">The digit of the cell</param>
+        /// <returns>The unique ID for the cell</returns>
         public static int CreateUniqueID(int id, int digit) => ((digit << 7) + id) * -1;
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null || obj is not ICell)
@@ -109,7 +116,8 @@ namespace DE.Onnen.Sudoku
             return ID == ((ICell)obj).ID;
         }
 
-        public bool Equals(ICell othercell)
+        /// <inheritdoc />
+        public bool Equals(ICell? othercell)
         {
             if (othercell == null)
             {
@@ -118,17 +126,20 @@ namespace DE.Onnen.Sudoku
             return ID == othercell.ID;
         }
 
-        /// <inheritdoc/>
-        public bool Equals(Cell other) => Equals((ICell)other);
+        /// <inheritdoc />
+        public bool Equals(Cell? other) => Equals(othercell: other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override int GetHashCode() => GetUniqueID();
 
         /// <summary>
-        /// A UniqueID contains the the ID and the candidates
+        /// Gets the unique ID of the cell
         /// </summary>
-        /// <remarks>Its an int where the first 7 Bits are reserved for the Cell.ID and the last Bit represents the canditates (every bit for one canditate)</remarks>
-        /// <returns>Bitmask that incudes the ID and the candidates (Bits after position 7) combined</returns>
+        /// <remarks>
+        /// A UniqueID contains the ID and the candidates.
+        /// It is an int where the first 7 bits are reserved for the Cell.ID and the last bit represents the candidates (every bit for one candidate).
+        /// </remarks>
+        /// <returns>The bitmask that includes the ID and the candidates (bits after position 7) combined</returns>
         public int GetUniqueID()
         {
             if (Digit == 0)
@@ -150,9 +161,9 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        /// Every Cell-information.
+        /// Gets a string representation of the cell
         /// </summary>
-        /// <returns>String that contains every cell-information.</returns>
+        /// <returns>A string that contains every cell information</returns>
         public override string ToString() => HType + "(" + ID + ") [" + ((char)(int)((ID / Consts.DIMENSIONSQUARE) + 65)) + "" + ((ID % Consts.DIMENSIONSQUARE) + 1) + "] " + _digit;
 
         internal override bool SetDigit(int digitFromOutside, SudokuLog sudokuResult)
@@ -199,6 +210,7 @@ namespace DE.Onnen.Sudoku
             return true;
         }
 
+        /// <inheritdoc />
         public new void Clear()
         {
             base.Clear();

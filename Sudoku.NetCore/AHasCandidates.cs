@@ -4,6 +4,9 @@ using System.ComponentModel;
 
 namespace DE.Onnen.Sudoku
 {
+    /// <summary>
+    /// Abstract base class for objects that have candidates.
+    /// </summary>
     public abstract class AHasCandidates : IHasCandidates, INotifyPropertyChanged //, System.IEquatable<AHasCandidates>
     {
         /// <summary>
@@ -11,6 +14,11 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         internal int _candidateValueInternal = Consts.BASESTART;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AHasCandidates"/> class.
+        /// </summary>
+        /// <param name="id">The ID of the object.</param>
+        /// <param name="ht">The house type of the object.</param>
         protected AHasCandidates(int id, EHouseType ht)
         {
             ID = id;
@@ -53,12 +61,17 @@ namespace DE.Onnen.Sudoku
         public int ID { get; private set; }
 
         /// <summary>
-        /// Set the candidates to all possible Numbers
+        /// Set the candidates to all possible Numbers.
         /// </summary>
         /// <see cref="Consts.BASESTART"/>
         public virtual void Clear() => _candidateValueInternal = Consts.BASESTART;
 
-        public override bool Equals(object other)
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="other">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object? other)
         {
             if (other == null || other is not IHasCandidates)
             {
@@ -68,7 +81,12 @@ namespace DE.Onnen.Sudoku
             return Equals((IHasCandidates)other);
         }
 
-        public bool Equals(IHasCandidates other)
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="other">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public bool Equals(IHasCandidates? other)
         {
             if (other == null)
             {
@@ -78,6 +96,10 @@ namespace DE.Onnen.Sudoku
             return (ID == other.ID) && HType == other.HType;
         }
 
+        /// <summary>
+        /// Calculates the hash code for the current object.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() => ID + (((int)HType) * 100);
 
         /// <inheritdoc />
@@ -119,8 +141,8 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Check if there is only one candidate left.
         /// </summary>
-        /// <param name="sudokuResult">Log </param>
-        /// <returns>true = Only one candidate was left and will be set</returns>
+        /// <param name="sudokuResult">The log.</param>
+        /// <returns>true if only one candidate was left and will be set; otherwise, false.</returns>
         public bool CheckLastDigit(SudokuLog sudokuResult)
         {
             // Check every possible Digit
@@ -154,17 +176,17 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Cell-Value (CandidateValue and/or Digit) changed.
         /// </summary>
-        /// <param name="propertyName">Digit or CadidateValue</param>
+        /// <param name="propertyName">The name of the property that changed.</param>
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
-        /// Set new PropertyValue and fire ProperyChanged-Event when old value differs from new value.
+        /// Set new property value and fire PropertyChanged event when old value differs from new value.
         /// </summary>
-        /// <typeparam name="T">Propertytype</typeparam>
-        /// <param name="field">Property</param>
-        /// <param name="value">new value</param>
-        /// <param name="propertyName">Propertyname</param>
-        /// <returns>true = Value changed</returns>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="field">The backing field of the property.</param>
+        /// <param name="value">The new value of the property.</param>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <returns>true if the value changed; otherwise, false.</returns>
         protected bool SetField<T>(ref T field, T value, string propertyName)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))

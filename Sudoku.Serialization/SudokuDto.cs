@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="SudokuTransfer.cs" company="Onnen.de">
+// <copyright file="SudokuDto.cs" company="Onnen.de">
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
@@ -17,11 +17,11 @@ namespace DE.Onnen.Sudoku.Serialization
         /// <summary>
         /// Gets or sets the action that set a digit by the user.
         /// </summary>
-        public List<DigitAction> Action { get; init; }
+        public IEnumerable<DigitAction> Action { get; init; }
 
         /// <summary>
         /// Gets or sets the cell information that represent a board.
         /// </summary>
-        public List<int> Cells { get; init; }
+        public IEnumerable<int> Cells { get; init; }
     }
 }

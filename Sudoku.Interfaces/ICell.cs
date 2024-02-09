@@ -33,8 +33,6 @@ namespace DE.Onnen.Sudoku
         /// </remarks>
         bool IsGiven { get; }
 
-        bool Equals(ICell othercell);
-
         /// <summary>
         /// Set the digit and removes candidates in nested Houses (col, row and box).
         /// </summary>

@@ -1,28 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
+  <PropertyGroup>
+    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC</SSDTPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <ApplicationIcon />
-
     <OutputType>Library</OutputType>
-
     <StartupObject />
   </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Remove="TestRessources.resx" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeCoverage" Version="17.8.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="17.9.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Extensions\Sudoku.Extensions.csproj" />
     <ProjectReference Include="..\Sudoku.Interfaces\Sudoku.Interfaces.csproj" />
@@ -33,7 +35,6 @@
     <ProjectReference Include="..\Sudoku.SolveTechniqueHiddenDTQ\Sudoku.SolveTechniqueHiddenDTQ.csproj" />
     <ProjectReference Include="..\Sudoku.SolveTechniqueLockedCandidates\Sudoku.SolveTechniqueLockedCandidates.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <ApplicationDefinition Include="TestRessources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -41,7 +42,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </ApplicationDefinition>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="TestResource.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -49,7 +49,6 @@
       <DependentUpon>TestResource.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="TestResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -57,7 +56,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="TestData\HardestDatabase110626.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -66,5 +64,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
+  <ItemGroup />
+  <ItemGroup Condition="$(VisualStudioVersion) == '17.0'">
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />
 </Project>

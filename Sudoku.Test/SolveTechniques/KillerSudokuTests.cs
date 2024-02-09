@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.SolveTechniques.KillerSudoku;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -100,7 +98,6 @@ namespace Sudoku.Test.SolveTechniques
                 {
                     for (var endDigit = 9; endDigit > startDigit; endDigit--)
                     {
-
                         Console.WriteLine($"anzCells:{anzCells}, startDigit{startDigit}, endDigit:{endDigit} = ");
                         //for (var endDigit = startDigit; endDigit < 9-anzCells; endDigit++)
                         //{
@@ -108,9 +105,7 @@ namespace Sudoku.Test.SolveTechniques
                         //    var list = Enumerable.Range(startDigit, endDigit).ToList();
                         //    Console.WriteLine(string.Join(",", list));
                         //}
-
                     }
-
                 }
             }
         }

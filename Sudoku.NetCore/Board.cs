@@ -6,34 +6,33 @@ using System.IO;
 using System.Linq;
 using DE.Onnen.Sudoku.SolveTechniques;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace DE.Onnen.Sudoku
 {
     /// <summary>
-    /// https://github.com/diogenes25/Sudoku
-    /// http://diogenes25.github.io/Sudoku/
-    /// http://sudoku-solutions.com/
-    /// http://hodoku.sourceforge.net/de/index.php
-    /// http://forum.enjoysudoku.com/
-    /// http://www.sadmansoftware.com/sudoku/solvingtechniques.htm
-    /// http://www.setbb.com/phpbb/viewtopic.php?t=379&mforum=sudoku
-    /// http://www.playr.co.uk/sudoku/dictionary.php
-    /// http://www.sudocue.net/glossary.php
-    /// http://walter.bislins.ch/projekte/index.asp?page=Sudoku
+    /// Represents a Sudoku board.
     /// </summary>
-    public class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
+    public partial class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
+        /// <summary>
+        /// The cells of the Sudoku board.
+        /// </summary>
         private Cell[] _cells = new Cell[Consts.COUNTCELL];
 
         private const int BLOCK_CONTAINERTYPE = 2;
         private const int COL_CONTAINERTYPE = 1;
         private const int ROW_CONTAINERTYPE = 0;
         private readonly House[][] _container = new House[Consts.DIMENSIONSQUARE][];
-        private readonly List<SudokuHistoryItem> _history = new();
+        private readonly List<SudokuHistoryItem> _history = [];
         private bool _keepGoingWithChecks;
         private List<ISolveTechnique<Cell>>? _solveTechniques;
-        private readonly ILogger<Board>? _logger;
+        private readonly ILogger<Board> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Board"/> class.
+        /// The default constructor will create a new board with all cells set to 0.
+        /// </summary>
         public Board()
         {
             var loggerFactory = LoggerFactory.Create(builder =>
@@ -46,52 +45,56 @@ namespace DE.Onnen.Sudoku
             Init();
         }
 
-        public Board(ILogger<Board>? logger)
-        {
-            _logger = logger;
-            Init();
-        }
-
-        public Board(IEnumerable<ISolveTechnique<Cell>> solveTechniques, ILogger<Board>? logger)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Board"/> class with the specified solve techniques and logger.
+        /// </summary>
+        /// <param name="solveTechniques">The solve techniques to use.</param>
+        /// <param name="logger">The logger to use.</param>
+        public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques, ILogger<Board> logger)
         {
             _solveTechniques = solveTechniques?.ToList();
-            _logger = logger;
+            _logger = logger ?? NullLogger<Board>.Instance;
             Init();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Board"/> class with the solve techniques loaded from the specified file.
+        /// </summary>
+        /// <param name="filePath">The path to the file containing the solve techniques.</param>
         public Board(string filePath)
         {
+            _logger = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+                builder.AddDebug();
+            }).CreateLogger<Board>();
+
             LoadSolveTechnics(filePath);
             Init();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Board"/> class with the specified unique cell IDs, solve techniques, and logger.
+        /// </summary>
+        /// <param name="uniqueCellIDs">The unique cell IDs to fill the board with.</param>
+        /// <param name="solveTechniques">The solve techniques to use.</param>
+        /// <param name="logger">The logger to use.</param>
         public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null, ILogger<Board>? logger = null)
         {
             _solveTechniques = solveTechniques?.ToList();
-            _logger = logger;
+            _logger = logger ?? NullLogger<Board>.Instance;
             Init();
             FillBoardWithUniqueCellIDs(uniqueCellIDs);
         }
 
         /// <summary>
-        /// Changes in board
+        /// Occurs when changes are made to the board.
         /// </summary>
-        public event System.EventHandler<SudokuEvent> BoardChangeEvent;
+        public event System.EventHandler<SudokuEvent>? BoardChangeEvent;
 
         /// <summary>
-        /// Count of cells (normaly 81 = 9*9)
+        /// Gets the percentage of the board that has been solved.
         /// </summary>
-        public int Count => _cells.Length;
-
-        /// <summary>
-        /// History of Steps during the solvingprocess
-        /// </summary>
-        public ReadOnlyCollection<SudokuHistoryItem> History => _history.AsReadOnly();
-
-        /// <summary>
-        /// Percent
-        /// </summary>
-        /// <returns>Percent</returns>
         public double SolvePercent
         {
             get
@@ -112,17 +115,16 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        /// Loaded solvetechniques.
+        /// Gets or sets the cell at the specified index.
         /// </summary>
-        public IList<ISolveTechnique<Cell>>? SolveTechniques => _solveTechniques?.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">The index of the cell.</param>
+        /// <returns>The cell at the specified index.</returns>
         public Cell this[int index] => _cells[index];
 
+        /// <summary>
+        /// Performs backtracking to solve the Sudoku board.
+        /// </summary>
+        /// <returns>The result of the backtracking operation.</returns>
         public SudokuLog Backtracking()
         {
             var tmpSudokuResult = new SudokuLog();
@@ -137,7 +139,7 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        /// Reset Board.
+        /// Resets the board by setting all cells to 0.
         /// </summary>
         public void Clear()
         {
@@ -158,23 +160,10 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        /// Clone Board.
+        /// Determines whether the specified object is equal to the current board.
         /// </summary>
-        /// <returns>copy of board</returns>
-        public object Clone() => new Board(CreateSimpleBoard(), _solveTechniques);
-
-        // Convert a Board to an int-Array
-        /// <summary>
-        /// Convert a Board to an int-Array
-        /// </summary>
-        /// <remarks>
-        /// Positiv value = Candidates as bitmask.<br/>
-        /// Negativ value = Digit.
-        /// </remarks>
-        /// <param name="board"></param>
-        /// <returns></returns>
-        public int[] CreateSimpleBoard() => this.Select(x => x.GetUniqueID()).ToArray();
-
+        /// <param name="obj">The object to compare with the current board.</param>
+        /// <returns>true if the specified object is equal to the current board; otherwise, false.</returns>
         public override bool Equals(object obj)
         {
             if (obj is not null and IBoard<Cell> board)
@@ -185,7 +174,18 @@ namespace DE.Onnen.Sudoku
             return false;
         }
 
-        public bool Equals(IBoard<Cell> other)
+        /// <summary>
+        /// Creates a copy of the board.
+        /// </summary>
+        /// <returns>A copy of the board.</returns>
+        public object Clone() => new Board(CreateSimpleBoard(), _solveTechniques);
+
+        /// <summary>
+        /// Determines whether the specified board is equal to the current board.
+        /// </summary>
+        /// <param name="other">The board to compare with the current board.</param>
+        /// <returns>true if the specified board is equal to the current board; otherwise, false.</returns>
+        public bool Equals(IBoard<Cell>? other)
         {
             var retVal = true;
             if (other == null)
@@ -200,8 +200,17 @@ namespace DE.Onnen.Sudoku
             return retVal;
         }
 
-        public bool Equals(Board other) => Equals((IBoard<Cell>)other);
+        /// <summary>
+        /// Determines whether the specified board is equal to the current board.
+        /// </summary>
+        /// <param name="other">The board to compare with the current board.</param>
+        /// <returns>true if the specified board is equal to the current board; otherwise, false.</returns>
+        public bool Equals(Board? other) => Equals((IBoard<Cell>)other);
 
+        /// <summary>
+        /// Fills the board with the specified unique cell IDs.
+        /// </summary>
+        /// <param name="uniqueCellIDs">The unique cell IDs to fill the board with.</param>
         public void FillBoardWithUniqueCellIDs([NotNull] IEnumerable<int> uniqueCellIDs)
         {
             foreach (var uniqueCellID in uniqueCellIDs)
@@ -214,10 +223,22 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the cells of the board.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the cells of the board.</returns>
         public IEnumerator<Cell> GetEnumerator() => _cells.Select(x => (Cell)x).GetEnumerator();
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the cells of the board.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the cells of the board.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => _cells.GetEnumerator();
 
+        /// <summary>
+        /// Returns the hash code for the board.
+        /// </summary>
+        /// <returns>The hash code for the board.</returns>
         public override int GetHashCode()
         {
             var retHash = 0;
@@ -228,9 +249,18 @@ namespace DE.Onnen.Sudoku
             return retHash;
         }
 
+        /// <summary>
+        /// Gets the house of the specified type and ID.
+        /// </summary>
+        /// <param name="houseType">The type of the house.</param>
+        /// <param name="houseID">The ID of the house.</param>
+        /// <returns>The house of the specified type and ID.</returns>
         public IHouse<Cell> GetHouse(EHouseType houseType, int houseID) => _container[houseID][(int)houseType];
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Determines whether the board is complete (all cells are filled).
+        /// </summary>
+        /// <returns>true if the board is complete; otherwise, false.</returns>
         public bool IsComplete()
         {
             var containerType = 0;
@@ -245,38 +275,20 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <summary>
-        /// Set Cells from otherBoard to this Board.
+        /// Sets the digit at the specified cell ID.
         /// </summary>
-        /// <param name="otherBoard">Another Board</param>
-        public void SetBoard(IBoard<Cell> otherBoard)
-        {
-            if (otherBoard == null)
-            {
-                return;
-            }
-
-            for (var i = 0; i < Consts.COUNTCELL; i++)
-            {
-                if (otherBoard[i].Digit > 0)
-                {
-                    _cells[i].Digit = otherBoard[i].Digit;
-                }
-                else
-                {
-                    _cells[i].CandidateValue = otherBoard[i].CandidateValue;
-                }
-            }
-        }
-
-        /// <inheritdoc/>
+        /// <param name="cellID">The ID of the cell.</param>
+        /// <param name="digitToSet">The digit to set.</param>
+        /// <returns>The result of setting the digit.</returns>
         public SudokuLog SetDigit(int cellID, int digitToSet) => SetDigit(cellID, digitToSet, false);
 
         /// <summary>
-        /// Set a digit at cell.
+        /// Sets the digit at the specified cell ID.
         /// </summary>
-        /// <param name="cellID">ID of cell</param>
-        /// <param name="digitToSet">Set Digit to Cell</param>
-        /// <param name="withSolve">true = Start solving with every solvetechnique (without backtrack) after digit was set.</param>
+        /// <param name="cellID">The ID of the cell.</param>
+        /// <param name="digitToSet">The digit to set.</param>
+        /// <param name="withSolve">true to start solving with every solve technique (without backtracking) after the digit is set; otherwise, false.</param>
+        /// <returns>The result of setting the digit.</returns>
         public SudokuLog SetDigit(int cellID, int digitToSet, bool withSolve)
         {
             var sudokuResult = new SudokuLog
@@ -319,11 +331,71 @@ namespace DE.Onnen.Sudoku
             return sudokuResult;
         }
 
+        /// <summary>
+        /// Starts solving the Sudoku board using the loaded solve techniques.
+        /// </summary>
+        /// <returns>The result of the solving process.</returns>
+        public SudokuLog StartSolve()
+        {
+            var initSudokuLog = new SudokuLog();
+            Solve(initSudokuLog);
+            return initSudokuLog;
+        }
+
+        /// <summary>
+        /// Count of cells (normaly 81 = 9*9)
+        /// </summary>
+        public int Count => _cells.Length;
+
+        /// <summary>
+        /// History of Steps during the solvingprocess
+        /// </summary>
+        public ReadOnlyCollection<SudokuHistoryItem> History => _history.AsReadOnly();
+
+        /// <summary>
+        /// Loaded solvetechniques.
+        /// </summary>
+        public IList<ISolveTechnique<Cell>>? SolveTechniques => _solveTechniques?.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
+
+        /// <summary>
+        /// Convert a Board to an int-Array
+        /// </summary>
+        /// <remarks>
+        /// Positiv value = Candidates as bitmask.<br/>
+        /// Negativ value = Digit.
+        /// </remarks>
+        /// <returns>Int-Array that represents the board</returns>
+        public int[] CreateSimpleBoard() => this.Select(x => x.GetUniqueID()).ToArray();
+
+        /// <summary>
+        /// Set Cells from otherBoard to this Board.
+        /// </summary>
+        /// <param name="otherBoard">Another Board</param>
+        public void SetBoard(IBoard<Cell> otherBoard)
+        {
+            if (otherBoard == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < Consts.COUNTCELL; i++)
+            {
+                if (otherBoard[i].Digit > 0)
+                {
+                    _cells[i].Digit = otherBoard[i].Digit;
+                }
+                else
+                {
+                    _cells[i].CandidateValue = otherBoard[i].CandidateValue;
+                }
+            }
+        }
+
         private void SetHistory(int historyId)
         {
             if (historyId < 0 || historyId >= _history.Count)
             {
-                _logger?.LogWarning($"SetHistory with parameter historyId (value:{historyId}) is out of range (0 - {_history.Count})");
+                LogError_DigitCouldNotSet(_logger, historyId, (_history.Count));
                 return;
             }
 
@@ -337,7 +409,8 @@ namespace DE.Onnen.Sudoku
                     }
                     catch (Exception ex)
                     {
-                        _logger?.LogError(ex, $"Error in SetHistory: _cells[{i}].Digit = _history[{historyId}].BoardInt[{i}]");
+                        LogError_DigitCouldNotSet(_logger, i, historyId, ex);
+                        //_logger?.LogError(ex, LoggerMessage. "Error in SetHistory: _cells[{CellId}].Digit = _history[HistoryId}].BoardInt[{CellId}]", i, historyId);
                     }
                 }
                 else
@@ -347,15 +420,11 @@ namespace DE.Onnen.Sudoku
             }
         }
 
-        /// <summary>
-        /// Solves Sudoku with SolveTechniques (no Backtracking).
-        /// </summary>
-        public SudokuLog StartSolve()
-        {
-            var initSudokuLog = new SudokuLog();
-            Solve(initSudokuLog);
-            return initSudokuLog;
-        }
+        [LoggerMessage(EventId = 100, Level = LogLevel.Warning, Message = "SetHistory with parameter historyId (value:{historyId}) is out of range (0 - {hisCount})")]
+        private static partial void LogError_DigitCouldNotSet(ILogger<Board> logger, int historyId, int hisCount);
+
+        [LoggerMessage(EventId = 110, Level = LogLevel.Error, Message = "Error in SetHistory: _cells[{cellId}].Digit = _history[{historyId}].BoardInt[{cellId}]")]
+        private static partial void LogError_DigitCouldNotSet(ILogger<Board> logger, int cellId, int historyId, Exception ex);
 
         /// <summary>
         /// Solves Sudoku with SolveTechniques (no Backtracking).
@@ -444,6 +513,9 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         internal void SomeChangesOccurs() => _keepGoingWithChecks = true;
 
+        [LoggerMessage(EventId = 130, Level = LogLevel.Error, Message = "Error in BacktrackingContinue: board.IsComplete()")]
+        private static partial void LogError_BacktrackingContinue(ILogger<Board> logger, Exception ex);
+
         private bool BacktrackingContinue(Board board)
         {
             bool isComplete;
@@ -453,7 +525,7 @@ namespace DE.Onnen.Sudoku
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error in BacktrackingContinue: board.IsComplete()");
+                LogError_BacktrackingContinue(_logger, ex);
                 return false;
             }
 
@@ -484,7 +556,7 @@ namespace DE.Onnen.Sudoku
                         }
                         catch (Exception ex)
                         {
-                            _logger?.LogError(ex, "Error in BacktrackingContinue: board.IsComplete()");
+                            LogError_BacktrackingContinue(_logger, ex);
                             return false;
                         }
 
@@ -512,7 +584,7 @@ namespace DE.Onnen.Sudoku
             return false;
         }
 
-        private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) => SomeChangesOccurs();
+        private void Cell_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => SomeChangesOccurs();
 
         private void Init()
         {
@@ -569,9 +641,14 @@ namespace DE.Onnen.Sudoku
             }
         }
 
+        /// <summary>
+        /// Adds a solve technique to the board.
+        /// </summary>
+        /// <param name="solveTechnique">The solve technique to add.</param>
+        /// <returns>The board with the added solve technique.</returns>
         public Board AddSolveTechnique(ISolveTechnique<Cell> solveTechnique)
         {
-            _solveTechniques ??= new List<ISolveTechnique<Cell>>();
+            _solveTechniques ??= [];
             _solveTechniques.Add(solveTechnique);
             return this;
         }
@@ -580,14 +657,14 @@ namespace DE.Onnen.Sudoku
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                _logger?.LogWarning("LoadSolveTechnics: filePath is not set.");
+                _logger.LogWarning("LoadSolveTechnics: filePath is not set.");
                 return;
             }
 
             var files = Directory.GetFiles(filePath, "*.dll");
             if (files.Length < 1)
             {
-                _logger?.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
+                _logger.LogWarning($"LoadSolveTechnics: filePath not found: {filePath}");
                 return;
             }
 

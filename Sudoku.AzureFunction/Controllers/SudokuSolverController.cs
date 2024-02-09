@@ -8,23 +8,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Sudoku.AzureFunction.Controllers
 {
-    public class SudokuSolverController
+    public class SudokuSolverController(Board board, ILoggerFactory loggerFactory)
     {
-        private readonly Board _board;
+        private readonly Board _board = board;
 
-        private readonly ILogger _logger;
-
-        public SudokuSolverController(Board board, ILoggerFactory loggerFactory)
-        {
-            _board = board;
-            _logger = loggerFactory.CreateLogger<SudokuSolverController>();
-        }
+        private readonly ILogger _logger = loggerFactory.CreateLogger<SudokuSolverController>();
 
         [Function("Solve")]
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("Solve.");
-            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuDto>();            
+            var sudokuTransfer = await req.ReadFromJsonAsync<SudokuDto>();
 
             if (sudokuTransfer != null)
             {
@@ -53,7 +47,7 @@ namespace Sudoku.AzureFunction.Controllers
         }
 
         [Function("SolveTest")]
-        public HttpResponseData StarterBoard([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
+        public async Task<HttpResponseData> StarterBoardAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             if (req.Query.AllKeys.Contains("board"))
             {
@@ -72,7 +66,7 @@ namespace Sudoku.AzureFunction.Controllers
                      }
                  ],
             };
-            response.WriteAsJsonAsync(transfer);
+            await response.WriteAsJsonAsync(transfer).ConfigureAwait(false);
             return response;
         }
 

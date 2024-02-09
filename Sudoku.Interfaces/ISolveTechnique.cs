@@ -29,15 +29,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     public interface ISolveTechnique<C> where C : ICell
     {
         /// <summary>
-        /// Gets cell-view.
-        /// </summary>
-        /// <remarks>
-        /// Defines whether this solution technique is performed only once per solution-run (ECellView.GlobalView),
-        /// or for each house (ECellView.OnlyHouse).
-        /// </remarks>
-        //ECellView CellView { get; }
-
-        /// <summary>
         /// Gets solveTechniqueInfo that describes the technique.
         /// </summary>
         SolveTechniqueInfo Info { get; }

@@ -5,6 +5,9 @@ using DE.Onnen.Sudoku.SolveTechniques;
 
 namespace Sudoku.NetCore
 {
+    /// <summary>
+    /// If only one candidate is left in a house, it is the last candidate and can be set.
+    /// </summary>
     public class LastCandidateInHouseTechiques : ASolveTechnique<Cell>
     {
         public SolveTechniqueInfo Info => SolveTechniqueInfo.GetTechniqueInfo(

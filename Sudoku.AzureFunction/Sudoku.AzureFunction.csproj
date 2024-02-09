@@ -7,11 +7,12 @@
     <Nullable>enable</Nullable>
     <PublishAot>False</PublishAot>
     <Trimming>full</Trimming>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.20.0" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.21.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.16.4" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.5.1" />
   </ItemGroup>
   <ItemGroup>
