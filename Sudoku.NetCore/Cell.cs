@@ -106,28 +106,28 @@ namespace DE.Onnen.Sudoku
         public static int CreateUniqueID(int id, int digit) => ((digit << 7) + id) * -1;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? other)
         {
-            if (obj == null || obj is not ICell)
+            if (other == null || other is not ICell)
             {
                 return false;
             }
 
-            return ID == ((ICell)obj).ID;
+            return ID == ((ICell)other).ID;
         }
 
         /// <inheritdoc />
-        public bool Equals(ICell? othercell)
+        public bool Equals(ICell? other)
         {
-            if (othercell == null)
+            if (other == null)
             {
                 return false;
             }
-            return ID == othercell.ID;
+            return ID == other.ID;
         }
 
         /// <inheritdoc />
-        public bool Equals(Cell? other) => Equals(othercell: other);
+        public bool Equals(Cell? other) => Equals(other: (ICell?)other);
 
         /// <inheritdoc />
         public override int GetHashCode() => GetUniqueID();
@@ -153,10 +153,10 @@ namespace DE.Onnen.Sudoku
         }
 
         /// <inheritdoc />
-        public SudokuLog SetDigit(int digitToSet)
+        public SudokuLog SetDigit(int digit)
         {
             var sudokuLog = new SudokuLog();
-            SetDigit(digitToSet, sudokuLog);
+            SetDigit(digit, sudokuLog);
             return sudokuLog;
         }
 
@@ -164,7 +164,7 @@ namespace DE.Onnen.Sudoku
         /// Gets a string representation of the cell
         /// </summary>
         /// <returns>A string that contains every cell information</returns>
-        public override string ToString() => HType + "(" + ID + ") [" + ((char)(int)((ID / Consts.DIMENSIONSQUARE) + 65)) + "" + ((ID % Consts.DIMENSIONSQUARE) + 1) + "] " + _digit;
+        public override string ToString() => $"{HType}({ID}) [" + ((char)((ID / Consts.DIMENSIONSQUARE) + 65)) + "" + ((ID % Consts.DIMENSIONSQUARE) + 1) + "] " + _digit;
 
         internal override bool SetDigit(int digitFromOutside, SudokuLog sudokuResult)
         {
@@ -202,7 +202,7 @@ namespace DE.Onnen.Sudoku
                 _fieldcontainters[i].SetDigit(digitFromOutside, sudokuResult);
                 if (!sudokuResult.Successful)
                 {
-                    sudokuResult.ErrorMessage = "Digit " + digitFromOutside + " is in Cell (FieldContainer) " + ID + " not possible";
+                    sudokuResult.ErrorMessage = $"Digit {digitFromOutside} is in Cell (FieldContainer) {ID} not possible";
                     return true;
                 }
             }

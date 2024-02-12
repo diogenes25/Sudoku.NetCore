@@ -1,12 +1,13 @@
-﻿using DE.Onnen.Sudoku;
-using DE.Onnen.Sudoku.SolveTechniques;
-
-namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
+﻿namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
 {
-    public class KillerSudokuTEchnique<C> : ASolveTechnique<C> where C : ICell
+    public class KillerSudokuTechnique<C> : ASolveTechnique<C> where C : ICell
     {
-        private readonly List<KillerHouse> _houses = new();
-        private int _id = 0;
+        private readonly List<KillerHouse> _houses = [];
+        private int _id;
+
+        public KillerSudokuTechnique() : base(SolveTechniqueInfo.GetTechniqueInfo(caption: "Killer", descr: "Bla bla"))
+        {
+        }
 
         public KillerHouse AddHouse(int sum, int x, int y)
         {
@@ -21,9 +22,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
         {
         }
 
-        public KillerHouse GetHouse(int id)
-        {
-            return _houses[id];
-        }
+        public KillerHouse GetHouse(int id) => _houses[id];
     }
 }

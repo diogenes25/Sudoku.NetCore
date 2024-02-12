@@ -9,15 +9,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// A Simple core implementation of the Interface ISolveTechnique.
     /// </summary>
     /// <typeparam name="C">Type of Cell</typeparam>
-    public abstract class ASolveTechnique<C> : ISolveTechnique<C> where C : ICell
+    /// <remarks>
+    /// Initializes a new instance of the ASolveTechnique class.
+    /// </remarks>
+    public abstract class ASolveTechnique<C>(SolveTechniqueInfo info) : ISolveTechnique<C> where C : ICell
     {
-        /// <summary>
-        /// Initializes a new instance of the ASolveTechnique class.
-        /// </summary>
-        protected ASolveTechnique() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Set Caption", descr: "Need Description");
-
         /// <inheritdoc />
-        public SolveTechniqueInfo Info { get; protected set; }
+        public SolveTechniqueInfo Info { get; init; } = info;
 
         /// <inheritdoc />
         public bool IsActive { get; private set; } = true;

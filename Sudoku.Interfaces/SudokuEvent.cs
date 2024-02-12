@@ -1,4 +1,9 @@
-﻿namespace DE.Onnen.Sudoku
+﻿//-----------------------------------------------------------------------
+// <copyright file="SudokuEvent.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+namespace DE.Onnen.Sudoku
 {
     /// <summary>
     /// Represents the action performed on a Sudoku cell.

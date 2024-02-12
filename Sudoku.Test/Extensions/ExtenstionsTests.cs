@@ -17,7 +17,7 @@ namespace Sudoku.Test.Extensions
             board.SetDigit(cellID: 1, digitToSet: 1);
 
             // Read cell (with id 2) and set digit (2) of the cell.
-            board[2].SetDigit(digitToSet: 2);
+            board[2].SetDigit(digit: 2);
 
             // Board-Extension "Matrix" to create a ASCII-Matrix of the board.
             var outp = board.Matrix();
@@ -42,7 +42,7 @@ namespace Sudoku.Test.Extensions
             board.SetDigit(cellID: 1, digitToSet: 1);
 
             // Read cell (with id 2) and set digit (2) of the cell.
-            board[2].SetDigit(digitToSet: 2);
+            board[2].SetDigit(digit: 2);
 
             // Board-Extension "Matrix" to create a ASCII-Matrix of the board.
             var outp = board.MatrixWithCandidates();

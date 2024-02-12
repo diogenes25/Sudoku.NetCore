@@ -81,7 +81,7 @@ namespace Sudoku.Test.SolveTechniques
                 for (var containerType = 0; containerType < 3; containerType++)
                 {
                     lastCandidateInHouse.SolveHouse(board, board.GetHouse((EHouseType)containerType, containerIdx), log);
-                    Assert.IsTrue(log.Successful, $"Error: {containerType} {containerIdx} = {log.ToString()}");
+                    Assert.IsTrue(log.Successful, $"Error: {containerType} {containerIdx} = {log}");
                 }
             }
             Console.WriteLine(board.MatrixWithCandidates());

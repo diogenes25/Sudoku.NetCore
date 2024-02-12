@@ -10,14 +10,22 @@ namespace Sudoku.NetCore
     /// </summary>
     public class LastCandidateInHouseTechiques : ASolveTechnique<Cell>
     {
-        public SolveTechniqueInfo Info => SolveTechniqueInfo.GetTechniqueInfo(
+        /// <inheritdoc />
+        public LastCandidateInHouseTechiques() : base(SolveTechniqueInfo.GetTechniqueInfo(
             caption: "Last Candidate in House",
             descr: "When only "
-        );
+        ))
+        {
+        }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Not Needed because the solve is done in the house.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="sudokuResult"></param>
         public override void SolveBoard(IBoard<Cell> board, SudokuLog sudokuResult)
         {
+            // Not Needed because the solve is done in the house.
         }
 
         /// <inheritdoc />
@@ -29,13 +37,9 @@ namespace Sudoku.NetCore
             {
                 foreach (var cand in cell.Candidates)
                 {
-                    if (singleCandCell.ContainsKey(cand))
+                    if (!singleCandCell.TryAdd(cand, cell))
                     {
                         singleCandCell[cand] = null;
-                    }
-                    else
-                    {
-                        singleCandCell.Add(cand, cell);
                     }
                 }
             }

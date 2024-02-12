@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICell.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DE.Onnen.Sudoku.SolveTechniques
@@ -15,10 +20,20 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// </remarks>
     public class HiddenPairTripleQuad<C> : ASolveTechnique<C> where C : ICell
     {
-        public HiddenPairTripleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Hidden TwinTripleQuad", descr: "This technique is very similar to naked subsets, but instead of affecting other cells with the same row, column or block, candidates are eliminated from the cells that hold the subset. If there are N cells, with N candidates between them that don't appear elsewhere in the same row, column or block, then any other candidates for those cells can be eliminated.");
+        public HiddenPairTripleQuad() : base(
+            SolveTechniqueInfo.GetTechniqueInfo(
+                caption: "Hidden TwinTripleQuad",
+                descr: "This technique is very similar to naked subsets, but instead of affecting other cells with the same row, column or block, candidates are eliminated from the cells that hold the subset. If there are N cells, with N candidates between them that don't appear elsewhere in the same row, column or block, then any other candidates for those cells can be eliminated."))
+        { }
 
+        /// <summary>
+        /// Not Needed because the solve is done in the house.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="sudokuResult"></param>
         public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult)
         {
+            // Not Needed because the solve is done in the house.
         }
 
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
@@ -34,11 +49,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                     var posDigit = house[i].Candidates;
                     foreach (var num in posDigit)
                     {
-                        if (!digitInCell.ContainsKey(num))
+                        if (!digitInCell.TryGetValue(num, out var value))
                         {
-                            digitInCell.Add(num, new List<ICell>());
+                            value = ([]);
+                            digitInCell.Add(num, value);
                         }
-                        digitInCell[num].Add(house[i]);
+
+                        value.Add(house[i]);
                     }
                 }
             }
@@ -63,11 +80,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
                 }
                 else if (kv.Value.Count < 5)
                 {
-                    if (!countDigitInCell.ContainsKey(kv.Value.Count))
+                    if (!countDigitInCell.TryGetValue(kv.Value.Count, out var value))
                     {
-                        countDigitInCell.Add(kv.Value.Count, new Dictionary<int, List<ICell>>());
+                        value = ([]);
+                        countDigitInCell.Add(kv.Value.Count, value);
                     }
-                    countDigitInCell[kv.Value.Count].Add(kv.Key, kv.Value);
+
+                    value.Add(kv.Key, kv.Value);
                 }
             }
 

@@ -21,7 +21,7 @@ namespace DE.Onnen.Sudoku
         /// Gets the percentage solution progress
         /// </summary>
         /// <remarks>
-        /// Percentage of completion based on candidates (Sudoku = 9(Row) * 9(Col) * 9(Candidates)). 
+        /// Percentage of completion based on candidates (Sudoku = 9(Row) * 9(Col) * 9(Candidates)).
         /// </remarks>
         /// <returns>Percentage solution progress</returns>
         double SolvePercent { get; }

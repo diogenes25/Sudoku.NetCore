@@ -1,13 +1,27 @@
-﻿namespace DE.Onnen.Sudoku.SolveTechniques
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICell.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+namespace DE.Onnen.Sudoku.SolveTechniques
 {
     public class LockedCandidates<C> : ASolveTechnique<C> where C : ICell
     {
-        public LockedCandidates() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates");
-
-        public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult)
+        public LockedCandidates() : base(SolveTechniqueInfo.GetTechniqueInfo(caption: "LockedCandidates", descr: "LockedCandidates"))
         {
         }
 
+        /// <summary>
+        /// Not Needed because the solve is done in the house.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="sudokuResult"></param>
+        public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult)
+        {
+            // Not Needed because the solve is done in the house.
+        }
+
+        /// <inheritdoc />
         public override void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult)
         {
             DigitInBlock(board, house, sudokuResult);

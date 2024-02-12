@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ICell.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DE.Onnen.Sudoku.SolveTechniques
@@ -13,11 +18,18 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// </summary>
     public class NakedPairTrippleQuad<C> : ASolveTechnique<C> where C : ICell
     {
-        public NakedPairTrippleQuad() => Info = SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad.");
+        public NakedPairTrippleQuad() : base(SolveTechniqueInfo.GetTechniqueInfo(caption: "Naked PairTripleQuad", descr: "Naked Pair Triple and/or Quad."))
+        {
+        }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Not Needed because the solve is done in the house.
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="sudokuResult"></param>
         public override void SolveBoard(IBoard<C> board, SudokuLog sudokuResult)
         {
+            // Not Needed because the solve is done in the house.
         }
 
         /// <inheritdoc />
@@ -28,12 +40,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
             foreach (var c in house)
             {
                 var val = c.CandidateValue;
-                if (!nakedMore.ContainsKey(val))
+                if (!nakedMore.TryGetValue(val, out var value))
                 {
-                    nakedMore.Add(val, new List<C>());
+                    value = ([]);
+                    nakedMore.Add(val, value);
                 }
 
-                nakedMore[val].Add(c);
+                value.Add(c);
             }
 
             foreach (var kv in nakedMore)

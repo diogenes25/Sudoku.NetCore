@@ -21,6 +21,8 @@ namespace DE.Onnen.Sudoku.Serialization
         /// <param name="board">The Sudoku board to serialize.</param>
         /// <param name="digActions">The digit actions to include in the serialization.</param>
         /// <returns>The JSON representation of the Sudoku board.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("AOT", "IL3050:Calling members annotated with 'RequiresDynamicCodeAttribute' may break functionality when AOT compiling.", Justification = "<Pending>")]
         public static string GetJson(this Board board, params DigitAction[] digActions)
         {
             var transfer = new SudokuDto
@@ -38,6 +40,8 @@ namespace DE.Onnen.Sudoku.Serialization
         /// <param name="json">The JSON string to deserialize.</param>
         /// <param name="solveTechniques">The solve techniques to use for solving the board.</param>
         /// <returns>The deserialized Sudoku board.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("AOT", "IL3050:Calling members annotated with 'RequiresDynamicCodeAttribute' may break functionality when AOT compiling.", Justification = "<Pending>")]
         public static Board ParseToBoard(string json, params ASolveTechnique<Cell>[] solveTechniques)
         {
             var transfer = JsonSerializer.Deserialize<SudokuDto>(json);

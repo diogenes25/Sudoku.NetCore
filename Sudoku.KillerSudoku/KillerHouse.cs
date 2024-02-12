@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using DE.Onnen.Sudoku;
 
 namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
 {
@@ -11,15 +10,15 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
         DOWN
     }
 
-    public class KillerHouse : IHasCandidates
+    public class KillerHouse(int sumValue, int x, int y, int id) : IHasCandidates
     {
-        private readonly List<EDirection> _directionPath = new();
-        private readonly List<ICell> _cells = new();
+        private readonly List<EDirection> _directionPath = [];
+        private readonly List<ICell> _cells = [];
         private KillerCell _startKillerCell;
         private IBoard<ICell> _board;
-        private readonly int _sumValue = 9;
-        private readonly int _x;
-        private readonly int _y;
+        private readonly int _sumValue = sumValue;
+        private readonly int _x = x;
+        private readonly int _y = y;
 
         public ReadOnlyCollection<int> Candidates => throw new NotImplementedException();
 
@@ -27,20 +26,9 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
 
         public EHouseType HType => EHouseType.Box;
 
-        public int ID { get; private set; }
+        public int ID { get; private set; } = id;
 
-        public KillerHouse(int sumValue, int x, int y, int id)
-        {
-            _sumValue = sumValue;
-            _x = x;
-            _y = y;
-            ID = id;
-        }
-
-        public void Set(IBoard<ICell> board)
-        {
-            _board = board;
-        }
+        public void Set(IBoard<ICell> board) => _board = board;
 
         public KillerCell Start()
         {
@@ -67,24 +55,18 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
 
         private readonly KillerCell _parentCell;
         private ICell _cell;
-        private KillerHouse _kbox;
+        private readonly KillerHouse _kbox;
 
         public KillerCell ParentCell => _parentCell;
 
-        public KillerCell(KillerHouse kbox)
-        {
-            _kbox = kbox;
-        }
+        public KillerCell(KillerHouse kbox) => _kbox = kbox;
 
         public KillerCell(KillerCell parentCell)
         {
             _parentCell = parentCell;
         }
 
-        public void SetCell(ICell cell)
-        {
-            _cell = cell;
-        }
+        public void SetCell(ICell cell) => _cell = cell;
 
         public KillerCell AddDirection(EDirection direction)
         {
@@ -96,7 +78,6 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
         public int Leafs()
         {
             return _nextCell.Values.Where(c => c is not null).Sum(s => s.Leafs()) + _nextCell.Values.Where(c => c is not null).Count();
-
         }
     }
 

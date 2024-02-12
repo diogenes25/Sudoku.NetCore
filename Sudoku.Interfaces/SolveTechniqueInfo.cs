@@ -30,13 +30,10 @@ namespace DE.Onnen.Sudoku
         /// <param name="caption">Short title like a headline</param>
         /// <param name="descr">description of the solving technique</param>
         /// <returns>Reference of SolveTechniqueInfo</returns>
-        public static SolveTechniqueInfo GetTechniqueInfo(string caption, string descr)
+        public static SolveTechniqueInfo GetTechniqueInfo(string caption, string descr) => new()
         {
-            return new SolveTechniqueInfo
-            {
-                Caption = caption,
-                Description = descr
-            };
-        }
+            Caption = caption,
+            Description = descr
+        };
     }
 }

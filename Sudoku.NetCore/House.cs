@@ -146,7 +146,7 @@ namespace DE.Onnen.Sudoku
             return true;
         }
 
-        private void Cell_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Cell_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Digit")
             {

@@ -12,12 +12,12 @@
         private Board _board;
 
         [ClassInitialize]
-        public static void MyClassInitialize(TestContext testContext) => _solveTechniques = new ASolveTechnique<Cell>[]
-            {
+        public static void MyClassInitialize(TestContext testContext) => _solveTechniques =
+            [
                 new DE.Onnen.Sudoku.SolveTechniques.HiddenPairTripleQuad<Cell>(),
                 new DE.Onnen.Sudoku.SolveTechniques.LockedCandidates<Cell>(),
                 new DE.Onnen.Sudoku.SolveTechniques.NakedPairTrippleQuad<Cell>()
-            };
+            ];
 
         [TestInitialize]
         public void Initialize() => _board = new Board(_solveTechniques, null);

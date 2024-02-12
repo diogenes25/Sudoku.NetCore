@@ -12,7 +12,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void Create_KillerBox()
         {
-            var killer = new KillerSudokuTEchnique<Cell>();
+            var killer = new KillerSudokuTechnique<Cell>();
             var cell = killer.AddHouse(5, 0, 0).Start().Right().Right().Down();
             Assert.IsNotNull(cell);
             Assert.AreEqual(0, cell.Leafs());
@@ -26,7 +26,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void House_KillerBox()
         {
-            var killer = new KillerSudokuTEchnique<Cell>();
+            var killer = new KillerSudokuTechnique<Cell>();
             var house = killer.AddHouse(6, 0, 0);
             var cell1 = house.Start();
             Assert.IsNotNull(cell1);

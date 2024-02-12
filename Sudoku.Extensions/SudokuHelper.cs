@@ -15,8 +15,8 @@ namespace DE.Onnen.Sudoku.Extensions
 
         public static IList<string> ReadBoardFromFile(string file)
         {
-            IList<string> retList = new List<string>();
-            TextReader tr = new StreamReader(file);
+            var retList = new List<string>();
+            var tr = new StreamReader(file);
             while (true)
             {
                 tr.ReadLine();
@@ -46,8 +46,8 @@ namespace DE.Onnen.Sudoku.Extensions
         /// <returns>List of Boards</returns>
         public static IList<string> ReadBoardFromFileTop(string file)
         {
-            IList<string> retList = new List<string>();
-            TextReader tr = new StreamReader(file);
+            var retList = new List<string>();
+            var tr = new StreamReader(file);
             string line;
             while ((line = tr.ReadLine()) != null)
             {

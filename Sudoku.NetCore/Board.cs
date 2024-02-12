@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Board.cs" company="Onnen.de">
+//    Onnen.de
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -13,7 +18,7 @@ namespace DE.Onnen.Sudoku
     /// <summary>
     /// Represents a Sudoku board.
     /// </summary>
-    public partial class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
+    public sealed partial class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
     {
         /// <summary>
         /// The cells of the Sudoku board.
@@ -94,6 +99,8 @@ namespace DE.Onnen.Sudoku
 
         /// <summary>
         /// Gets the percentage of the board that has been solved.
+        /// The percentage is calculated on the basis of the possible candidates.
+        /// So the basis of the calculation is 9 * 9 fields with 9 candidates each(729).
         /// </summary>
         public double SolvePercent
         {
@@ -164,15 +171,7 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="obj">The object to compare with the current board.</param>
         /// <returns>true if the specified object is equal to the current board; otherwise, false.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is not null and IBoard<Cell> board)
-            {
-                var nb = board;
-                return Equals(nb);
-            }
-            return false;
-        }
+        public override bool Equals(object? obj) => obj is not null and IBoard<Cell> board && Equals(board);
 
         /// <summary>
         /// Creates a copy of the board.
@@ -187,11 +186,12 @@ namespace DE.Onnen.Sudoku
         /// <returns>true if the specified board is equal to the current board; otherwise, false.</returns>
         public bool Equals(IBoard<Cell>? other)
         {
-            var retVal = true;
             if (other == null)
             {
                 return false;
             }
+
+            var retVal = true;
 
             for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
@@ -205,7 +205,7 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="other">The board to compare with the current board.</param>
         /// <returns>true if the specified board is equal to the current board; otherwise, false.</returns>
-        public bool Equals(Board? other) => Equals((IBoard<Cell>)other);
+        public bool Equals(Board? other) => Equals(other: other as IBoard<Cell>);
 
         /// <summary>
         /// Fills the board with the specified unique cell IDs.
@@ -304,7 +304,7 @@ namespace DE.Onnen.Sudoku
             if (cellID < 0 || cellID > _cells.Length)
             {
                 sudokuResult.Successful = false;
-                sudokuResult.ErrorMessage = "Cell " + cellID + " is not in range";
+                sudokuResult.ErrorMessage = $"Cell {cellID} is not in range";
                 return sudokuResult;
             }
             sudokuResult.EventInfoInResult.ChangedCellBase = _cells[cellID];
@@ -430,15 +430,18 @@ namespace DE.Onnen.Sudoku
         /// Solves Sudoku with SolveTechniques (no Backtracking).
         /// </summary>
         /// <param name="sudokuResult">Log</param>
-        private void Solve(SudokuLog sudokuResult)
+        private void Solve(SudokuLog? sudokuResult)
         {
-            var tmpSudokuResult = sudokuResult;
-            tmpSudokuResult ??= new SudokuLog();
+            var tmpSudokuResult = sudokuResult ?? new SudokuLog();
+            //tmpSudokuResult ??= new SudokuLog();
 
             if (_solveTechniques is null || _solveTechniques.Count < 1)
             {
-                sudokuResult.Successful = true;
-                sudokuResult.ErrorMessage = "No SolveTechnique is set";
+                if (sudokuResult is not null)
+                {
+                    sudokuResult.Successful = true;
+                    sudokuResult.ErrorMessage = "No SolveTechnique is set";
+                }
                 return;
             }
 
@@ -671,13 +674,12 @@ namespace DE.Onnen.Sudoku
             _solveTechniques = new List<ISolveTechnique<Cell>>(files.Length);
             foreach (var file in files)
             {
-                var st = SudokuSolveTechniqueLoader<Cell>.LoadSolveTechnic(file);
+                var st = SudokuSolveTechniqueLoader.LoadSolveTechnic<Cell>(file);
                 _solveTechniques.Add(st);
             }
         }
 
         [LoggerMessage(EventId = 140, Level = LogLevel.Warning, Message = "LoadSolveTechnics: filePath not found: {filePath}")]
         private static partial void LogWarning_PathNotFound(ILogger<Board> logger, string filePath);
-
     }
 }

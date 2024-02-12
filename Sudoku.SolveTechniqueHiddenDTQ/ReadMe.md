@@ -1,4 +1,4 @@
-﻿# Hidden Pairs/Triples/...
+﻿# Hidden Pairs/Triples/Quad
 
 https://sudoku.com/sudoku-rules/hidden-pairs/
 

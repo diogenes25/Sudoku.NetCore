@@ -6,7 +6,6 @@
 namespace DE.Onnen.Sudoku
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using DE.Onnen.Sudoku.Extensions;
     using global::Sudoku.NetCore;
@@ -34,7 +33,7 @@ namespace DE.Onnen.Sudoku
             var i = 0;
             for (i = 0; i < 2; i++)
             {
-                IList<string> boards = source.Split('\n');
+                var boards = source.Split('\n');
 
                 var emh = new int[3];
                 var total = 0;
