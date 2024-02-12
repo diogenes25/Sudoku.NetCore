@@ -95,7 +95,7 @@
                 _board.SetDigit(i, i + 1);
             }
             int[] expected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            var actual = ((Board)_board).CreateSimpleBoard();
+            var actual = _board.CreateSimpleBoard();
             Assert.AreEqual(expected.Length, actual.Length);
             for (var i = 0; i < Consts.COUNTCELL; i++)
             {
@@ -215,7 +215,7 @@
             var hash = otherBoard.GetHashCode();
             Assert.AreEqual(0, _board[0].Digit);
             Assert.AreNotEqual(hash, _board.GetHashCode());
-            ((Board)_board).SetBoard(otherBoard);
+            _board.SetBoard(otherBoard);
             Assert.AreEqual(1, _board[0].Digit);
             Assert.AreEqual(hash, _board.GetHashCode());
         }
@@ -377,11 +377,10 @@
         [TestMethod]
         public void SetDigitTest6_Test()
         {
-            var tmpBoard = (Board)_board;
-            tmpBoard.SetDigit(4, 1, 1);
-            tmpBoard.SetDigit(6, 0, 2);
-            tmpBoard.SetDigit(7, 0, 3);
-            var result = tmpBoard.SetDigit(8, 0, 4);
+            _board.SetDigit(4, 1, 1);
+            _board.SetDigit(6, 0, 2);
+            _board.SetDigit(7, 0, 3);
+            var result = _board.SetDigit(8, 0, 4);
             Assert.IsTrue(result.Successful);
             result = _board.StartSolve();
             Assert.IsTrue(result.Successful);

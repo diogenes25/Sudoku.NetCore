@@ -3,12 +3,14 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
+
 namespace DE.Onnen.Sudoku
 {
     /// <summary>
     /// Information about the implemented solution technology
     /// </summary>
-    public struct SolveTechniqueInfo
+    public struct SolveTechniqueInfo : IEquatable<SolveTechniqueInfo?>
     {
         /// <summary>
         /// Short title like a headline.
@@ -31,5 +33,8 @@ namespace DE.Onnen.Sudoku
             Caption = caption ?? string.Empty,
             Description = descr ?? string.Empty
         };
+
+        /// <inheritdoc />
+        public readonly bool Equals(SolveTechniqueInfo? other) => Caption?.Equals(other?.Caption) ?? false;
     }
 }

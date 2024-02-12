@@ -87,7 +87,6 @@ namespace Sudoku.SolveTechniques
             var board = Board.PureBoard();
 
             board.SetCellsFromString("000456789000000000000000000000000000000000000000000000000000000000000000000000000");
-            // System.Console.WriteLine(board.MatrixWithCandidates());
 
             Assert.IsTrue(board[9].Candidates.Contains(1));
             Assert.IsTrue(board[10].Candidates.Contains(1));
@@ -98,7 +97,6 @@ namespace Sudoku.SolveTechniques
 
             new LockedCandidates<Cell>().SolveHouse(board, board.GetHouse(EHouseType.Row, 0), new SudokuLog());
 
-            // System.Console.WriteLine(board.MatrixWithCandidates());
             Assert.IsFalse(board[9].Candidates.Contains(1), "Cell[24].Candidates must not contains 5");
             Assert.IsFalse(board[10].Candidates.Contains(2), "Cell[25].Candidates must not contains 5");
             Assert.AreEqual(6, board[9].Candidates.Count, "Cell[9] has 6 Candidates left. 1,2 and 3 are removed");

@@ -117,14 +117,8 @@ namespace Sudoku.Test.SolveTechniques
 "000502006" +
 "805090700" +
 "004067001");
-            //Assert.IsTrue(board[3].Candidates.Contains(4));
-            //Assert.IsTrue(board[6].Candidates.Contains(7));
-            //var firRow = board.GetHouse(EHouseType.Row, 0);
-            //var lastCandidateInHouse = new LastCandidateInHouseTechiques();
-            //Console.WriteLine(board.MatrixWithCandidates());
-            //lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
+
             Console.WriteLine(board.MatrixWithCandidates());
-            //Assert.AreEqual(4, board[3].Digit);
             Assert.IsTrue(board.IsComplete());
         }
 

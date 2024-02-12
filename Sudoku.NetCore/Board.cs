@@ -420,7 +420,6 @@ namespace DE.Onnen.Sudoku
                     catch (Exception ex)
                     {
                         LogError_DigitCouldNotSet(_logger, i, historyId, ex);
-                        //_logger?.LogError(ex, LoggerMessage. "Error in SetHistory: _cells[{CellId}].Digit = _history[HistoryId}].BoardInt[{CellId}]", i, historyId);
                     }
                 }
                 else
@@ -443,9 +442,8 @@ namespace DE.Onnen.Sudoku
         private void Solve(SudokuLog? sudokuResult)
         {
             var tmpSudokuResult = sudokuResult ?? new SudokuLog();
-            //tmpSudokuResult ??= new SudokuLog();
 
-            if ((_solveTechniques?.Count() ?? 0) < 1)
+            if ((_solveTechniques?.Count ?? 0) < 1)
             {
                 if (sudokuResult is not null)
                 {
