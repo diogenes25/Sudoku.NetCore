@@ -15,7 +15,7 @@
     public class BoardTests
     {
         private static ASolveTechnique<Cell>[] _solveTechniques;
-        private IBoard<Cell> _board;
+        private Board _board;
 
         //Use ClassInitialize to run code before running the first test in the class
         [ClassInitialize]
@@ -42,7 +42,7 @@
         [TestMethod]
         public void BoardConstructor_whith_null_techniques_cells_must_be_set_Test()
         {
-            IBoard<Cell> tmpBoard = new Board().AddSolveTechnique(null);
+            IBoard<Cell> tmpBoard = Board.PureBoard().AddSolveTechnique(null);
             CheckBoard(tmpBoard);
         }
 
@@ -106,7 +106,7 @@
                 Assert.AreEqual(_board[i].Digit, cellFromUniqueID.Digit);
             }
 
-            var recreatedBoard = new Board(actual);
+            var recreatedBoard = new Board(actual, solveTechniques: null, logger: null);
             for (var i = 0; i < Consts.COUNTCELL; i++)
             {
                 Assert.AreEqual(i, recreatedBoard[i].ID);
@@ -210,7 +210,7 @@
         [TestMethod]
         public void SetBoard_set_Digit_at_cell_0_Test()
         {
-            var otherBoard = new Board();
+            var otherBoard = Board.PureBoard();
             otherBoard.SetDigit(cellID: 0, digitToSet: 1);
             var hash = otherBoard.GetHashCode();
             Assert.AreEqual(0, _board[0].Digit);

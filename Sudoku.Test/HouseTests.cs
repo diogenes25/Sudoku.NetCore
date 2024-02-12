@@ -10,7 +10,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void Check_Last_Digit_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
             Assert.AreEqual(0, board[0].Digit);
             Assert.AreEqual(0, board[3].Digit);

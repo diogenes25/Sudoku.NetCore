@@ -8,12 +8,8 @@ namespace DE.Onnen.Sudoku
     /// <summary>
     /// Information about the implemented solution technology
     /// </summary>
-    public class SolveTechniqueInfo
+    public struct SolveTechniqueInfo
     {
-        private SolveTechniqueInfo()
-        {
-        }
-
         /// <summary>
         /// Short title like a headline.
         /// </summary>
@@ -32,8 +28,8 @@ namespace DE.Onnen.Sudoku
         /// <returns>Reference of SolveTechniqueInfo</returns>
         public static SolveTechniqueInfo GetTechniqueInfo(string caption, string descr) => new()
         {
-            Caption = caption,
-            Description = descr
+            Caption = caption ?? string.Empty,
+            Description = descr ?? string.Empty
         };
     }
 }

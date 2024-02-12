@@ -14,7 +14,7 @@ namespace DE.Onnen.Sudoku
     /// It contains the 81 constituent cells, lined up in 9 rows and 9 columns, with a distinct border around the boxes.
     /// </remarks>
     /// <typeparam name="C">Cell must be derived from ICell</typeparam>
-    public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>>
+    public interface IBoard<C> : ICellCollection<C>, IEquatable<IBoard<C>?>
     where C : ICell
     {
         /// <summary>

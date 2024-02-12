@@ -54,7 +54,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void HiddenPairTripleQuadTest_in_Row_Test()
         {
-            IBoard<Cell> board = new Board();
+            IBoard<Cell> board = Board.PureBoard();
 
             board.SetCellsFromString("000000000000000078000780000007000000008000000000000000000000000000000000000000000");
             Assert.IsTrue(board[0].Candidates.Contains(1));
@@ -82,7 +82,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Doc()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             board.SetCellsFromString("000000000000000078000780000007000000008000000000000000000000000000000000000000000");
             // Show init Board

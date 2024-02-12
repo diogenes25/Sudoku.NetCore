@@ -22,7 +22,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void Check_Equals_If_Cellvalue_Changes_Test()
         {
-            IBoard<Cell> otherBoard = new Board();
+            IBoard<Cell> otherBoard = Board.PureBoard();
             Assert.AreEqual(_board, otherBoard);
             Assert.AreEqual(_board.GetHashCode(), otherBoard.GetHashCode());
             var log = otherBoard[0].SetDigit(1);
@@ -37,7 +37,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void Clone_Digit_and_Candidates_are_equal_to_clone_Test()
         {
-            var expected = new Board();
+            var expected = Board.PureBoard();
             for (var i = 0; i < Consts.DIMENSIONSQUARE; i++)
             {
                 _board.SetDigit(i, i, i + 1);
@@ -73,7 +73,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void Equals_Test()
         {
-            var otherBoard = new Board();
+            var otherBoard = Board.PureBoard();
             var beq = _board.Equals(otherBoard);
             Assert.IsTrue(beq);
             Assert.AreEqual(_board, otherBoard);

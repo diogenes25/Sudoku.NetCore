@@ -18,7 +18,7 @@ namespace DE.Onnen.Sudoku
     /// <summary>
     /// Represents a Sudoku board.
     /// </summary>
-    public sealed partial class Board : ICloneable, IBoard<Cell>, IEquatable<Board>
+    public sealed partial class Board : ICloneable, IBoard<Cell>, IEquatable<Board?>
     {
         /// <summary>
         /// The cells of the Sudoku board.
@@ -38,16 +38,16 @@ namespace DE.Onnen.Sudoku
         /// Initializes a new instance of the <see cref="Board"/> class.
         /// The default constructor will create a new board with all cells set to 0.
         /// </summary>
-        public Board()
+        public static Board PureBoard()
         {
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-                builder.AddDebug();
-            });
+            var board = new Board(
+                               null, LoggerFactory.Create(builder =>
+                               {
+                                   builder.AddConsole();
+                                   builder.AddDebug();
+                               }).CreateLogger<Board>());
 
-            _logger = loggerFactory.CreateLogger<Board>();
-            Init();
+            return board;
         }
 
         /// <summary>
@@ -55,9 +55,16 @@ namespace DE.Onnen.Sudoku
         /// </summary>
         /// <param name="solveTechniques">The solve techniques to use.</param>
         /// <param name="logger">The logger to use.</param>
-        public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques, ILogger<Board> logger)
+        public Board(IEnumerable<ISolveTechnique<Cell>>? solveTechniques, ILogger<Board>? logger)
         {
-            _solveTechniques = solveTechniques?.ToList();
+            if (solveTechniques is not null)
+            {
+                foreach (var st in solveTechniques)
+                {
+                    AddSolveTechnique(st);
+                }
+            }
+
             _logger = logger ?? NullLogger<Board>.Instance;
             Init();
         }
@@ -66,16 +73,17 @@ namespace DE.Onnen.Sudoku
         /// Initializes a new instance of the <see cref="Board"/> class with the solve techniques loaded from the specified file.
         /// </summary>
         /// <param name="filePath">The path to the file containing the solve techniques.</param>
-        public Board(string filePath)
+        public static Board BoardFromFile(string filePath)
         {
-            _logger = LoggerFactory.Create(builder =>
+            var board = new Board(
+                null, LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
                 builder.AddDebug();
-            }).CreateLogger<Board>();
+            }).CreateLogger<Board>());
 
-            LoadSolveTechnics(filePath);
-            Init();
+            board.LoadSolveTechnics(filePath);
+            return board;
         }
 
         /// <summary>
@@ -84,7 +92,7 @@ namespace DE.Onnen.Sudoku
         /// <param name="uniqueCellIDs">The unique cell IDs to fill the board with.</param>
         /// <param name="solveTechniques">The solve techniques to use.</param>
         /// <param name="logger">The logger to use.</param>
-        public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques = null, ILogger<Board>? logger = null)
+        public Board([NotNull] IEnumerable<int> uniqueCellIDs, IEnumerable<ISolveTechnique<Cell>>? solveTechniques, ILogger<Board>? logger)
         {
             _solveTechniques = solveTechniques?.ToList();
             _logger = logger ?? NullLogger<Board>.Instance;
@@ -177,7 +185,7 @@ namespace DE.Onnen.Sudoku
         /// Creates a copy of the board.
         /// </summary>
         /// <returns>A copy of the board.</returns>
-        public object Clone() => new Board(CreateSimpleBoard(), _solveTechniques);
+        public object Clone() => new Board(CreateSimpleBoard(), _solveTechniques, _logger);
 
         /// <summary>
         /// Determines whether the specified board is equal to the current board.
@@ -263,14 +271,16 @@ namespace DE.Onnen.Sudoku
         /// <returns>true if the board is complete; otherwise, false.</returns>
         public bool IsComplete()
         {
-            var containerType = 0;
             for (var containerIdx = 0; containerIdx < Consts.DIMENSIONSQUARE; containerIdx++)
             {
-                if (!_container[containerIdx][containerType].IsComplete())
+                // Checks only the rows. Because if the rows are complete, the columns and blocks are also complete.
+                if (!_container[containerIdx][ROW_CONTAINERTYPE].IsComplete())
                 {
+                    // if one row is not complete, the board is not complete.
                     return false;
                 }
             }
+            // if there is no row that is not complete, the board is complete.
             return true;
         }
 
@@ -355,7 +365,7 @@ namespace DE.Onnen.Sudoku
         /// <summary>
         /// Loaded solvetechniques.
         /// </summary>
-        public IList<ISolveTechnique<Cell>>? SolveTechniques => _solveTechniques?.Select(x => (ISolveTechnique<Cell>)x).ToList<ISolveTechnique<Cell>>();
+        public IReadOnlyList<ISolveTechnique<Cell>>? SolveTechniques => _solveTechniques?.Select(x => (ISolveTechnique<Cell>)x)?.ToList<ISolveTechnique<Cell>>()?.AsReadOnly();
 
         /// <summary>
         /// Convert a Board to an int-Array
@@ -435,7 +445,7 @@ namespace DE.Onnen.Sudoku
             var tmpSudokuResult = sudokuResult ?? new SudokuLog();
             //tmpSudokuResult ??= new SudokuLog();
 
-            if (_solveTechniques is null || _solveTechniques.Count < 1)
+            if ((_solveTechniques?.Count() ?? 0) < 1)
             {
                 if (sudokuResult is not null)
                 {
@@ -651,8 +661,16 @@ namespace DE.Onnen.Sudoku
         /// <returns>The board with the added solve technique.</returns>
         public Board AddSolveTechnique(ISolveTechnique<Cell> solveTechnique)
         {
+            if (solveTechnique == null)
+            {
+                return this;
+            }
+
             _solveTechniques ??= [];
-            _solveTechniques.Add(solveTechnique);
+            if (!_solveTechniques.Contains(solveTechnique))
+            {
+                _solveTechniques.Add(solveTechnique);
+            }
             return this;
         }
 
@@ -675,7 +693,10 @@ namespace DE.Onnen.Sudoku
             foreach (var file in files)
             {
                 var st = SudokuSolveTechniqueLoader.LoadSolveTechnic<Cell>(file);
-                _solveTechniques.Add(st);
+                if (st != null)
+                {
+                    AddSolveTechnique(st);
+                }
             }
         }
 

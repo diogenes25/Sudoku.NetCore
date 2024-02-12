@@ -14,7 +14,7 @@ namespace Sudoku.AzureFunction.Controllers
 
         private readonly ILogger _logger = loggerFactory.CreateLogger<SudokuSolverController>();
 
-        [Function("Solve")]
+        [Function("solve")]
         public async Task<HttpResponseData> SolveAsync([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
         {
             _logger.LogInformation("Solve.");
@@ -46,7 +46,7 @@ namespace Sudoku.AzureFunction.Controllers
             return response;
         }
 
-        [Function("SolveTest")]
+        [Function("solvetest")]
         public async Task<HttpResponseData> StarterBoardAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             if (req.Query.AllKeys.Contains("board"))
@@ -70,7 +70,7 @@ namespace Sudoku.AzureFunction.Controllers
             return response;
         }
 
-        [Function("SolveHtml")]
+        [Function("solvehtml")]
         public async Task<HttpResponseData> SolveBoardReturnHtmlAsync([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req)
         {
             if (req.Query.AllKeys.Contains("board"))

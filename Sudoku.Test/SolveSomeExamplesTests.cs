@@ -24,7 +24,7 @@ namespace DE.Onnen.Sudoku
         [TestMethod]
         public void TestHardestData_Test()
         {
-            var board = new Board()
+            var board = Board.PureBoard()
                 .AddSolveTechnique(new LastCandidateInHouseTechiques())
                 .AddSolveTechnique(new SolveTechniques.HiddenPairTripleQuad<Cell>())
                 .AddSolveTechnique(new SolveTechniques.LockedCandidates<Cell>())

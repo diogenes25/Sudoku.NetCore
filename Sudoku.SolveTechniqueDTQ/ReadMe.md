@@ -12,7 +12,7 @@ using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 using DE.Onnen.Sudoku.SolveTechniques;
 
-var board = new Board();
+var board = Board.PureBoard();
 
 board.SetCellsFromString("123456700000000000000000000000000000000000000000000000000000000000000000000000000");
 // Show init Board

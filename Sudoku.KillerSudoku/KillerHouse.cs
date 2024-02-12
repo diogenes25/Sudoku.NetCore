@@ -32,10 +32,7 @@ namespace DE.Onnen.Sudoku.SolveTechniques.KillerSudoku
 
         public KillerCell Start()
         {
-            if (_startKillerCell is null)
-            {
-                _startKillerCell = new KillerCell(this);
-            }
+            _startKillerCell ??= new KillerCell(this);
             return _startKillerCell;
         }
 

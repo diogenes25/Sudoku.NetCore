@@ -26,6 +26,25 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <inheritdoc />
         public void Deactivate() => IsActive = false;
 
+        /// <inheritdoc/>
+        public bool Equals(ISolveTechnique<C> other) => Info.Caption == other?.Info.Caption;
+
+        /// <inheritdoc/>
+        public override bool Equals(object other)
+        {
+            if (other is ISolveTechnique<C> solveTechnique)
+            {
+                return Equals(solveTechnique);
+            }
+            return false;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => Info.Caption.GetHashCode();
+
+        /// <inheritdoc/>
+        public override string ToString() => Info.Caption;
+
         /// <inheritdoc />
         public abstract void SolveBoard(IBoard<C> board, SudokuLog sudokuResult);
 

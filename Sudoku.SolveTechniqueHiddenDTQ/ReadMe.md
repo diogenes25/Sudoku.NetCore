@@ -5,7 +5,7 @@ https://sudoku.com/sudoku-rules/hidden-pairs/
 https://sudoku.com/sudoku-rules/hidden-triples/
 
 ```csharp
-var board = new Board();
+var board = Board.PureBoard();
 
 board.SetCellsFromString("000000000000000078000780000007000000008000000000000000000000000000000000000000000");
 // Show init Board

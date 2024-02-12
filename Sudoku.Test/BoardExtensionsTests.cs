@@ -10,7 +10,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void ExtractCellsToString_Init_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             var resultStr = board.ExtractCellsToString();
             Assert.AreEqual(resultStr.Length, board.Count);
@@ -20,7 +20,7 @@ namespace Sudoku.Test
         [TestMethod]
         public void ExtractCellsToString_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetDigit(0, 0, 1);
             var resultStr = board.ExtractCellsToString();
 

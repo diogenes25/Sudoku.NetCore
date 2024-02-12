@@ -11,7 +11,7 @@ namespace Sudoku.Test.Extensions
         [TestMethod]
         public void MatrixTest()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             // Set 2 Digit with cellID
             board.SetDigit(cellID: 1, digitToSet: 1);
@@ -36,7 +36,7 @@ namespace Sudoku.Test.Extensions
         [TestMethod]
         public void MatrixWithCandidatesTest()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             // Set 2 Digit with cellID
             board.SetDigit(cellID: 1, digitToSet: 1);
@@ -55,22 +55,22 @@ namespace Sudoku.Test.Extensions
         [TestMethod]
         public void SetCellsFromStringTest()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             var boardAsStr = "123000000456000000700000000000000000000000000000000000000000000000000000000000000";
             board.SetCellsFromString(boardAsStr);
-            Assert.IsTrue(board[0].Digit == 1);
+            Assert.AreEqual(1, board[0].Digit);
         }
 
         [TestMethod]
         public void SetDigitTest()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetDigit(row: 0, col: 0, digit: 1);
-            Assert.IsTrue(board[0].Digit == 1);
+            Assert.AreEqual(1, board[0].Digit);
             board.SetDigit(row: 'A', col: 1, digit: 2);
-            Assert.IsTrue(board[1].Digit == 2);
+            Assert.AreEqual(2, board[1].Digit);
             board.SetDigit('a', 2, 3);
-            Assert.IsTrue(board[2].Digit == 3);
+            Assert.AreEqual(3, board[2].Digit);
         }
     }
 }

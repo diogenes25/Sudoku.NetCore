@@ -12,7 +12,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void Check_Last_Digit_Box_Simple_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
             Assert.AreEqual(0, board[0].Digit);
             Assert.AreEqual(0, board[3].Digit);
@@ -25,7 +25,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void Check_Last_Digit_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
             Assert.AreEqual(0, board[0].Digit);
             Assert.AreEqual(0, board[3].Digit);
@@ -38,7 +38,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void CheckLastDigit_Row_Double_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString(
 "000056089" +
 "000000000" +
@@ -59,9 +59,20 @@ namespace Sudoku.Test.SolveTechniques
         }
 
         [TestMethod]
-        public void Board_HighScholl_Level_Test()
+        public void Board_AddSolveTechnique_Multiple_Times_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
+            Assert.IsNull(board.SolveTechniques, "No solvetechnique when PureBoard is used");
+            board.AddSolveTechnique(new LastCandidateInHouseTechiques());
+            Assert.AreEqual(1, board.SolveTechniques.Count, "Only one solvetechnique must be set");
+            board.AddSolveTechnique(new LastCandidateInHouseTechiques());
+            Assert.AreEqual(1, board.SolveTechniques.Count, "Still only one solvetechnique must be set, because this solvetechnique is equal to the one which is already inserted");
+        }
+
+        [TestMethod]
+        public void Board_HighSchool_Level_Test()
+        {
+            var board = Board.PureBoard();
             board.AddSolveTechnique(new LastCandidateInHouseTechiques());
             board.SetCellsFromString(
 "050720300" +
@@ -95,7 +106,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void Simple_Sudoku_WithoutSolveTechnique_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString(
 "000480200" +
 "050010907" +
@@ -120,7 +131,7 @@ namespace Sudoku.Test.SolveTechniques
         [TestMethod]
         public void CheckLastDigit_Row_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString("030050040008010500460000012070502080000603000040109030250000098001020600080060020");
             Assert.IsTrue(board[0].Candidates.Contains(1));
             var firstBox = board.GetHouse(EHouseType.Row, 0);

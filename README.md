@@ -62,7 +62,7 @@ Start with a simple board.
 using DE.Onnen.Sudoku;
 
 // create a simple board with 81 cells.
-var board = new Board();
+var board = Board.PureBoard();
 ```
 
 ### Set a digit
@@ -74,7 +74,7 @@ There are several ways to set a digit in a cell:
 ```csharp
 using DE.Onnen.Sudoku;
 
-var board = new Board();
+var board = Board.PureBoard();
 
 // Set digit with cellID.
 board.SetDigit(cellID: 0, digitToSet: 1);
@@ -99,7 +99,7 @@ At the beginning every cell, box, col or row has 9 candidates
 ```csharp
 using DE.Onnen.Sudoku;
 
-var board = new Board();
+var board = Board.PureBoard();
 
 // Read the candidates (collection of int) from cell 0
 var candidatesFromCell0 = board[0].Candidates;
@@ -145,7 +145,7 @@ using DE.Onnen.Sudoku;
 using DE.Onnen.Sudoku.Extensions;
 
 // Create Sudoku-Board
-var board = new Board();
+var board = Board.PureBoard();
 
 // Load a whole board from string
 board.SetCellsFromString("100000000000000000000000000000000000000000000000000000000000000000000000000000009");

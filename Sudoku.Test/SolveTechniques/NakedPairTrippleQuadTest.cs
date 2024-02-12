@@ -23,7 +23,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Check_Last_Digit_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
             board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
             Assert.AreEqual(0, board[0].Digit);
             Assert.AreEqual(0, board[3].Digit);
@@ -164,7 +164,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void NakedPairTripleQuad_SolveHouse()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             var box0 = board.GetHouse(EHouseType.Box, 0);
             box0[0].SetDigit(1);

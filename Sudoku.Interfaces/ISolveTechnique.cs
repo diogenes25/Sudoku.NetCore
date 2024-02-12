@@ -3,6 +3,8 @@
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
+
 namespace DE.Onnen.Sudoku.SolveTechniques
 {
     /// <summary>
@@ -25,8 +27,8 @@ namespace DE.Onnen.Sudoku.SolveTechniques
     /// <summary>
     /// Solution techniques must implement this interface.
     /// </summary>
-    /// <typeparam name="C">Type of Cell</typeparam>
-    public interface ISolveTechnique<C> where C : ICell
+    /// <typeparam name="T">Type of Cell</typeparam>
+    public interface ISolveTechnique<T> : IEquatable<ISolveTechnique<T>> where T : ICell
     {
         /// <summary>
         /// Gets solveTechniqueInfo that describes the technique.
@@ -54,13 +56,13 @@ namespace DE.Onnen.Sudoku.SolveTechniques
         /// <param name="board">The whole board</param>
         /// <param name="house">a specific house (box, row or column)</param>
         /// <param name="sudokuResult">Log-info to return the action that where made during the solve process.</param>
-        void SolveHouse(IBoard<C> board, IHouse<C> house, SudokuLog sudokuResult);
+        void SolveHouse(IBoard<T> board, IHouse<T> house, SudokuLog sudokuResult);
 
         /// <summary>
         /// This method is called until no more changes where made. Here, the activities are carried out according to the solution technique.
         /// </summary>
         /// <param name="board">The whole board</param>
         /// <param name="sudokuResult">Log-info to return the action that where made during the solve process.</param>
-        void SolveBoard(IBoard<C> board, SudokuLog sudokuResult);
+        void SolveBoard(IBoard<T> board, SudokuLog sudokuResult);
     }
 }

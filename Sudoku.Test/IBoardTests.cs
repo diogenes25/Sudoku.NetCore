@@ -10,7 +10,7 @@ namespace DE.Onnen.Sudoku
         [TestInitialize]
         public void Initialize()
         {
-            _target = new Board();
+            _target = Board.PureBoard();
             _target.SetDigit(cellID: 0, digitToSet: 1);
         }
 

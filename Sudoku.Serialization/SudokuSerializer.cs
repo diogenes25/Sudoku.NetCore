@@ -45,7 +45,7 @@ namespace DE.Onnen.Sudoku.Serialization
         public static Board ParseToBoard(string json, params ASolveTechnique<Cell>[] solveTechniques)
         {
             var transfer = JsonSerializer.Deserialize<SudokuDto>(json);
-            var board = new Board(transfer.Cells, solveTechniques);
+            var board = new Board(transfer.Cells, solveTechniques, logger: null);
             foreach (var boardAction in transfer.Action)
             {
                 board.SetDigit(boardAction.CellId, boardAction.Digit);

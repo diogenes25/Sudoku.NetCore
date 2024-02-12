@@ -14,7 +14,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void Backtracking_solve_without_any_digit_and_LockedCandidates_Test()
         {
-            var target = new Board().AddSolveTechnique(new LockedCandidates<Cell>());
+            var target = Board.PureBoard().AddSolveTechnique(new LockedCandidates<Cell>());
             var log = target.Backtracking();
             Assert.IsTrue(log.Successful);
             Assert.IsTrue(target.IsComplete());
@@ -42,7 +42,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void LockedCandidates_in_Box_Test()
         {
-            IBoard<Cell> board = new Board();
+            IBoard<Cell> board = Board.PureBoard();
 
             board.SetCellsFromString("123000000000500000000000000000000000000000000000000000000000000000000000000000000");
             // System.Console.WriteLine(board.MatrixWithCandidates());
@@ -84,7 +84,7 @@ namespace Sudoku.SolveTechniques
         [TestMethod]
         public void LockedCandidates_in_Row_Test()
         {
-            var board = new Board();
+            var board = Board.PureBoard();
 
             board.SetCellsFromString("000456789000000000000000000000000000000000000000000000000000000000000000000000000");
             // System.Console.WriteLine(board.MatrixWithCandidates());
