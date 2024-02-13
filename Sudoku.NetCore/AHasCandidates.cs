@@ -103,10 +103,10 @@ namespace DE.Onnen.Sudoku
         public override int GetHashCode() => ID + (((int)HType) * 100);
 
         /// <inheritdoc />
-        public bool RemoveCandidate(int candidateToRemove, SudokuLog sudokuResult)
+        public bool RemoveCandidate(int candidateToRemove, SudokuLog? sudokuLog)
         {
-            var tmpSudokuResult = sudokuResult;
-            tmpSudokuResult ??= new SudokuLog();
+            var tmpSudokuResult = sudokuLog ?? new SudokuLog();
+            //            tmpSudokuResult ??= new SudokuLog();
 
             if (candidateToRemove < 1 || candidateToRemove > Consts.DIMENSIONSQUARE || (CandidateValue & (1 << (candidateToRemove - 1))) == 0)
             {
@@ -132,7 +132,6 @@ namespace DE.Onnen.Sudoku
             {
                 nakeResult.Successful = false;
                 nakeResult.ErrorMessage = "RemoveCandidateValue";
-                return true;
             }
 
             return true;

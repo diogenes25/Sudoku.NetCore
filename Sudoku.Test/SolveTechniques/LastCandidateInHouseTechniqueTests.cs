@@ -13,13 +13,34 @@ namespace Sudoku.Test.SolveTechniques
         public void Check_Last_Digit_Box_Simple_Test()
         {
             var board = Board.PureBoard();
-            board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
+            board.SetCellsFromString("000000000000100000000000100010000000000000000000000000001000000000000000000000000");
             Assert.AreEqual(0, board[0].Digit);
             Assert.AreEqual(0, board[3].Digit);
             var firRow = board.GetHouse(EHouseType.Row, 0);
             var lastCandidateInHouse = new LastCandidateInHouseTechiques();
             lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
+            Assert.AreEqual(1, board[0].Digit);
+
+            board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
+            firRow = board.GetHouse(EHouseType.Row, 0);
+            lastCandidateInHouse = new LastCandidateInHouseTechiques();
+            lastCandidateInHouse.SolveHouse(board, firRow, new SudokuLog());
             Assert.AreEqual(4, board[3].Digit);
+        }
+
+        [TestMethod]
+        public void Check_Last_Digit_Box_Solve_Test()
+        {
+            var board = Board.PureBoard();
+            board.AddSolveTechnique(new LastCandidateInHouseTechiques());
+            board.SetCellsFromString("000000000000100000000000100010000000000000000000000000000000000000000000000000000");
+            board[56].SetDigit(1);
+            Assert.AreEqual(1, board[0].Candidates[0]);
+            var firstBox = (House)board.GetHouse(EHouseType.Box, 0);
+            Assert.IsTrue(firstBox.ReCheck);
+            Assert.AreEqual(0, board[0].Digit);
+            board.StartSolve();
+            Assert.AreEqual(1, board[0].Digit);
         }
 
         [TestMethod]

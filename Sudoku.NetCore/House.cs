@@ -122,6 +122,7 @@ namespace DE.Onnen.Sudoku
                 }
                 else
                 {
+                    ReCheck = true;
                     digitsFoundInHouse.Add(cell.Digit);
                     newCalculatedCandidateValue -= (1 << (cell.Digit - 1));
                 }
@@ -148,7 +149,7 @@ namespace DE.Onnen.Sudoku
 
         private void Cell_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Digit")
+            if (e.PropertyName == "Digit" || e.PropertyName == "CandidateValue")
             {
                 ReCheck = true;
             }

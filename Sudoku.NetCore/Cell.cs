@@ -24,10 +24,13 @@ namespace DE.Onnen.Sudoku
             get => base.CandidateValue;
             internal set
             {
-                base.CandidateValue = value;
-                if (base.CandidateValue > 0 && Digit > 0 && value > 0)
+                if (base.CandidateValue != value)
                 {
-                    _digit = 0;
+                    base.CandidateValue = value;
+                    if (base.CandidateValue > 0 && Digit > 0 && value > 0)
+                    {
+                        _digit = 0;
+                    }
                 }
             }
         }
@@ -190,7 +193,8 @@ namespace DE.Onnen.Sudoku
             {
                 sudokuResult.Successful = false;
                 sudokuResult.ErrorMessage = e.Message;
-                return true;
+                //return true;
+                return false;
             }
 
             for (var i = 0; i < 3; i++)
@@ -203,7 +207,8 @@ namespace DE.Onnen.Sudoku
                 if (!sudokuResult.Successful)
                 {
                     sudokuResult.ErrorMessage = $"Digit {digitFromOutside} is in Cell (FieldContainer) {ID} not possible";
-                    return true;
+                    //                    return true;
+                    return false;
                 }
             }
 

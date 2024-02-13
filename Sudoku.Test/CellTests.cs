@@ -108,7 +108,6 @@ namespace DE.Onnen.Sudoku
         {
             var target = new Cell(0);
             SudokuLog sudokuResult = null;
-            var expected = false;
             target.CheckLastDigit(sudokuResult);
             for (var x = 0; x < Consts.DIMENSIONSQUARE - 3; x++)
             {
@@ -117,7 +116,7 @@ namespace DE.Onnen.Sudoku
                     var newBaseValue = (1 << x) | (1 << y);
                     target.CandidateValue = newBaseValue;
                     var actual = target.CheckLastDigit(sudokuResult);
-                    Assert.AreEqual(expected, actual);
+                    Assert.AreEqual(false, actual);
                 }
             }
         }

@@ -11,12 +11,11 @@ namespace Sudoku.Test
         public void Check_Last_Digit_Test()
         {
             var board = Board.PureBoard();
-            board.SetCellsFromString("000056789004000000000000000000000000000000000000000000000000000000000000000000000");
-            Assert.AreEqual(0, board[0].Digit);
-            Assert.AreEqual(0, board[3].Digit);
+            board.SetCellsFromString("023456789000000000000000000000000000000000000000000000000000000000000000000000000");
+            Assert.AreEqual(1, board[0].Digit);
             var firRow = board.GetHouse(EHouseType.Row, 0);
-            ((House)firRow).CheckLastDigit(new SudokuLog());
-            //Assert.AreEqual(4, board[3].Digit);
+            var result = ((House)firRow).CheckLastDigit(new SudokuLog());
+            Assert.IsTrue(result);
         }
     }
 }
