@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ICell.cs" company="Onnen.de">
+// <copyright file="HiddenPairTripleQuad.cs" company="Onnen.de">
 //    Onnen.de
 // </copyright>
 //-----------------------------------------------------------------------
