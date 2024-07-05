@@ -6,7 +6,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/82eefb090e91426c9c293856039efb15)](https://app.codacy.com/gh/diogenes25/Sudoku.NetCore/dashboard?utm_source=gh\&utm_medium=referral\&utm_content=\&utm_campaign=Badge_grade)
 [![CodeQL](https://github.com/diogenes25/Sudoku.NetCore/actions/workflows/codeql.yml/badge.svg)](https://github.com/diogenes25/Sudoku.NetCore/actions/workflows/codeql.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/diogenes25/sudoku.netcore/badge)](https://www.codefactor.io/repository/github/diogenes25/sudoku.netcore)
-[![codecov](https://codecov.io/gh/diogenes25/Sudoku.NetCore/branch/main/graph/badge.svg?token=3Z3Z3Z3Z3Z)](https://codecov.io/gh/diogenes25/Sudoku.NetCore)
+[![codecov](https://codecov.io/gh/diogenes25/Sudoku.NetCore/graph/badge.svg?token=YOWKJ2CPAM)](https://codecov.io/gh/diogenes25/Sudoku.NetCore)
 [![NuGet](https://img.shields.io/nuget/v/Sudoku.NetCore)](https://www.nuget.org/packages/Sudoku.NetCore/)
 [![NuGet](https://img.shields.io/nuget/dt/Sudoku.NetCore)](https://www.nuget.org/packages/Sudoku.NetCore/)
 
